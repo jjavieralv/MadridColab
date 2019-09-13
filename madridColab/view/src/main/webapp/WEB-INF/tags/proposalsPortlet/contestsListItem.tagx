@@ -1,0 +1,80 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<!--@elvariable id="proposalsPermissions" type="org.xcolab.view.pages.proposals.permissions.ProposalsPermissions"-->
+	
+	<jsp:directive.attribute name="contests" type="java.util.ArrayList" required="true" rtexprvalue="true" description="Contests to be shown" />
+	<jsp:directive.attribute name="featured" type="java.lang.Boolean" required="true" rtexprvalue="true" description="whether the contests are featured" />
+
+	<c:forEach var="contest" items="${contests }">
+		<c:if test="${contest.showInListView}">
+			<a href="${contest.contestUrl}">
+				<div class="c-ListItem">
+					<div class="c-ListItem__description">
+						<h3>
+							${contest.title}
+						</h3>
+						<div>
+							${contest.question}
+						</div>
+					</div>
+					<div class="c-ListItem__meta">
+						<div class="c-ListItem__meta__flag">
+							<c:if test="${contest.flag ge 0}">
+								<c:choose>
+									<c:when test="${not empty contest.flagText and contest.flag == 1}">
+										<span class="c-ListItem__meta__flag--color ${not empty contest.flagTooltip ? 'js-Tooltip' : ''}" title="${contest.flagTooltip}">
+											${contest.flagText}
+										</span>
+									</c:when>
+									<c:when test="${not empty contest.flagText and contest.flag == 2}">
+										<span class="c-ListItem__meta__flag--grey ${not empty contest.flagTooltip ? 'js-Tooltip' : ''}" title="${contest.flagTooltip}">
+											${contest.flagText}
+										</span>
+									</c:when>
+									<c:when test="${contest.contestActive and not empty contest.activePhase.status and contest.activePhase.status eq 'COMPLETED'}">
+										<span class="c-ListItem__meta__flag--grey ${not empty contest.flagTooltip ? 'js-Tooltip' : ''}" title="${contest.flagTooltip}">
+											Ganadores próximamente
+										</span>
+									</c:when>
+									<c:when test="${not empty contest.activePhase.status and contest.activePhase.status eq 'CLOSED' or contest.activePhase.status eq 'COMPLETED'}">
+										<span class="c-ListItem__meta__flag--grey ${not empty contest.flagTooltip ? 'js-Tooltip' : ''}" title="${contest.flagTooltip}">
+											${contest.activePhase.name}
+										</span>
+									</c:when>
+									<c:when test='${not empty contest.activePhase.status}'>
+										<span class="c-ListItem__meta__flag--grey ${not empty contest.flagTooltip ? 'js-Tooltip' : ''}" title="${contest.flagTooltip}">
+											${contest.activePhase.name}
+										</span>
+									</c:when>
+								</c:choose>
+							</c:if>
+						</div>
+						<div class="c-ListItem__proposals">
+							<strong>
+								${contest.proposalsCount}
+							</strong>
+							proposals
+						</div>
+						<div class="c-ListItem__comments">
+							<c:choose>
+								<c:when test="${contest.activePhase.canVote }">
+									<strong>
+										${contest.votesCount}
+									</strong>
+									contests
+								</c:when>
+								<c:otherwise>
+									<strong>
+										${contest.totalCommentsCount}
+									</strong>
+									comments
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+				</div>
+			</a>
+		</c:if>
+	</c:forEach>
+</jsp:root>

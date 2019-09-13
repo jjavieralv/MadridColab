@@ -1,0 +1,20 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <jsp:directive.attribute name="value" type="java.lang.Integer" required="true" rtexprvalue="true" description="Status value of the icon" />
+
+    <span class="fieldWithTooltip">
+        <c:choose>
+            <c:when test="${value == 0}">
+                <collab:image src="/images/icon_question-chk-qm.png" cssClass="m-1"/>
+            </c:when>
+            <c:when test="${value == 1}">
+                <collab:image src="/images/icon_question-x.png" cssClass="m-1"/>
+            </c:when>
+            <c:otherwise>
+                <collab:image src="/images/icon_question-chk.png" cssClass="m-1"/>
+            </c:otherwise>
+        </c:choose>
+        </span>
+</jsp:root>

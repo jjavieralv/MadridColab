@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.ocpsoft.logging:logging-adapter-slf4j:1.0.5.Final">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ocpsoft/logging/logging-adapter-slf4j/1.0.5.Final/logging-adapter-slf4j-1.0.5.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ocpsoft/logging/logging-adapter-slf4j/1.0.5.Final/logging-adapter-slf4j-1.0.5.Final-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ocpsoft/logging/logging-adapter-slf4j/1.0.5.Final/logging-adapter-slf4j-1.0.5.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

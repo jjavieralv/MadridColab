@@ -1,0 +1,42 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <h2>
+        ${_themeContext.authenticationVariables.isLoggedIn ? 'Access denied' : 'Login required'}
+    </h2>
+    <br />
+
+    <c:choose>
+        <c:when test="${not _themeContext.authenticationVariables.isLoggedIn}">
+            <div class="alert alert-info">
+                The page you are trying to access requires you to be logged in.
+                If you already have an account, you can <a rel="nofollow" href="#" class="js-EnhancedLink" data-require-login="true">log in here</a>.
+                <c:choose>
+                    <c:when test="${not _themeContext.themeVariables.allowSelfRegistration}">
+                        If you don't have an account, you have to be invited by the ${_themeContext.colabName} staff.
+                    </c:when>
+                    <c:otherwise>
+                        If you don't have an account, you can create a ${_themeContext.colabName} account <a href="/register?redirect=${_themeContext.requestUri}">here</a>.
+                    </c:otherwise>
+                </c:choose>
+                <br /><br />
+                Please note that you may be automatically logged out of your account after 2 hours (120 minutes).
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-danger">
+                You do not have the correct permissions to view this page.
+                If you think this was an error, please feel free to <a href="/feedback">contact us</a>.
+            </div>
+        </c:otherwise>
+    </c:choose>
+
+</xcolab:layout>
+
+</jsp:root>

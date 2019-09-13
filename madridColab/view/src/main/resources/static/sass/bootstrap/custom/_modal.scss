@@ -1,0 +1,16 @@
+// Adding an extra, in-between size (md) and shifting higher sizes up
+@media (min-width: 768px) {
+  .cb-modal-md {
+    width: 450px;
+  }
+
+  .cb-modal-lg {
+    width: 600px;
+  }
+}
+
+@media (min-width: 992px) {
+  .cb-modal-xl {
+    max-width: 900px;
+  }
+}

@@ -1,0 +1,154 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+    
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <!--@elvariable id="teamId" type="java.lang.Long"-->
+
+    <jsp:directive.include file="../init.jspx"/>
+    <jsp:directive.include file="./header.jspx"/>
+
+    <c:set var="changeElementUrl" value="/admin/contest/manager/tab/TEAMS?elementId=" />
+    <c:set var="updateTeamUrl" value="/admin/contest/manager/tab/TEAMS" />
+
+    <div class="c-ContentBox">
+        <div class="text-right cb-btn-spacer">
+            <button type="button" class="btn btn-primary"  onclick="saveTeam()">SAVE team</button>
+            <button type="button" class="btn btn-primary js-EnhancedLink" data-method="post"
+                    data-url="TEAMS">CREATE new team</button>
+            <button type="button" class="btn btn-outline-danger js-EnhancedLink" data-url="TEAMS/${teamId}/delete" data-confirm="Delete this team?">DELETE team</button>
+        </div>
+    </div>
+
+    <div class="c-ContentBox l-BoxLayout__stacked">
+        <form:errors cssClass="alert alert-danger" element="div" path="*"/>
+
+        <!--@elvariable id="elementSelectIdWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.ElementSelectIdWrapper"-->
+        <form:form action="${changeElementUrl}" commandName="elementSelectIdWrapper" id="selectForm"
+                   method="post">
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong class="inputTitleLeft">Team:</strong>
+
+                    <form:select path="elementId" id="changeTeamSelect" cssClass="form-control">
+                        <form:options items="${elementSelectIdWrapper.selectionItems}" itemValue="value"
+                                      itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="elementId"/>
+                </div>
+            </div>
+        </form:form>
+        <c:if test="${teamId != -1}">
+            <!--@elvariable id="teamBean" type="org.xcolab.view.pages.contestmanagement.wrappers.PlatformTeamBean"-->
+            <form:form action="${updateTeamUrl}?elementId=${teamBean.teamId}"
+                       commandName="teamBean" id="editForm" method="post" class="mt-3">
+                <input type="hidden" name="action" value="UPDATE" />
+                <form:hidden path="teamId"/>
+
+                <div class="c-Box c-Box--colorTan">
+                    <div class="c-Box__body">
+                        <strong>Team name:</strong>
+                        <form:input maxlength="35" path="name" cssClass="form-control"/>
+                    </div>
+                </div>
+
+                <div class="c-Box c-Box--colorTan">
+                    <div class="c-Box__body">
+                        <div>
+                            <strong>Team members:</strong>
+                        </div>
+
+                        <div class="clearfix"><!-- --></div>
+
+                        <table class="table-striped" id="teammembers">
+                            <c:forEach var="member" items="${teamBean.members}" varStatus="status">
+                                <tr class="${status.index mod 2 > 0 ? 'even' : 'odd'}">
+                                    <td>
+                                        <xcolab:userPortrait portraitId="${member.portraitId}" userId="${member.id}"
+                                                             width="42" height="42"/>
+                                        <xcolab:userLinkSimple userId="${member.id }" text="${member.displayName }" />
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        <button type="button" class="btn btn-link js-EnhancedLink" data-method="post"
+                                                data-url="TEAMS/${teamId}/removeMember/${member.id}">Remove</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+                            <tr class="${teamBean.members.size() mod 2 > 0 ? 'even' : 'odd'}">
+                                <td style="height: 42px; vertical-align: middle;">
+                                    <label for="add-member">Add member:</label>
+                                    <input type="text" name="add-member" id="add-member" />
+                                </td>
+                                <td />
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form:form>
+        </c:if>
+    </div>
+
+
+
+    <script>
+        <![CDATA[
+
+        jQuery(function () {
+            bindElementSelectChange();
+        });
+
+        $(function() {
+            var $memberInput = $( "#add-member" );
+            $memberInput.autocomplete({
+                minLength: 3,
+                source: "/api/members/getUserByScreenName",
+                select: function (event, ui) {
+                    var userId = ui.item.id;
+                    addMember(userId);
+                    return false;
+                }
+            });
+
+            $memberInput.bind("autocompleteselect", "select", function(event) {
+
+            });
+        });
+
+        function saveTeam() {
+            $("#editForm").submit();
+        }
+
+        function addMember(userId) {
+            $.ajax({
+                type: "POST",
+                url: "TEAMS/${teamId}/addMember",
+                data: {
+                    'userId': userId,
+                    'teamName': $('#name').val()
+                },
+                success: function() {
+                    window.location.reload();
+                },
+                error: function() {
+                    noty({text: "User could not be added.", type: 'error'});
+                }
+            });
+        }
+
+        function bindElementSelectChange() {
+
+            var dropDownElement = document.getElementById("changeTeamSelect");
+
+            dropDownElement.addEventListener("change", function (ev) {
+                var templateName = ev.target.value;
+                window.location = "${changeElementUrl}" + templateName;
+            })
+        }
+
+        ]]>
+    </script>
+</xcolab:layout>
+</jsp:root>

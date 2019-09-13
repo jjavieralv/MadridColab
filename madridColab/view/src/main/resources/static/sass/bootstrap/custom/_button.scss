@@ -1,0 +1,98 @@
+@import "bootstrap/variables";
+@import "bootstrap/mixins/buttons";
+@import "bootstrap/mixins/gradients";
+
+//= New button variants
+.cb-btn-admin {
+  @include button-variant($t-Color__primary, $t-Color__accent);
+}
+
+.cb-btn-outline-admin {
+  @extend .btn-outline-primary;
+  &, &:hover {
+    border-color: $t-Color__accent;
+  }
+}
+
+
+//= Button group modifiers
+.cb-btn-group-active-btn {
+  pointer-events: none;
+  box-shadow: 0 0 6px 1px $t-Color__gray--dark-900;
+
+  &.btn-outline-primary {
+    @include gradient-bg($t-Color__primary);
+    color: yiq-contrasting-color($t-Color__primary);
+  }
+}
+
+.cb-btn-group-justified {
+  display: flex;
+  width: 100%;
+  .btn,
+  .btn-group {
+    flex: 1;
+    .btn {
+      width: 100%;
+    }
+    .dropdown-menu {
+      left: auto;
+    }
+  }
+}
+
+
+//= New button sizes
+.cb-btn-xs {
+  padding: 0.1875rem 0.4rem;
+  line-height: 1.25;
+  font-weight: $t-Typography__fontWeight;
+  @if $t-Border__rounded {
+    border-radius: $t-Border__radius--small;
+  }
+}
+
+.cb-btn-xl {
+  padding: 1rem 1.5rem;
+  font-weight: $t-Typography__fontWeight--bold;
+  @if $t-Border__rounded {
+    border-radius: $t-Border__radius--large;
+  }
+}
+
+//= Button spacers
+.cb-btn-spacer {
+  .btn:not(.btn-block) + .btn:not(.btn-block) {
+    @extend .ml-2;
+  }
+
+  .btn-block + .btn-block {
+    @extend .mt-2;
+  }
+}
+
+
+//= Elements within btn block
+.cb-btn-image-text {
+  vertical-align: middle;
+}
+
+.cb-btn-image {
+  margin-right: .1875rem;
+
+  margin-top: -$btn-padding-y / 2;
+  margin-bottom: -$btn-padding-y / 2;
+  margin-left: -$btn-padding-x / 2;
+
+  .btn-sm & {
+    margin-top: -$btn-padding-y-sm / 2;
+    margin-bottom: -$btn-padding-y-sm / 2;
+    margin-left: -$btn-padding-x-sm / 2;
+  }
+
+  .btn-lg & {
+    margin-top: -$btn-padding-y-lg / 2;
+    margin-bottom: -$btn-padding-y-lg / 2;
+    margin-left: -$btn-padding-x-lg / 2;
+  }
+}

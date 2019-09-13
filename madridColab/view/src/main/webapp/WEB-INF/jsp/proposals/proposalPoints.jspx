@@ -1,0 +1,75 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+        <xcolab:layout  title="${proposal.name} - Points"
+                        description="Points distribution for ${contestType.proposalName} '${proposal.name}' in ${contestType.contestName} '${contest.titleWithEndYear}'">
+            <!--@elvariable id="linkingProposals" type="java.util.List<org.xcolab.client.proposals.pojo.Proposal>"-->
+
+        <collab:script src="/js/proposals/proposalPoints.js" />
+        <jsp:directive.include file="./init_proposal_tab.jspx" />
+
+        <jsp:directive.include file="./proposalDetails/header.jspx" />
+
+        <!--ProposalPointsTabController-->
+        <jsp:useBean id="assignPointsBean" scope="request" type="org.xcolab.view.pages.proposals.requests.AssignPointsBean"/>
+
+        <div id="content">
+            <h1 class="pointsHeadline">
+                <spring:message code="contests.proposal.points.heading" />
+                <c:if test="${proposalsPermissions.canAdminAll and not empty totalPoints}">
+                    (<spring:message code="contests.proposal.points.heading.received" arguments="${totalPoints}" />)
+                </c:if>
+                <c:if test="${not empty pointsHelpText}">
+                    <a id="expand-help-text">?</a>
+                </c:if>
+            </h1>
+            <c:if test="${not empty pointsHelpText}">
+                <div id="help-text">
+                    ${pointsHelpText}
+                </div>
+            </c:if>
+            <c:set var="savePointsAssignmentsURL" value="${proposalUrl}/savePointAssignments"/>
+
+            <form:form id="assignPointsForm" action="${savePointsAssignmentsURL}" method="post" commandName="assignPointsBean">
+                <jsp:include page="./proposalDetails/proposalPointTypes.jspx"/>
+
+                <c:if test="${currentTabWrapped.canEdit}">
+                    <div style="width: 229px; margin:0 auto;" class="clearfix">
+                        <a class="btn btn-primary" style="cursor:pointer;width:200px;text-align:center" id="submitPointsForm">Save</a>
+                    </div>
+                </c:if>
+            </form:form>
+            <h3><collab:message code="contests.proposal.points.linkedproposals" contestType="${contestType}" /> </h3>
+            <table class="colab">
+                <tbody>
+                <c:forEach var="linkingProposal" items="${linkingProposals}">
+                    <tr class="colabRow">
+                        <td>
+                            <a href="${linkingProposal.proposalUrl}">${linkingProposal.name}</a>
+                        </td>
+                        <td style="text-align: right;">
+                            <xcolab:formatDateTime millis="${linkingProposal.lastupdatedAt.time}" type="date" />
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <script>
+
+                jQuery(function() {
+                    initUserAssignmentInputs();
+                });
+
+                $("#expand-help-text").click(function() {
+                    var $helpTextElement = $("#help-text");
+                    $helpTextElement.slideToggle("fast");
+                });
+            </script>
+        </div>
+    </xcolab:layout>
+</jsp:root>

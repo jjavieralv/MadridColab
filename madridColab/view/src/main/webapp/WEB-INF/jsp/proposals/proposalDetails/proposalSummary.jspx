@@ -1,0 +1,228 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:collab="urn:jsptld:/WEB-INF/tlds/xcolab.tld"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-social="urn:jsptagdir:/WEB-INF/tags/social">
+
+    <!--@elvariable id="linkedProposalContestTypeProposalWrappersByContestTypeId" type="java.util.Map<java.lang.Long, org.xcolab.wrappers.ContestTypeProposalWrapper>"-->
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <c:if test="${contestType.showProposalSummary}">
+        <c:if test="${proposal.id > 0}">
+            <div class="c-Box c-Box--colorDark c-Box--hasShadow c-Box--straightCorners mb-3">
+                <c:if test="${contestPhase.canVote or (contestPhase.completed and (not contest.hideRibbons or proposalsPermissions.canAdminAll))}">
+                    <div class="c-Box__bodyFlex c-Box__bodyFlex--columns">
+                        <div class="w-100">
+                            <a href="${contestType.rulesPageUrl}#Voting" target="_blank" class="float-right">
+                                <collab:image src="/images/icon-proposal-question.png" width="23" height="23" alt="Question?" ariaLabel="Question?" />
+                            </a>
+                            <collab:image src="/images/icon-proposal-vote.png" width="22" height="18" alt="Vote" cssClass="mr-2" />
+                            <span class="c-Count">
+                                <span class="c-Count__number c-Count__number--alignBaseline">${proposal.votesCount}</span>
+                                <spring:message code="contests.votes"/>
+                            </span>
+                        </div>
+                        <c:if test="${proposalsPermissions.votingEnabled}">
+                            <c:set var="voteOnProposalURL" value="${proposal.proposalUrl}/vote" />
+
+                            <form:form action="${voteOnProposalURL}" method="post">
+                                <c:if test="${proposalsDisplayPermissions.canSeeVoteButton and contest.maxVotesPerProposal > 1}">
+                                    <label for="voteValue" class="sr-only">Number of votes</label>
+                                    <input class="form-control cb-form-control-inline cb-form-control-xs mr-2"
+                                           name="voteValue" id="voteValue" value="1"
+                                           type="number" min="1" max="${contest.maxVotesPerProposal}"/>
+                                </c:if>
+                                <button type="submit" class="btn btn-primary js-EnhancedLink"
+                                        data-require-login="true">
+                                    <collab:message var="voteForText" code="contests.voting.vote" contestType="${contestType}"/>
+                                    <spring:message var="retractVoteText" code="contests.voting.retract"/>
+                                    ${proposalsDisplayPermissions.canSeeVoteButton ? voteForText  : retractVoteText}
+                                </button>
+                            </form:form>
+                            <p style="margin:15px 0 15px 0;font-size:17px">
+                                <c:choose>
+                                    <c:when test="${contest.maxVotesPerContest == 1}">
+                                        <collab:message code="contests.voting.onevote" contestType="${contestType}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <collab:message code="contests.voting.xvotes" arguments="${contest.maxVotesPerContest}"
+                                                        contestType="${contestType}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </p>
+                        </c:if>
+                    </div>
+                    <hr class="cb-hr-dotted"/>
+                </c:if>
+
+                <div class="c-Box__bodyFlex">
+                    <c:set var="supportProposalActionURL" value="${proposal.proposalUrl}/supportProposalAction?contestId=${contest.id }&amp;contestUrlName=${contest.contestUrlName }&amp;proposalId=${proposal.id }" />
+
+                    <div>
+                        <collab:image src="/images/icon-proposal-thumb.png" width="20" height="22" alt="Thumbs up" cssClass="mr-2" />
+                        <div class="c-Count c-Count--neutral">
+                            <span class="c-Count__number">
+                                ${proposal.supportersCount}
+                            </span>
+                            <spring:message code="contests.supports" />
+                        </div>
+                    </div>
+                    <c:if test="${(proposalsDisplayPermissions.canSeeSupportButton or proposalsDisplayPermissions.canSeeUnsupportButton) and not proposalsPermissions.votingEnabled }">
+                        <button type="button" class="btn btn-primary btn-sm js-EnhancedLink float-right"
+                                data-require-login="true" data-method="post"
+                                data-url="${supportProposalActionURL}">
+                            <collab:message var="supportText" code="contests.supports.support" contestType="${contestType}" />
+                            <spring:message var="retractText" code="contests.supports.retract" />
+                            ${proposalsDisplayPermissions.canSeeSupportButton ? supportText : retractText }
+                        </button>
+                    </c:if>
+                </div>
+
+            </div> <!-- /c-Box -->
+            <c:if test="${proposalsPermissions.canReportProposal}">
+                <xcolab:requireLibrary name="flagging"/>
+                <div>
+                    <button type="button" class="btn btn-link btn-sm" onclick="reportProposal(${proposal.id})">
+                        Report
+                    </button>
+                </div>
+            </c:if>
+        </c:if>
+
+        <c:if test="${proposal.ribbonWrapper.ribbon > 0 and (not contest.hideRibbons or proposalsPermissions.canAdminAll)}">
+            <div class="c-Badge--big badge-${proposal.ribbonWrapper.ribbon}" style="float:none; text-align:center; margin: 0 0 36px 76px;">
+                <a class="c-Badge__title--big" href="#"
+                   style="${(proposal.ribbonWrapper.ribbonText.length() gt 8 and proposal.ribbonWrapper.ribbonText.length() lt 14)
+                ? 'top: 26px;' : ''}">
+                    ${proposal.ribbonWrapper.ribbonTitle}
+                </a>
+                <div class="c-Badge__text--big" style="${proposal.ribbonWrapper.ribbonText.length() gt 15 ? 'font-size: 7px;' : ''}${fn:substring(proposal.ribbonWrapper.ribbonText,0,6) eq 'Judges' ? 'width: 47px;' : ''}">${proposal.ribbonWrapper.ribbonText.length() gt 13 ? proposal.ribbonWrapper.ribbonText : ''}</div>
+                <span class="c-Badge__year--big">${contest.activePhase.phaseReferenceYear}</span>
+            </div>
+        </c:if>
+
+        <h4 class="p-Proposal__sidebar__section p-Proposal__sidebar__section--background p-Proposal__sidebar__heading cb-d-flex-between-center">
+            <collab:message code="contests.proposal.summary" contestType="${contestType}" />
+            <a class="d-lg-none" data-toggle="collapse" href="#js-Proposal__sidebar">show/hide</a>
+        </h4>
+
+        <div class="cb-collapse-lg-show collapse" id="js-Proposal__sidebar">
+            <div class="p-Proposal__sidebar__section">
+                <b>${proposal.name}</b>
+            </div>
+
+            <c:if test="${showOpennessStatus}">
+                <div class="p-Proposal__sidebar__section p-Proposal__sidebar__section--background">
+                    <c:choose>
+                        <c:when test="${proposal.open }">
+                            <collab:message code="contests.openness.open" contestType="${contestType}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <collab:message code="contests.openness.team" contestType="${contestType}"/>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:if test="${proposalsPermissions.canAdminProposal and false}">
+                        <a href="${proposal.id }/tab/ADMIN">Change settings</a>
+                    </c:if>
+
+                </div>
+            </c:if>
+
+            <div class="p-Proposal__sidebar__section">
+                <xcolab:userPortrait portraitId="${proposal.author.portraitId }"
+                                     userId="${proposal.author.id}"
+                                     width="42" height="42" />
+                By:&#160;
+                <c:choose>
+                    <c:when test="${empty proposal.team }">
+                        <xcolab:userLinkSimple userId="${proposal.authorUserId }" text="${proposal.authorName }" />
+                    </c:when>
+                    <c:otherwise>
+                        ${proposal.authorName }
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div class="p-Proposal__sidebar__section p-Proposal__sidebar__section--background">
+                <strong>${contestType.contestName}: </strong>
+                <xcolab:contestLink contest="${contest }" /><br />
+                ${contest.question}
+            </div>
+            <c:if test="${not empty linkedProposalContestTypeProposalWrappersByContestTypeId}">
+                <c:forEach var="contestTypeProposalWrapper" items="${linkedProposalContestTypeProposalWrappersByContestTypeId}">
+                    <c:if test="${not empty contestTypeProposalWrapper.value.proposals}">
+                        <div class="p-Proposal__sidebar__section p-Proposal__sidebar__section--background">
+                            <strong>Related ${contestTypeProposalWrapper.value.contestType.proposalNamePlural}</strong> <br />
+                            <c:forEach var="linkedProposal" items="${contestTypeProposalWrapper.value.proposals}">
+                                <li>
+                                    <xcolab:proposalLink proposal="${linkedProposal}" /> <br />
+                                </li>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+
+            <c:if test="${proposal.proposalAttributeHelper.hasAttribute('REGION') }">
+                <div class="p-Proposal__sidebar__section" style="font-size: 13px">
+                    <strong>REGION</strong><br />
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('REGION_ECONOMY') }">
+                        <em>Economy:</em> ${proposal.proposalAttributeHelper.attributeString('REGION_ECONOMY')}<br />
+                    </c:if>
+                    <em>Transnational group/large country:</em> ${proposal.proposalAttributeHelper.attributeString('REGION')}<br />
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SUBREGION') }">
+                        <em>Country within transnational group:</em> ${proposal.proposalAttributeHelper.attributeString('SUBREGION')}
+                    </c:if>
+                </div>
+            </c:if>
+            <c:if test="${not empty proposal.baseProposal }">
+                <div class="p-Proposal__sidebar__section" style="font-size: 13px">
+                    <strong>Base ${contestType.proposalName}: </strong>
+                    This ${contestType.proposalName} was created as a copy of
+                    <xcolab:proposalLink proposal="${proposal.baseProposal }" />
+                </div>
+            </c:if>
+
+            <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SCENARIO_ID') }">
+                <h5>Model Results Summary</h5>
+                <hr/>
+                <div class="p-Proposal__sidebar__section">
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SCENARIO_CO2_CONCENTRATION')}">
+                        <div><strong>CO2 concentration</strong><br />${proposal.proposalAttributeHelper.attributeString('SCENARIO_CO2_CONCENTRATION')} ppm in 2100</div>
+                    </c:if>
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SCENARIO_MITIGATION_COST_NO_ERRORS')}">
+                        <div><strong>Temperature Increase</strong><br />${proposal.proposalAttributeHelper.attributeString('SCENARIO_MITIGATION_COST_NO_ERRORS')} &amp;deg;C</div>
+                    </c:if>
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SCENARIO_CO2_CONCENTRATION')}">
+                        <div><strong>Mitigation Costs</strong><br />${proposal.proposalAttributeHelper.attributeString('SCENARIO_CO2_CONCENTRATION')} %GDP in 2100</div>
+                    </c:if>
+                    <c:if test="${proposal.proposalAttributeHelper.hasAttribute('SCENARIO_DAMAGE_COST')}">
+                        <div><strong>Damage Costs</strong><br />${proposal.proposalAttributeHelper.attributeString('SCENARIO_DAMAGE_COST')} %GDP in 2100</div>
+                    </c:if>
+                </div>
+            </c:if>
+        </div>
+        <script>
+            jQuery(function() {
+                jQuery('#popup_flagging_form_targetType').attr('value', 'PROPOSAL');
+                <c:forEach items="${reportTargets}" var="reportTarget">
+                <![CDATA[
+                        jQuery('#popup_flagging_reasons').append(jQuery('<option>', {
+                            value: '${reportTarget.reason}',
+                            text: '${reportTarget.reason}'
+                        }));
+                ]]>
+                </c:forEach>
+            });
+
+            function reportProposal(proposalId) {
+                jQuery('#popup_flagging_form_targetId').attr('value', proposalId);
+                jQuery('#flaggingModal').modal();
+            }
+        </script>
+    </c:if>
+</jsp:root>

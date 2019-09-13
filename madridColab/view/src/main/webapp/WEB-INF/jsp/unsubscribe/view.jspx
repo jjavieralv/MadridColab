@@ -1,0 +1,11 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+		  xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout title="Unsubscribe">
+
+	<h2 style="margin-bottom: 10px;">
+	    ${responseTitle}
+	</h2>
+    <p>${responseText}</p>
+</xcolab:layout>
+</jsp:root>

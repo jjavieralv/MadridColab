@@ -1,0 +1,74 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+    <jsp:directive.attribute name="locale" type="java.lang.String" required="false" rtexprvalue="true" description="Current locale" />
+
+    <!-- Note: requires tooltipster -->
+
+    <collab:script src="/vendor/moment/min/moment.min.js"/>
+    <collab:script src="/vendor/moment-timezone/builds/moment-timezone-with-data-2012-2022.min.js"/>
+
+    <script>
+        var _userTimeZone = moment.tz.guess();
+    </script>
+
+    <c:if test="${not empty locale and locale ne 'en' and locale ne 'en-US'}">
+        <!--suppress JSUnresolvedLibraryURL -->
+        <collab:script src="/vendor/moment/locale/${locale}.js"/>
+        <script>
+            moment.locale('${locale}');
+        </script>
+    </c:if>
+
+    <script>
+
+        var dateTimeFormatter = {
+            TYPE_DATE: 'date',
+            TYPE_TIME: 'time',
+            TYPE_DATETIME: 'datetime',
+            formatDate: function(date, type, includeZone) {
+
+                var zone = includeZone ? ' ' + date.zoneAbbr() : '';
+                switch (type) {
+                    case dateTimeFormatter.TYPE_TIME:
+                        return date.format('LT') + zone;
+                    case dateTimeFormatter.TYPE_DATE:
+                        return date.format('ll') + zone;
+                    case dateTimeFormatter.TYPE_DATETIME:
+                        return date.format('lll') + zone;
+
+                    default: console.error("Unknown date format type: " + type);
+                }
+            },
+            formatMillis: function(millis, type, includeZone) {
+                var date = dateTimeFormatter.parseEpoch(millis);
+                return dateTimeFormatter.formatDate(date, type, includeZone);
+            },
+            parseEpoch: function(millis) {
+                var timestamp = millis / 1000;
+                return moment.unix(timestamp).tz(_userTimeZone);
+            }
+        };
+
+        jQuery(".js-DateFormat").each(function() {
+            var $this = jQuery(this);
+            var millis = $this.data('millis');
+            var type = $this.data('type');
+            var zoneDisplay = $this.data('zoneDisplay') || 'tooltip';
+
+            var date = dateTimeFormatter.parseEpoch(millis);
+            $this.html(dateTimeFormatter.formatDate(date, type, zoneDisplay == 'print'));
+
+            if (zoneDisplay == 'tooltip') {
+                if (type != 'date') {
+                    $this.attr('title', date.format('LTS') + ' ' + date.zoneAbbr());
+                } else {
+                    $this.attr('title', date.format('llll') + ' ' + date.zoneAbbr());
+                }
+                initializeTooltips($this);
+            }
+        });
+    </script>
+
+</jsp:root>

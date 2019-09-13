@@ -1,0 +1,262 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+	<!--  Proposals Picker  -->
+	<c:set var="proposalPickerURL" value="${contest.contestLinkUrl}/proposals/proposalPicker?tab=@@REPLACE-TAB@@&amp;filterKey=@@REPLACE-FILTERKEY@@&amp;filterText=@@REPLACE-FILTERTEXT@@&amp;start=@@REPLACE-START@@&amp;end=@@REPLACE-END@@&amp;sortColumn=@@REPLACE-SORTCOLOMN@@&amp;sortOrder=@@REPLACE-SORTORDER@@&amp;sectionId=@@REPLACE-SECTIONID@@&amp;contestId=@@REPLACE-contestId@@" />
+
+	<c:set var="proposalPickerContestsURL"
+						 value="${contest.contestLinkUrl}/proposals/proposalPickerContests?tab=@@REPLACE-TAB@@&amp;filterKey=@@REPLACE-FILTERKEY@@&amp;filterText=@@REPLACE-FILTERTEXT@@&amp;start=@@REPLACE-START@@&amp;end=@@REPLACE-END@@&amp;contestSortColumn=@@REPLACE-CONTESTSORTCOLOMN@@&amp;sortOrder=@@REPLACE-SORTORDER@@&amp;sectionId=@@REPLACE-SECTIONID@@" />
+
+	<c:set var="proposalPickerCounterURL"
+		value="${contest.contestLinkUrl}/proposals/proposalPickerCounter?filterKey=@@REPLACE-FILTERKEY@@&amp;filterText=@@REPLACE-FILTERTEXT@@&amp;sectionId=@@REPLACE-SECTIONID@@" />
+
+	<script>
+		var proposalPickerURL = '${proposalPickerURL}';
+		var proposalPickerContestsURL = '${proposalPickerContestsURL}';
+		var proposalPickerCounterURL = '${proposalPickerCounterURL}';
+		var filterKey = 'ACCEPTALL';
+	</script>
+
+    <div id="proposalPickerModal" class="modal fade" tab-index="-1" role="dialog">
+        <div class="modal-dialog cb-modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Select a <span class="contestTypeProposalNames">Proposal</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="c-TabBar clearfix">
+                        <ul id="js-ProposalPicker__tabBar">
+                            <li class="c-TabBar__tab--first active" id="js-ProposalPicker__tabBar__ALL_CONTESTS">
+                                <a href="javascript:;" onclick="proposalPickerTabSelected(PICKER_TAB_ALL_CONTESTS);">
+                                    By <span class="contestTypeContestNames">Contest</span>
+                                    <div class="c-TabBar__tab__count" id="numberOfContests">&#160;</div>
+                                </a>
+                            </li>
+                            <li class="c-TabBar__tab" id="js-ProposalPicker__tabBar__ALL_PROPOSALS">
+                                <a href="javascript:;" onclick="proposalPickerTabSelected(PICKER_TAB_ALL_PROPOSALS);">
+                                    All <span class="contestTypeProposalNamesPlural">Proposals</span>
+                                    <div class="c-TabBar__tab__count" id="numberOfProposals">&#160;</div>
+                                </a>
+                            </li>
+                            <li class="c-TabBar__tab--last" id="js-ProposalPicker__tabBar__SUBSCRIPTIONS_AND_SUPPORTING">
+                                <a href="javascript:;" onclick="proposalPickerTabSelected(PICKER_TAB_SUBSCRIPTIONS_AND_SUPPORTING);">
+                                    Supported or subscribed to
+                                    <div class="c-TabBar__tab__count" id="numberOfSubscriptionsSupporting">&#160;</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input id="prop-search" name="searchField" type="text"
+                           placeholder="Filter results" aria-label="Filter results"
+                           class="form-control my-2" />
+
+                    <div id="proposalPicker_viewArea">
+                        <div id="proposalPickerTableContests"
+                             class="p-Proposals__proposalPicker__scrollContainer">
+                            <table class="table" data-entity="contest">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>
+                                        <a href="#" data-sort-column="Name" class="js-Tooltip" title="click to sort by name"><span class="contestTypeContestNames">Contest</span> name </a>
+                                    </th>
+                                    <th>
+                                        <a href="#" data-sort-column="Proposals" class="js-Tooltip" data-tooltip-content="#js-Tooltip__content__numProposals">
+                                            <span class="contestTypeProposalNamesPlural">Proposals</span>
+
+                                        </a>
+                                        <div class="c-Tooltip" id="js-Tooltip__content__numProposals">
+                                            click to sort by<br />number of <span class="contestTypeProposalNamesPlural">Proposals</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <a href="#" data-sort-column="Comments" class="js-Tooltip" title="click to sort by number of comments"> Comments</a>
+                                    </th>
+                                    <th>
+                                        <a href="#" data-sort-column="What" class="js-Tooltip" title="click to sort by what"> What</a>
+                                    </th>
+                                    <th>
+                                        <a href="#" data-sort-column="Where" class="js-Tooltip" title="click to sort by where"> Where</a>
+                                    </th>
+                                    <th>
+                                        <a href="#" data-sort-column="Who" class="js-Tooltip" title="click to sort by who"> Who</a>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="proposalPicker_contestsContainer">
+                                <!-- handlebars container -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="proposalsPicker_proposalsContainer">
+                            <div class="breadcrumb">
+                                <span><a href="#" id="breadContestsList"><span class="contestTypeContestNamesPlural">&#160;</span></a></span>
+                                &amp;raquo; <span id="breadContestName">
+								<!--  -->
+							</span>
+                            </div>
+                            <div class="p-Proposals__proposalPicker__scrollContainer">
+                                <table class="table tooltips" data-entity="proposal">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>
+                                            <div style="display: inline-block">
+                                                <a href="#" data-sort-column="Proposal" class="js-Tooltip" title="click to sort by name"><span class="contestTypeProposalNames">&#160;</span> name</a>
+                                            </div>
+                                            /&#160;
+
+                                            <div style="display: inline-block">
+                                                <a href="#" data-sort-column="Author" class="js-Tooltip" title="click to sort by author">Author(s)</a>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <a href="#" data-sort-column="Votes" class="js-Tooltip" title="click to sort by number of votes">
+                                                Votes
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a href="#" data-sort-column="Supporters" class="js-Tooltip" title="click to sort by number of supporters">
+                                                Supporters
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a href="#" data-sort-column="Comments" class="js-Tooltip" title="click to sort by number of comments">
+                                                Comments
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <span class='text'><span class="contestTypeContestNamesPlural">&#160;</span></span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="proposalPicker_proposalsContainer">
+                                    <!-- -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix clear"><!--  --></div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="close" class="btn btn-gray" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" onclick="savePickedProposals()">
+                        Choose <span class="contestTypeProposalNames">Proposal</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /popup login -->
+        <div class="clearfix"><!-- --></div>
+    </div>
+
+    <!-- Handlebars scripts -->
+
+    <!-- Proposal list template -->
+	<script id="proposalPickerProposalEntryTemplate"
+		type="text/x-handlebars-template">
+		<tr class="{{#if data.featured }}table-active{{/if}}">
+			<td>
+				{{#if data.ribbon}}
+				<div class="ribbonPlaceholder" style="float: left;">
+                <span class="js-Tooltip" title="{{data.ribbonText}}">
+                    <br />
+                    <img src="/images/icon-prize{{ data.ribbon }}.png" />
+                </span>
+				</div>
+				{{/if}}
+
+                <div class="title-author">
+                    <h4>
+                        <a href="javascript:;">{{data.proposalName}}</a>
+                        /&#160;
+                        {{#if data.team}}
+                        {{data.team}}
+                        {{ else }}
+                        {{data.authorName}}
+                        {{/if}}
+                    </h4>
+                    <div class="clear" ><!--  --></div>
+                </div>
+			</td>
+            <td>
+                {{data.votesCount}}
+            </td>
+            <td>
+                {{data.supportersCount}}
+            </td>
+            <td>
+                {{data.commentsCount}}
+            </td>
+            <td>
+                {{#each data.contests}}
+                    <img alt="Image" class="d-inline-block ml-2 js-Tooltip" title="Contest: {{this.name}}" height="25" width="25" src="/image/contest/{{this.contestLogoId}}" />
+                {{/each}}
+            </td>
+		</tr>
+        <tr>
+            <td colspan="7">
+                {{ data.pitch }}
+            </td>
+        </tr>
+	</script>
+
+    <!-- Contest list template -->
+	<script id="proposalPickerContestEntryTemplate"
+		type="text/x-handlebars-template">
+		<tr data-contestId="{{contest.id}}">
+			<td>
+				<div class="contestFlag {{#if contest.wasFiltered}} greyed_out {{/if}}">
+					{{#if contest.flagText}}
+						<span class="{{#if contest.flagTooltip}} js-Tooltip {{/if}}" title="{{contest.flagTooltip}}">{{contest.flagText}}:&#160;</span>
+                	{{/if}}
+                		<a href="javascript:;" class="{{#if contest.wasFiltered}} box_tooltip greyed_out {{/if}}" title="{{#if contest.filterReasonFocusArea}} This contest does not fit this section's focus area. {{/if}} {{#if contest.filterReasonTier}} This contest does not fit this section's tier.{{/if}}">{{contest.title}}</a>
+                			{{contest.question}}
+            		</div>
+            	</td>
+            	<td>
+        			{{contest.proposalsCount}}
+        		</td>
+        		<td>
+					{{contest.totalCommentsCount}}
+        		</td>
+        		<td>
+					{{contest.what}}
+        		</td>
+        		<td>
+					{{contest.where}}
+        		</td>
+        		<td>
+					{{contest.who}}
+                </td>
+            </tr>
+	</script>
+
+    <!-- Proposal picker scripts -->
+
+    <!-- Libraries -->
+    <xcolab:requireLibrary name="spin.js" />
+    <xcolab:requireLibrary name="handlebars.js" />
+    <collab:script src="/js/proposals/findAndReplaceDOMText.js" />
+
+    <c:set var="sortArrowDown">
+        <xcolab:sortArrow sortAscending="false"/>
+    </c:set>
+    <c:set var="sortArrowUp">
+        <xcolab:sortArrow sortAscending="true"/>
+    </c:set>
+
+    <!-- Custom JS -->
+    <script>
+        var sortArrowDown = '${sortArrowDown}';
+        var sortArrowUp = '${sortArrowUp}';
+    </script>
+    <collab:script src="/js/proposals/proposalPicker.js" />
+</jsp:root>

@@ -1,0 +1,487 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-modals="urn:jsptagdir:/WEB-INF/tags/layout/modals"
+          xmlns:xcolab-layout="urn:jsptagdir:/WEB-INF/tags/layout"
+          xmlns:xcolab-scripts="urn:jsptagdir:/WEB-INF/tags/layout/scripts"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <jsp:directive.attribute name="title" type="java.lang.String" required="false" rtexprvalue="true" description="Page title" />
+    <jsp:directive.attribute name="description" type="java.lang.String" required="false" rtexprvalue="true" description="Page description for meta tag" />
+    <jsp:directive.attribute name="isIndexable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether this page is indexable by search engines. Defaults to true" />
+    <c:set var="isIndexable" value="${empty isIndexable ? true : isIndexable}"/>
+
+    <jsp:directive.attribute name="canonicalUrlRelative" type="java.lang.String" required="false" rtexprvalue="true" description="Canonical url for this page (relative to root), if any" />
+
+    <jsp:directive.attribute name="meta1" type="java.lang.String" required="false" rtexprvalue="true" description="Social media meta info 1" />
+    <jsp:directive.attribute name="meta2" type="java.lang.String" required="false" rtexprvalue="true" description="Social media meta info 2" />
+    <jsp:directive.attribute name="openGraphSiteName" type="java.lang.String" required="false" rtexprvalue="true" description="Open Graph site name override, if empty the defalt value in config variables will be used" />
+    <jsp:directive.attribute name="openGraphTitle" type="java.lang.String" required="false" rtexprvalue="true" description="Open Graph title override , if empty the default value in config variables will be used" />
+    <jsp:directive.attribute name="openGraphDescription" type="java.lang.String" required="false" rtexprvalue="true" description="Open Graph description override , if empty the default value in config variables will be used" />
+    <jsp:directive.attribute name="openGraphImage" type="java.lang.String" required="false" rtexprvalue="true" description="Open Graph image override , if empty the default value in config variables will be used" />
+
+
+    <jsp:useBean id="_librariesToLoad" class="java.util.HashMap" scope="request"/>
+
+    <!-- jsp variables -->
+    <!--@elvariable id="request" type="javax.servlet.http.HttpServletRequest"-->
+
+    <!--@elvariable id="_activePageLink" type="java.lang.String"-->
+
+    <!-- interceptor variables -->
+
+    <!--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfToken"-->
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <fmt:setLocale value="${_themeContext.i18NVariables.language}" />
+    <fmt:setTimeZone value="${_themeContext.i18NVariables.defaultTimeZone}" />
+
+<![CDATA[<!DOCTYPE html>]]>
+<html lang="${_themeContext.i18NVariables.language}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>${title}${(not empty title) ? ' - ' : ''}${_themeContext.colabName}</title>
+
+    <!-- ============ Globals ============ -->
+
+    <script>
+        var _firstByteDate = new Date();
+        var _isLoggedIn = '${_themeContext.authenticationVariables.isLoggedIn}' == 'true';
+        var _isAdmin = '${_themeContext.authenticationVariables.isAdmin}' == 'true';
+        var _csrf = {
+            token: '${_csrf.token}',
+            parameterName: '${_csrf.parameterName}',
+            headerName: '${_csrf.headerName}'
+        }
+        var _i18nTexts = {};
+    </script>
+
+
+    <!-- Retry function for CDN resources. Defaults to the local resource if CDN is unreachable -->
+    <script>
+        function retryLocal(el) {
+            el.onerror = '';
+            var parser = document.createElement('a');
+            if (el.href !== undefined) {
+                parser.href = el.href;
+                el.href = parser.pathname;
+            }
+            if (el.src !== undefined) {
+                parser.href = el.src;
+                el.src = parser.pathname;
+            }
+            if (Sentry) {
+                Sentry.addBreadcrumb({
+                    category: 'retry',
+                    message: parser.href,
+                    level: 'info'
+                });
+            } else {
+                console.log('Retrying resource' + parser.href)
+            }
+        }
+    </script>
+
+
+    <!-- ============ Fonts ============ -->
+
+    <c:if test="${not empty _themeContext.credentialVariables.typekitId}">
+        <c:set var="typekitId" value="${_themeContext.credentialVariables.typekitId}" />
+        <link rel="stylesheet" href="https://use.typekit.com/${typekitId}.css"/>
+    </c:if>
+
+
+    <!-- ============ Stylesheets ============ -->
+
+    <collab:stylesheet href="${_themeContext.themeVariables.activeTheme.stylesheetPath}" />
+
+
+    <!-- ============ META CONTENT ============ -->
+
+    <meta content="${not empty description ? description : _themeContext.metaVariables.metaPageDescription}" lang="en-US" name="description" />
+    <meta content="${_themeContext.metaVariables.metaPageKeywords}" lang="en-US" name="keywords" />
+
+    <c:choose>
+        <c:when test="${!_themeContext.serverVariables.environment.isProduction}">
+            <!-- Prevent indexing of non-production sites -->
+            <meta name="robots" content="noindex, nofollow" />
+            <script>
+                console.warn("Running on non-Production system... Search engine indexing disabled!");
+            </script>
+        </c:when>
+        <c:when test="${!isIndexable}">
+            <!-- Prevent certain pages from being indexed -->
+            <meta name="robots" content="noindex" />
+        </c:when>
+    </c:choose>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${_themeContext.colabUrl}${requestScope['javax.servlet.forward.request_uri']}"/>
+    <meta property="og:site_name" content="${ not empty openGraphSiteName ? openGraphSiteName: _themeContext.colabName}" />
+    <meta property="og:title" content="${ not empty openGraphTitle ? openGraphTitle: _themeContext.metaVariables.openGraphShareTitle}" />
+    <meta property="og:description" content="${ not empty openGraphDescription ? openGraphDescription: _themeContext.metaVariables.openGraphShareDescription}" />
+    <c:url var="encodedOpenGraphImageUrl" value="${not empty openGraphImage ? openGraphImage : _themeContext.themeVariables.activeTheme.logoPathBig}"/>
+    <meta property="og:image" content="${encodedOpenGraphImageUrl}"/>
+    <meta property="og:locale" content="${_themeContext.i18NVariables.language}"/>
+
+    <c:url var="encodedTwitterImageUrl" value="${not empty openGraphImage ? openGraphImage : _themeContext.themeVariables.activeTheme.logoPathSquare}"/>
+    <meta name="twitter:card" content="summary"/>
+    <c:if test="${not empty _themeContext.socialMediaVariables.twitterAccount}">
+        <meta name="twitter:site" content="@${_themeContext.socialMediaVariables.twitterAccount}"/>
+    </c:if>
+    <meta name="twitter:image" content="${encodedTwitterImageUrl}"/>
+
+    <c:if test="${not empty _themeContext.authenticationVariables.facebookId}">
+        <meta property="fb:app_id" content="${_themeContext.authenticationVariables.facebookId}"/>
+    </c:if>
+
+    <!-- TODO COLAB-2586: make this configurable -->
+    <meta name="p:domain_verify" content="70e4477f0ab70225da1533151386c16f"/>
+
+    <!-- Shortcut icons generated via https://realfavicongenerator.net -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"/>
+    <link rel="manifest" href="/images/favicon/site.webmanifest"/>
+    <link rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg"
+          color="#${_themeContext.themeVariables.activeTheme.primaryColorHex}"/>
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico"/>
+    <meta name="msapplication-TileColor"
+          content="#${_themeContext.themeVariables.activeTheme.primaryColorHex}"/>
+    <meta name="msapplication-config" content="/images/favicon/browserconfig.xml"/>
+    <meta name="theme-color" content="#ffffff"/>
+
+    <c:if test="${not empty canonicalUrlRelative}">
+        <link rel="canonical" href="${_themeContext.colabUrl}${canonicalUrlRelative}" />
+    </c:if>
+
+    <c:if test="${_themeContext.serverVariables.environment.isProduction}">
+        <xcolab-scripts:analyticsScripts googleAnalyticsKey="${_themeContext.credentialVariables.googleAnalyticsKey}"
+                                         pingdomRumId="${_themeContext.credentialVariables.pingdomRumId}"
+                                         analyticsAttribute="${_themeContext.messageVariables.analyticsAttribute}"
+                                         httpSession="${request.session}" member="${_themeContext.authenticationVariables.member}" />
+    </c:if>
+
+    <c:if test="${not empty _themeContext.credentialVariables.sentryDsn}">
+        <script src="https://js.sentry-cdn.com/${_themeContext.credentialVariables.sentryDsn}.min.js" crossorigin="anonymous"><!-- --></script>
+        <script>
+            document.addEventListener('readystatechange', function() {
+                Sentry.addBreadcrumb({
+                    category: 'readystatechange',
+                    message: document.readyState,
+                    level: 'info'
+                });
+                Sentry.configureScope(function(scope) {
+                    scope.setTag("readystate", document.readyState);
+                });
+            });
+            Sentry.onLoad(function() {
+                var options = {
+                    environment: '${_themeContext.serverVariables.environment.name().toLowerCase()}'
+                };
+                var release = '${_themeContext.serverVariables.buildCommit}';
+                if (release != 'unknown') {
+                    options.release = release;
+                }
+                Sentry.init(options);
+
+                Sentry.configureScope(function(scope) {
+                    scope.setTag("language", "${_themeContext.i18NVariables.language}");
+                    if (_isLoggedIn) {
+                        scope.setUser({"id": "${_themeContext.authenticationVariables.member.id}"});
+                    }
+                });
+            });
+        </script>
+    </c:if>
+</head>
+
+<body class="${_themeContext.themeVariables.isHomePage ? 'p-Homepage' : ''}">
+    <c:if test="${_themeContext.themeVariables.betaRibbonShow}">
+        <div class="c-Ribbon">
+            Beta
+        </div>
+    </c:if>
+
+    <c:if test="${!_themeContext.serverVariables.environment.isProduction}">
+        <div class="c-TitleBar__container">
+            <div class="c-TitleBar c-TitleBar--warning c-TitleBar--fixed">
+                <div class="container c-TitleBar__content">
+                    <div class="c-TitleBar__element pl-0" style="overflow: hidden">
+                        You are currently on a <b>test server</b>. Content on this server is for testing only and may be deleted at any time.
+                    </div>
+
+                    <a class="c-TitleBar__actionButton" href="${_themeContext.colabUrlProduction}">Take me to ${_themeContext.colabUrlProduction}.</a>
+                </div>
+                <button class="close js-Tooltip" data-dismiss="c-TitleBar" title="Remind me later" aria-label="Remind me later">
+                    <span aria-hidden="true">&#215;</span> <!-- &#215; == &times; -->
+                </button>
+            </div>
+        </div>
+    </c:if>
+
+    <c:if test="${_themeContext.authenticationVariables.isImpersonating}">
+        <div class="c-TitleBar">
+            <div class="container c-TitleBar__content">
+                <div class="c-TitleBar__element pl-0">
+                    Impersonating member ${_themeContext.authenticationVariables.member.screenName} (Logged in as ${_themeContext.authenticationVariables.realMember.screenName})
+                </div>
+
+                <button type="button" class="c-TitleBar__actionButton js-EnhancedLink"
+                        data-method="post" data-url="/impersonate/logout">
+                    Stop impersonating
+                </button>
+            </div>
+        </div>
+    </c:if>
+
+    <c:if test="${_themeContext.authenticationVariables.isLoggedIn and !_themeContext.authenticationVariables.member.isProfileComplete}">
+        <c:if test="${not cookie.containsKey('xc-TitleBar__completeProfile--hidden')}">
+            <div class="c-TitleBar c-TitleBar--light" style="position: relative;">
+                <div class="container">
+                    <div class="c-TitleBar__content">
+                        <div class="c-TitleBar__element pl-0">
+                            Tell the ${_themeContext.colabName} community who you are and complete your profile!
+                        </div>
+
+                        <a class="c-TitleBar__actionButton" href="${_themeContext.authenticationVariables.member.profileEditUrl}">
+                            Complete profile
+                        </a>
+                    </div>
+                </div>
+                <button class="close js-Tooltip" data-dismiss="c-TitleBar" title="Remind me later" aria-label="Remind me later">
+                    <span aria-hidden="true">&#215;</span> <!-- &#215; == &times; -->
+                </button>
+            </div>
+        </c:if>
+    </c:if>
+
+
+    <!-- ============ Navbar ============ -->
+
+    <a href="#content" class="sr-only">Skip navigation</a>
+
+    <xcolab-layout:navbar colabName="${_themeContext.colabName}"
+                          logoPath="${_themeContext.themeVariables.activeTheme.logoPath}"
+                          redirect="${_themeContext.requestUri}"
+                          activePageLink="${_activePageLink}"
+                          contestPages="${_themeContext.themeVariables.contestPages}"
+                          member="${_themeContext.authenticationVariables.isLoggedIn ? _themeContext.authenticationVariables.member : null}"
+                          isWhiteBackgound="${_themeContext.themeVariables.isHomePage}"
+                          isShowIcons="${_themeContext.themeVariables.navbarShowIcons}"
+                          blogAdminUrl="${_themeContext.blogAdminUrl}"
+                          showLanguage="${_themeContext.i18NVariables.isI18NActive}"
+                          showSearch="${_themeContext.themeVariables.showSearchMenuItem}"
+                          languageSelectItems="${_themeContext.i18NVariables.languageSelectItems}"
+                          currentLocale="${_themeContext.i18NVariables.language}"
+                          allowSelfRegistration="${_themeContext.themeVariables.allowSelfRegistration}"/>
+
+
+    <!-- ============ Load jQuery ============ -->
+
+    <!-- Load jQuery early as it's used in content  -->
+    <collab:script src="/vendor/jquery/dist/jquery.min.js"/>
+    <!-- Include CSRF tokens in AJAX calls. -->
+    <script>
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(window._csrf.headerName, window._csrf.token);
+            }
+        })
+    </script>
+
+
+    <!-- ============ Content ============ -->
+
+    <main class="container clearfix" id="content">
+        <!-- Include page body -->
+        <jsp:doBody/>
+    </main>
+
+
+    <!-- ============ Footer ============ -->
+
+    <xcolab-layout:footer showProfileLink="${_themeContext.authenticationVariables.isLoggedIn}"
+                          currentLanguage="${_themeContext.i18NVariables.language}"
+                          languageSelectItems="${_themeContext.i18NVariables.languageSelectItems}"
+                          themeImageFolder="/images"
+                          showLanguageDropdown="${_themeContext.i18NVariables.isI18NActive}"
+                          footerArticleId="${_themeContext.themeVariables.footerArticleId}"
+                          allowSelfRegistration="${_themeContext.themeVariables.allowSelfRegistration}" />
+
+
+    <!-- ============ Modals ============ -->
+
+    <c:if test="${!_themeContext.authenticationVariables.isLoggedIn}">
+        <xcolab-modals:loginModal show="${_themeContext.authenticationVariables.showLoginPopup}"
+                                  redirect="${_themeContext.requestUri}"
+                                  authError="${_themeContext.authenticationVariables.authError}" />
+        <xcolab:requireLibrary name="forgotPasswordModal"/>
+    </c:if>
+
+    <c:if test="${_librariesToLoad['forgotPasswordModal']}">
+        <xcolab-modals:forgotPasswordModal show="${_themeContext.authenticationVariables.showPasswordResetPopup}"
+                                           redirect="${_themeContext.requestUri}"
+                                           screenName="${_themeContext.authenticationVariables.isLoggedIn ? _themeContext.authenticationVariables.member.screenName : null}"/>
+    </c:if>
+
+    <c:if test="${_librariesToLoad['sendMessage']}">
+        <xcolab-modals:sendMessageModal/>
+    </c:if>
+
+    <c:if test="${_librariesToLoad['flagging']}">
+        <xcolab-modals:flaggingModal />
+    </c:if>
+
+    <!-- ============ Scripts ============ -->
+
+    <xcolab-scripts:loadTooltips />
+
+    <c:if test="${_librariesToLoad['widgets']}">
+        <!-- Note: requires loadTooltips -->
+        <xcolab-scripts:loadWidgets />
+    </c:if>
+
+    <xcolab-scripts:loadNotyAlerts />
+    <c:if test="${not empty _themeContext.messageVariables.alertMessage}">
+        <spring:message var="notyMessage" text="${_themeContext.messageVariables.alertMessage.message}" javaScriptEscape="true" />
+        <script>
+            noty({text: '${notyMessage}', type: '${_themeContext.messageVariables.alertMessage.type.notyType}'});
+        </script>
+    </c:if>
+
+    <!-- Needs to be included before other scripts that bind on 'click' (e.g. bootstrap.js) -->
+    <collab:script src="/js/enhancedLinkHandler.js"/>
+
+    <c:if test="${_librariesToLoad['moment.js']}">
+        <xcolab-scripts:loadMoment locale="${_themeContext.i18NVariables.language}"/>
+    </c:if>
+
+    <!-- Bootstrap -->
+    <collab:script src="/vendor/popper.js/dist/umd/popper.min.js" />
+    <c:choose>
+        <c:when test="${_themeContext.serverVariables.environment.isProductionOrStaging}">
+            <collab:script src="/vendor/bootstrap/dist/js/bootstrap.min.js" />
+        </c:when>
+        <c:otherwise>
+            <collab:script src="/vendor/bootstrap/dist/js/bootstrap.js" />
+        </c:otherwise>
+    </c:choose>
+
+
+    <!-- Cookies -->
+    <!-- TODO COLAB-2546: not minified-->
+    <!--<collab:script src="/vendor/js-cookie/src/js.cookie.min.js"/>-->
+    <collab:script src="/vendor/js-cookie/src/js.cookie.js"/>
+
+
+    <!-- ============ On demand libraries ============ -->
+
+    <!-- Cross-library dependencies -->
+    <c:if test="${_librariesToLoad['jquery.scrolltable']}">
+        <xcolab:requireLibrary name="jQuery UI" />
+    </c:if>
+
+    <!-- TODO COLAB-2545: what are we using this for? Do we really need it on all pages? -->
+    <xcolab:requireLibrary name="jQuery UI" />
+
+    <!-- jQuery UI -->
+    <c:if test="${_librariesToLoad['jQuery UI']}">
+        <collab:script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+                       integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM="/>
+        <collab:stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css"
+                            integrity="sha256-vpKTO4Ob1M4bZ8RAvZvYMtinMz1XjH0QYdAO2861V9M="/>
+    </c:if>
+
+    <!-- File upload -->
+    <c:if test="${_librariesToLoad['fileupload']}">
+        <xcolab-scripts:fileUploadScripts />
+    </c:if>
+
+    <!-- Spin.js -->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['spin.js']}" src="/vendor/spin.js/spin.min.js" />
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['spin.js']}" src="/vendor/spin.js/jquery.spin.js"/>
+
+    <!-- jquery.scrolltable -->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['jquery.scrolltable']}" src="/js/proposals/jquery.scrolltable.js"/>
+
+    <!-- numeral.js -->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['numeral.js']}" src="/js/proposals/numeral.min.js"/>
+
+    <!-- Handlebars.js-->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['handlebars.js']}" src="/vendor/handlebars/dist/handlebars.min.js"/>
+
+    <!-- CkEditor -->
+    <c:if test="${_librariesToLoad['CKEditor']}">
+        <!-- URL encode to set base path correctly for CDN -->
+        <c:url var="encodedCkEditorUrl" value="/vendor/ckeditor/ckeditor.js"/>
+        <script>
+            function stripFileNameFromUrl(url) {
+                return url.substring(0, url.lastIndexOf('/') + 1);
+            }
+            var CKEDITOR_BASEPATH = stripFileNameFromUrl('${encodedCkEditorUrl}');
+        </script>
+        <collab:script src="${encodedCkEditorUrl}" />
+        <collab:script src="/js/configureCkEditor.js" />
+    </c:if>
+
+
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['papaparse']}" src="/vendor/papaparse/papaparse.min.js" />
+
+    <!-- i18n scripts -->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['i18n']}" src="/js/i18n.js" />
+
+    <!-- Ddslick for judging -->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['ddslick']}" src="/js/lib/jquery.ddslick.min.js" />
+
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['clipboard.js']}" src="/vendor/clipboard/dist/clipboard.min.js" />
+
+    <!-- Messaging javascript-->
+    <xcolab:loadScript shouldLoad="${_librariesToLoad['messageThreads']}" src="/js/messages/messageThreads.js" />
+    
+    <collab:script src="/js/initScript.js" />
+
+    <!-- ============ Analytics and tracking ============ -->
+
+    <!-- Show update notification to outdated browsers -->
+    <xcolab-scripts:browserUpdate />
+
+
+    <!-- ============ Structured data (schema.org) ============ -->
+
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "name": "${_themeContext.colabName}",
+          "alternateName": "${_themeContext.colabLongName}",
+          "url": "${_themeContext.colabUrl}"
+        }
+    </script>
+
+    <c:set var="socialMediaSameAs">
+        <c:forEach var="socialMediaEngine" items="${_themeContext.socialMediaVariables.allEngines}" varStatus="status">
+            "${socialMediaEngine.followMeUrl}"${status.last ? '' : ','}
+        </c:forEach>
+    </c:set>
+
+    <!--suppress CheckValidXmlInScriptTagBody -->
+    <c:url var="encodedSchemaOrgLogoPath" value="${_themeContext.themeVariables.activeTheme.logoPathSquare}"/>
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "name": "${_themeContext.colabName}",
+          "url": "${_themeContext.colabUrl}",
+          "logo": "${encodedSchemaOrgLogoPath}",
+          "sameAs": [${socialMediaSameAs}]
+        }
+    </script>
+</body>
+</html>
+</jsp:root>

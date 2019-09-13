@@ -1,0 +1,84 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties",
+      "name": "http-client",
+      "type": "org.xcolab.util.autoconfigure.HttpClientProperties"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties",
+      "name": "http-client.connection-pool",
+      "sourceMethod": "getConnectionPool()",
+      "type": "org.xcolab.util.autoconfigure.HttpClientProperties$ConnectionPool"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.XCoLabProperties",
+      "name": "xcolab",
+      "type": "org.xcolab.util.autoconfigure.XCoLabProperties"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.XCoLabProperties",
+      "name": "xcolab.remember-me",
+      "sourceMethod": "getRememberMe()",
+      "type": "org.xcolab.util.autoconfigure.XCoLabProperties$RememberMe"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties",
+      "defaultValue": 5000,
+      "name": "http-client.connect-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties$ConnectionPool",
+      "defaultValue": 2,
+      "name": "http-client.connection-pool.default-max-per-route",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties$ConnectionPool",
+      "name": "http-client.connection-pool.max-per-routes",
+      "type": "java.util.List<org.xcolab.util.autoconfigure.HttpClientProperties.HttpHostConfiguration>"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties$ConnectionPool",
+      "defaultValue": 20,
+      "name": "http-client.connection-pool.max-total",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties",
+      "defaultValue": 5000,
+      "name": "http-client.connection-request-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.HttpClientProperties",
+      "defaultValue": 5000,
+      "name": "http-client.socket-timeout",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.XCoLabProperties",
+      "defaultValue": "xcolab",
+      "name": "xcolab.namespace",
+      "description": "Namespace for service discovery.\n\n Customize this property when using several instances on the same Eureka server (e.g. for\n contest mirroring).",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.XCoLabProperties$RememberMe",
+      "defaultValue": 86400,
+      "name": "xcolab.remember-me.token-validity-seconds",
+      "description": "Length of remember me token in seconds. Default is one day.",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.xcolab.util.autoconfigure.XCoLabProperties",
+      "name": "xcolab.secret",
+      "description": "Application secret used for remember-me tokens.",
+      "type": "java.lang.String"
+    }
+  ]
+}

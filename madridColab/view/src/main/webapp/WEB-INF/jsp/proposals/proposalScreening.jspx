@@ -1,0 +1,248 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:proposalsPortlet="urn:jsptagdir:/WEB-INF/tags/proposalsPortlet"
+          xmlns:judging="urn:jsptld:/WEB-INF/tlds/xcolab-judging.tld"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <xcolab:layout title="${proposal.name} - Screening">
+        <jsp:directive.include file="./init_proposal_tab.jspx" />
+
+        <jsp:directive.include file="./proposalDetails/header.jspx"/>
+
+        <!--ProposalJudgesTabController-->
+        <jsp:useBean id="fellowProposalScreeningBean" scope="request" type="org.xcolab.view.pages.proposals.requests.FellowProposalScreeningBean"/>
+
+        <form:errors cssClass="alert alert-danger" element="div" />
+
+        This page is shared by ${contestType.contestName} Fellows only. Advisors and Judges will not be able to view this page
+        <c:set var="saveScreeningURL" value="${proposal.proposalUrl}/tab/SCREENING?contestId=${contest.id }&amp;contestUrlName=${contest.contestUrlName }&amp;proposalId=${proposal.id }"/>
+
+        <div class="l-BoxLayout__columns">
+            <form:form id="fellowRatingForm" action="${saveScreeningURL}" method="post"
+                       commandName="fellowProposalScreeningBean">
+                <div class="c-Box c-Box--colorTan">
+                    <div class="c-Box__body">
+                        <h3>Should the Judges review this ${contestType.proposalName}?</h3>
+
+                        <form:hidden path="contestPhaseId" />
+                        <form:select id="fellowScreeningAction" path="fellowScreeningAction" cssClass="form-control mb-3"
+                                     items="${judgingOptions}" itemValue="attributeValue" itemLabel="description"/>
+
+                        <div id="fellowSelectJudgesContainer" style="display: none;">
+                            <h3>Select Judge(s)</h3>
+                            Select which Judge(s) will review this ${contestType.proposalName}.
+                            <div class="judgingForm">
+                                <div>
+                                    <c:forEach var="judge" items="${contest.contestJudges}">
+                                        <div class="judge-review-status js-Tooltip tooltipstered" data-tooltip-content="#js-Tooltip__content__judgedata_${judge.id}">
+
+                                            <div class="review-status-container">
+                                                <xcolab:userPortrait portraitId="${judge.portraitId}"
+                                                                     userId="${judge.id}"
+                                                                     width="30" height="30"/>
+                                                <judging:judgeReviewStatus userId="${judge.id}" contestPhaseId="${contestPhase.id}"
+                                                                           proposalId="${proposal.id}" contestId="${contest.id}">
+                                                    <c:choose>
+                                                        <c:when test="${judgeReviewStatus.statusValue eq 1}">
+                                                            <collab:image src="/images/icon_question-x.png" cssClass="review-status-icon"/>
+                                                        </c:when>
+                                                        <c:when test="${judgeReviewStatus.statusValue eq 2}">
+                                                            <collab:image src="/images/icon_question-chk.png" cssClass="review-status-icon"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </judging:judgeReviewStatus>
+                                            </div>
+                                            <br/>
+                                            <judging:judgeAssignedProposalCount userId="${judge.id}" contestPhaseId="${contestPhase.id}">
+                                                <xcolab:userLinkSimple userId="${judge.id}"
+                                                                       text="${judge.fullName} (${proposalCount})"/>
+                                                        <div class="hidden">
+                                                            <span id="js-Tooltip__content__judgedata_${judge.id}">
+                                                                ${judge.fullName} has evaluated ${proposalAlreadyJudgedCount} out of the ${proposalCount} proposals assigned to them.
+                                                            </span>
+                                                        </div>
+
+                                            </judging:judgeAssignedProposalCount>
+                                            <br/>
+                                            <form:checkbox path="selectedJudges" value="${judge.id}"/>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"><!-- --></div>
+                        <div id="fellowActionCommentContainer" style="display: none">
+                            <h3>Comment to send to author</h3>
+                            <i style="font-size:10pt;">The message below will be used as a template as the response message to the author.</i>
+                            <br/>
+                            <br/>
+                            <div id="comment-headers">
+                                <c:forEach var="template" items="${emailTemplates}">
+                                    <div class="${template.key}">
+                                        ${template.value.header}
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <i>Your comment will be visible to the public.</i>
+                            <form:textarea id="fellowCommentBody" cssClass="c-Comment__box" path="fellowScreeningActionCommentBody" style="width:100%;"/>
+                            <form:errors cssClass="invalid-feedback" path="fellowScreeningActionCommentBody" />
+                            <div id="comment-footers">
+                                <c:forEach var="template" items="${emailTemplates}">
+                                    <div class="${template.key}">
+                                            ${template.value.footer}
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <c:choose>
+                            <c:when test="${proposalsPermissions.canFellowActions}">
+                                <div class="text-right">
+                                    <button type="button" id="saveProposalScreeningDecision" class="btn btn-primary">
+                                        Save ${contestType.proposalName} decision
+                                    </button>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="submitStatus error">
+                                    <strong>You have no permission to advance this ${contestType.proposalName}.</strong>
+                                </p>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:if test="${hasAlreadyBeenPromoted}">
+                            <p class="submitStatus error">
+                                <strong>This ${contestType.proposalName} has already been promoted to the next phase. Thus, changes have no effect.</strong>
+                            </p>
+                        </c:if>
+                    </div>
+                </div>
+                <div class="c-Box c-Box--colorTan">
+                    <div class="c-Box__body">
+                        <form:errors path="*" cssClass="alert alert-danger" />
+
+                        <h3 style="margin-top: 0;">My Rating</h3>
+                        <c:choose>
+                            <c:when test="${proposalsPermissions.canFellowActions}">
+                                <p>
+                                    This section is individualized for each Fellow and will be used for Climate CoLab's research purposes. Other Fellows and Judges will be able to see your comment (but not your rating) once all evaluations are submitted.
+                                </p>
+
+                                <div style="float: left; padding-left: 30px;"><h5>Least (1)</h5></div> <div style="text-align: right; padding-right: 30px;"><h5>Most (4)</h5></div>
+                                <br/>
+                                <proposalsPortlet:proposalRating ratingTypes="${fellowProposalScreeningBean.ratingTypes}" ratingValuesPath="ratingValues" />
+
+                                <h4>Rating comment:</h4>
+                                <i>Your comment will be visible to other Fellows and Judges only.</i>
+                                <form:textarea id="fellowRatingComment" cssClass="c-Comment__box" path="comment" style="width:100%;"/>
+                                <div class="text-right">
+                                    <button type="button" id="saveProposalScreeningComment" class="btn btn-primary">
+                                        Save
+                                    </button>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="submitStatus error">
+                                    <strong>You have no permission to rate this ${contestType.proposalName}.</strong>
+                                </p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </form:form>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <h2>Evaluation Criteria</h2>
+                    <proposalsPortlet:ratingCriteriaText ratingTypes="${fellowProposalScreeningBean.ratingTypes}" />
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var fellowScreeningActions = {};
+        </script>
+
+        <c:forEach var="fellowScreeningActions" items="${judgingOptions}">
+            <script>
+            fellowScreeningActions[${fellowScreeningActions.attributeValue}] = {attributeValue: ${fellowScreeningActions.attributeValue},
+            description: "${fellowScreeningActions.description}", selectJudgesEnabled: ${fellowScreeningActions.selectJudgesEnabled},
+            commentEnabled: ${fellowScreeningActions.commentEnabled}};
+            </script>
+        </c:forEach>
+
+        <script>
+
+            jQuery(function() {
+                jQuery("#saveProposalScreeningDecision").click(function () {
+                    disableDirtyCheck();
+                    jQuery("#fellowRatingForm").submit();
+                });
+
+                jQuery("#saveProposalScreeningComment").click(function () {
+
+                    disableDirtyCheck();
+                    jQuery(this).parents('form').submit();
+                });
+
+                jQuery('#fellowScreeningAction').change(function() {
+                    refreshCommentFieldVisibility();
+                    refreshEmailTemplates();
+                });
+
+                refreshCommentFieldVisibility();
+                refreshEmailTemplates();
+            });
+
+            function refreshCommentFieldVisibility() {
+                var fellowAction = $("#fellowScreeningAction").val();
+
+                if (fellowScreeningActions[fellowAction].commentEnabled) {
+                    jQuery('#fellowActionCommentContainer').slideDown();
+                } else {
+                    jQuery('#fellowActionCommentContainer').slideUp();
+                }
+
+                if (fellowScreeningActions[fellowAction].selectJudgesEnabled) {
+                    jQuery('#fellowSelectJudgesContainer').slideDown();
+                } else {
+                    jQuery('#fellowSelectJudgesContainer').slideUp();
+                }
+            }
+
+
+            function refreshEmailTemplates() {
+                jQuery("#comment-footers").find("> div").hide();
+                jQuery("#comment-headers").find("> div").hide();
+
+
+                var fellowAction = $("#fellowScreeningAction").val();
+                var classToBeShown = "";
+                if (fellowAction == "1") {
+                    classToBeShown = "SCREENING_DO_NOT_ADVANCE_INCOMPLETE";
+                } else if (fellowAction == "2") {
+                    classToBeShown = "SCREENING_DO_NOT_ADVANCE_OFF_TOPIC";
+                } else if (fellowAction == "4") {
+                    classToBeShown = "SCREENING_DO_NOT_ADVANCE_OTHER";
+                }
+                if (classToBeShown != "") {
+                    jQuery("#comment-headers ."+classToBeShown).add("#comment-footers ."+classToBeShown).show();
+                }
+            }
+        </script>
+
+        <c:if test="${!proposalsPermissions.canFellowActions}">
+            <script>
+                var $fellowRatingFormElement = $("#fellowRatingForm");
+                $fellowRatingFormElement.find("select").add($fellowRatingFormElement.find("input")).add($fellowRatingFormElement.find("textarea")).attr("disabled", "disabled");
+            </script>
+        </c:if>
+
+        <script>
+            jQuery(function() {
+                enableDirtyCheck();
+            });
+        </script>
+    </xcolab:layout>
+</jsp:root>

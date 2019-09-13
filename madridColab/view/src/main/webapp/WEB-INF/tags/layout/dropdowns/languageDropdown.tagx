@@ -1,0 +1,47 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <jsp:directive.attribute name="currentLanguage" type="java.lang.String" required="true" rtexprvalue="true" description="The currently active locale" />
+    <jsp:directive.attribute name="languageSelectItems" type="java.util.List" required="true" rtexprvalue="true" description="The currently active locale" />
+    <!--@elvariable id="languageSelectItems" type="java.util.List<org.xcolab.commons.html.LabelStringValue>"-->
+
+    <xcolab:requireLibrary  name="i18n"/>
+
+    <ul class="dropdown-menu dropdown-menu-right cb-dropdown-box text-nowrap">
+
+        <form>
+        <c:forEach var="lang" items="${languageSelectItems}">
+            <c:if test="${currentLanguage == lang['value'] }">
+                <li class="dropdown-item">
+                    <div class="radio-inline">
+                        <label class="active" id="current-language">
+                            <input name="lang_top" type="radio" value="${lang['value']}" checked="checked"/>
+                            <spring:message code="${lang['lable']}"/> - ${fn:toUpperCase(lang['value'])}
+                        </label>
+                    </div>
+                </li>
+            </c:if>
+        </c:forEach>
+        <li role="separator" class="dropdown-divider"><!-- --></li>
+        <c:forEach var="lang" items="${languageSelectItems}">
+            <c:if test="${currentLanguage != lang['value']}">
+
+                <li class="dropdown-item">
+                    <div class="radio-inline">
+                        <label>
+                            <c:set var="languageCode" value="${lang['value']}" />
+                            <input name="lang_top" type="radio" value="${lang['value']}"
+                                    onchange="setLanguage('${languageCode}');"/>
+                            <spring:message code="${lang['lable']}"/> - ${fn:toUpperCase(lang['value'])}
+                        </label>
+                    </div>
+                </li>
+
+            </c:if>
+        </c:forEach>
+        </form>
+    </ul>
+</jsp:root>

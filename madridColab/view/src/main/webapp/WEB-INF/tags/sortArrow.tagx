@@ -1,0 +1,11 @@
+<jsp:root version="2.1"  xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <jsp:directive.attribute name="sortAscending" type="java.lang.Boolean" required="true" rtexprvalue="true" description="Ascending" />
+    <jsp:directive.attribute name="sortColumn" type="java.lang.String" required="false" rtexprvalue="true" description="Sort column" />
+    <jsp:directive.attribute name="currentColumn" type="java.lang.String" required="false" rtexprvalue="true" description="Current column" />
+
+    <c:if test="${empty sortColumn or sortColumn == currentColumn }">
+        <span class="js-SortArrow c-Caret ${sortAscending ? 'c-Caret--up' : ''}"><!-- empty --></span>
+    </c:if>
+</jsp:root>

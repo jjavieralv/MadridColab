@@ -1,0 +1,193 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+    <!--@elvariable id="reportTargetId" type="java.lang.Long"-->
+    <!--@elvariable id="reportTargetWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.FlaggingReportTargetWrapper"-->
+    <!--@elvariable id="selectionItems" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+
+    <!--@elvariable id="reports" type="java.util.List<org.xcolab.view.pages.contestmanagement.wrappers.FlaggingReportWrapper>"-->
+
+    <jsp:directive.include file="../init.jspx"/>
+    <jsp:directive.include file="./header.jspx"/>
+
+    <c:set var="changeElementUrl" value="/admin/contest/manager/tab/FLAGGING?elementId=" />
+    <c:set var="createReportTargetUrl" value="/admin/contest/manager/tab/FLAGGING/create" />
+    <c:set var="updateReportTargetUrl" value="/admin/contest/manager/tab/FLAGGING/update" />
+    <c:set var="deleteReportTargetUrl" value="/admin/contest/manager/tab/FLAGGING/delete/${reportTargetWrapper.reportTargetId}" />
+
+
+    <form:form action="${deleteReportTargetUrl}" id="deleteReportTargetForm" method="post" style="visibility: hidden;">
+        <!-- -->
+    </form:form>
+
+    <form:form action="${createReportTargetUrl}" id="createReportTargetForm" method="post" style="visibility: hidden;">
+        <!-- -->
+    </form:form>
+
+    <div class="c-ContentBox">
+        <div class="text-right cb-btn-spacer">
+            <button type="button" class="btn btn-primary" onclick="saveExistingReportTarget()">SAVE target</button>
+            <button type="button" class="btn btn-primary" onclick="saveAsNewReportTarget()">SAVE as new target</button>
+            <button type="button" class="btn btn-outline-danger" onclick="submitDeleteReportTargetForm()">DELETE target</button>
+        </div>
+    </div>
+
+    <div class="c-ContentBox l-BoxLayout__stacked">
+        <form:errors cssClass="alert alert-danger" element="div" path="*"/>
+
+        <div class="c-Box c-Box--colorTan">
+            <div class="c-Box__body">
+                <form:form commandName="reportTargetWrapper">
+                    <strong>Report target:</strong>
+
+                    <form:select path="reportTargetId" id="changeReportTargetSelect" cssClass="form-control">
+                        <form:options items="${selectionItems}"
+                                      itemValue="value" itemLabel="lable" />
+                    </form:select>
+                </form:form>
+            </div>
+        </div>
+
+        <form:form action="${updateReportTargetUrl }" commandName="reportTargetWrapper"
+                   id="editForm" method="post" class="mt-3">
+
+            <form:hidden path="createNew" id="createNewFlag"/>
+            <form:hidden path="reportTargetId" />
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong>Target type:</strong>
+                    <form:input id="type" path="type"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                disabled="disabled" />
+                    <form:errors cssClass="invalid-feedback" path="type" />
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong>Reason:</strong>
+                    <form:input id="reason" path="reason"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="reason" />
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong>Notification Threshold:</strong>
+                    <form:input id="notificationThreshold" path="notificationThreshold"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="notificationThreshold" />
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong>Screening Threshold:</strong>
+                    <form:input id="screeningThreshold" path="screeningThreshold"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="screeningThreshold" />
+                </div>
+            </div>
+
+        </form:form>
+    </div>
+
+    <div class="c-ContentBox">
+        <h2>Reports</h2>
+
+        <table class="table cb-table-striped-inverse">
+            <thead class="thead-light">
+            <tr>
+                <th>Type</th>
+                <th>Reason</th>
+                <th>Target</th>
+                <th>No. Reports</th>
+                <th>Weight</th>
+                <th>First report</th>
+                <th>Last report</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${reports}" var="report">
+                <c:set var="approveContentUrl" value="/admin/contest/manager/tab/FLAGGING/handle/${report.firstReportId}/APPROVE" />
+                <c:set var="removeContentUrl" value="/admin/contest/manager/tab/FLAGGING/handle/${report.firstReportId}/REMOVE" />
+                <tr>
+                    <td>${report.targetType}</td>
+                    <td>${report.reason}</td>
+                    <td>
+                        <a href="${report.targetLink}">${report.targetName}</a>
+                    </td>
+                    <td>${report.count}</td>
+                    <td>${report.aggregatedWeight}</td>
+                    <td>
+                        <fmt:formatDate value="${report.firstReportDate}" pattern="MM/dd/yyyy HH:mm"
+                                        type="date" dateStyle="short"/>
+                    </td>
+                    <td>
+                        <fmt:formatDate value="${report.lastReportDate}" pattern="MM/dd/yyyy HH:mm"
+                                        type="date" dateStyle="short"/>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm btn-block" href="${approveContentUrl}">
+                            Approve
+                        </a>
+                        <a class="btn btn-primary btn-sm btn-block" href="${removeContentUrl}">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        <![CDATA[
+
+        jQuery(function () {
+            bindSelectChange();
+        });
+
+        function bindSelectChange() {
+
+            var dropDownElement = document.getElementById("changeReportTargetSelect");
+
+            dropDownElement.addEventListener("change", function (ev) {
+                var val = ev.target.value;
+                window.location = "${changeElementUrl}" + val;
+            })
+        }
+
+        function saveExistingReportTarget() {
+            document.getElementById('createNewFlag').value = false;
+
+            document.getElementById('editForm').submit();
+        }
+
+        function saveAsNewReportTarget() {
+            document.getElementById('createNewFlag').value = true;
+
+            document.getElementById('editForm').submit();
+        }
+
+        function submitCreateReportTargetForm() {
+            document.getElementById('createReportTargetForm').submit();
+        }
+
+        function submitDeleteReportTargetForm() {
+            document.getElementById('deleteReportTargetForm').submit();
+        }
+
+        ]]>
+    </script>
+</xcolab:layout>
+</jsp:root>

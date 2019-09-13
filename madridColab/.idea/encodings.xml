@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/activities-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/admin-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/ballons-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/comment-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/contents-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/contestproposal-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/emails-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/files-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/flagging-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/members-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/modeling-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/search-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/clients/tracking-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/cloud" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/cloud/eureka-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/cloud/service-proxy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/activities-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/admin-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/comment-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/content-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/contest-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/emails-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/members-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/modeling-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/moderation-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/search-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/services/tracking-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util/entity-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util/service-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util/xcolab-commons" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/util/xcolab-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/view" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/view/src/main/resources/i18n/register_en.properties" charset="UTF-8" />
+  </component>
+</project>

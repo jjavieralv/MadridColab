@@ -1,0 +1,166 @@
+<jsp:root version="2.1" xmlns="" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-dropdowns="urn:jsptagdir:/WEB-INF/tags/layout/dropdowns"
+          xmlns:xcolab-social="urn:jsptagdir:/WEB-INF/tags/social"
+          xmlns:xcolab-icon="urn:jsptagdir:/WEB-INF/tags/icons">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <jsp:directive.attribute name="currentLanguage" type="java.lang.String" required="true" rtexprvalue="true" description="The currently active locale" />
+    <jsp:directive.attribute name="languageSelectItems" type="java.util.List" required="true" rtexprvalue="true" description="Language selection items" />
+    <jsp:directive.attribute name="showProfileLink" type="java.lang.Boolean" required="true" rtexprvalue="true" description="If true, the profile link will show" />
+    <jsp:directive.attribute name="showLanguageDropdown" type="java.lang.Boolean" required="true" rtexprvalue="true" description="If true, the language dropdown will appear in the footer" />
+    <jsp:directive.attribute name="themeImageFolder" type="java.lang.String" required="true" rtexprvalue="true" description="Folder for theme images" />
+    <jsp:directive.attribute name="footerArticleId" type="java.lang.Long" required="true" rtexprvalue="true" description="ID of the footer's content article" />
+    <jsp:directive.attribute name="allowSelfRegistration" type="java.lang.Boolean" required="true" rtexprvalue="true" description="Whether self-registration is allowed or not"/>
+
+    <div id="c-Footer">
+        <div id="c-Footer__menu">
+            <div class="container cb-d-flex-between-center flex-column flex-sm-row">
+                <nav>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/feedback"><spring:message code="homepage.bottom.menu.contact" /></a>
+                        </li>
+                        <li class="nav-item">
+                            <c:if test="${_themeContext.colabName.equals('Madrid CoLab')}">
+                                <a class="nav-link" href="/page/Help"><spring:message code="homepage.bottom.menu.help"/></a>
+                            </c:if>
+                            <c:if test="${!_themeContext.colabName.equals('Madrid CoLab')}">
+                                 <a class="nav-link" href="/page/Help"><spring:message code="homepage.bottom.menu.help"/></a>
+                            </c:if>
+                        </li>
+                        <c:choose>
+                            <c:when test="${showProfileLink}">
+                                <li class="nav-item">
+                                    <a href="/logout" data-method="post" class="nav-link js-EnhancedLink">
+                                        <spring:message code="homepage.bottom.menu.signout" />
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/members/profile">
+                                        <spring:message code="homepage.bottom.menu.myprofile"/>
+                                    </a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${allowSelfRegistration}">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/register">
+                                            <spring:message code="homepage.bottom.menu.register"/>
+                                        </a>
+                                    </li>
+                                </c:if>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                        <spring:message code="homepage.bottom.menu.signin"/>
+                                    </a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:if test="${showLanguageDropdown}">
+                            <li class="nav-item dropup cb-dropdown-inverse">
+                                <a data-toggle="dropdown" class="nav-link dropdown-trigger">
+                                    <xcolab-icon:language cssClass="c-Footer__icon"/>&#160;
+                                    <spring:message code="homepage.menu.visitor.language" />
+                                    <span class="caret"><!-- --></span>
+                                </a>
+                                <xcolab-dropdowns:languageDropdown currentLanguage="${currentLanguage}"
+                                                                   languageSelectItems="${languageSelectItems}"/>
+                            </li>
+                        </c:if>
+                        <c:if test="${_themeContext.authenticationVariables.isAdmin}">
+                            <li class="nav-item">
+                                <a class="nav-link js-Tooltip" id="toggleAdminButtons" title="Toggle Admin Buttons | Shortcut: Ctrl-t">
+                                    <xcolab-icon:hide cssClass="c-Footer__icon"/>
+                                </a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </nav>
+
+                <c:if test="${_themeContext.socialMediaVariables.showShareButtons}">
+                    <div>
+                        <xcolab-social:socialFollowButtons />
+                    </div>
+                </c:if>
+            </div>
+
+        </div> <!-- #c-Footer__menu -->
+
+
+        <footer class="container py-4">
+            <!-- footer content -->
+            <xcolab:content articleId="${footerArticleId}" loadWidgetLibrary="false" useBodyAsDefault="true">
+                <div class="row py-3">
+                    <div class="col-md-6 my-2">
+                        <a href="https://cci.mit.edu/" target="_blank">
+                            <img alt="MIT CCI" height="54" src="/images/logos/mit-cci.png" />
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 my-2">
+                        <div class="media">
+                            <div class="media-body c-Footer__text">
+                                Your use of the ${_themeContext.colabName} is subject to our
+                                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons License</a>,
+                                <a href="/wiki/Privacy+policy">Privacy Statement</a>,
+                                and other <a href="/page/Terms-of-use" target="_blank">Terms of Use</a>.
+                            </div>
+                            <img alt="CC BY NC SA" class="align-self-center ml-2" height="31"
+                                 src="/images/logos/cc-by-nc-sa.svg" width="88" />
+                        </div>
+                    </div>
+                </div>
+            </xcolab:content>
+            <script>
+                jQuery('#toggleAdminButtons').click(function (e) {
+                    e.preventDefault();
+                    toggleAdminButtons();
+                });
+
+                jQuery(document).keydown(function (e) {
+                    // shortcut: ctrl + t
+                    if (e.ctrlKey) {
+                        if (e.keyCode == 84) { // 84 = t
+                            e.preventDefault();
+                            toggleAdminButtons();
+                        }
+                    }
+                });
+
+                function toggleAdminButtons() {
+                    if (jQuery('.cb-btn-admin').css("display") == "none") {
+                        jQuery('.cb-btn-admin').show();
+                        saveSetting("visible");
+                    } else {
+                        jQuery('.cb-btn-admin').hide();
+                        saveSetting("hidden");
+                    }
+                }
+
+                function saveSetting(status) {
+                    if (typeof(Storage) !== "undefined") {
+                        if (localStorage !== null) {
+                            localStorage.setItem("toggleAdminButton", status);
+                        }
+                    }
+                }
+
+                if (typeof(Storage) !== "undefined") {
+                    if (localStorage !== null) {
+                        status = localStorage.getItem("toggleAdminButton");
+                        if (status == "hidden") {
+                            jQuery('.cb-btn-admin').hide();
+                        } else {
+                            jQuery('.cb-btn-admin').show();
+                        }
+                    }
+                }
+            </script>
+        </footer>
+    </div>
+</jsp:root>

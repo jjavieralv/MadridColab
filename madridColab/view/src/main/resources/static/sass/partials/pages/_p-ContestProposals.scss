@@ -1,0 +1,293 @@
+$p-ContestProposals__list__element--proposalname__width: 635px !default;
+$p-ContestProposals__list__element--contributor__width: 115px !default;
+$p-ContestProposals__list__element--comments__background__top: 8px !default;
+$p-ContestProposals__list__element__border: none !default;
+$p-ContestProposals__list__element--judgeFellow__width: 159px !default;
+$p-ContestProposals__list__element--judgeFellow__border--left: none !default;
+$p-ContestProposals__list__element--contributor__width: 106px !default;
+$p-ContestProposals__list__element--proposalname__judgeActions__width: 480px !default;
+$p-ContestProposals__header__paddingTop: 0 !default;
+$p-ContestProposals__header__paddingBottom: 20px !default;
+$p-ContestProposals__header__title__fontWeight: $t-Typography__fontWeight !default;
+$p-ContestProposals__header__description__padding: 20px !default;
+$p-ContestProposals__header__isTwoColumns: false !default;
+$p-ContestProposals__header__leftColumn__width: 630px !default;
+$p-ContestProposals__header__rightColumn__width: 300px !default;
+$p-ContestProposals__header__rightColumn__borderTop: none !default;
+$p-ContestProposals__header__ontology__term__marginTop: 0 !default;
+$p-ContestProposals__header__ontology__term__useIcons: true !default;
+$p-ContestProposals__header__ontology__display: inline-block !default;
+$p-ContestProposals__header__ontology__link__display: inline-block !default;
+$p-ContestProposals__header__team__display: inline-block !default;
+
+$p-ContestProposals__header__team__member__display: inline-block !default;
+$p-ContestProposals__header__team__roleName__paddingTop: 15px !default;
+
+$p-Contests__contestDetail__backgroundColor: $t-Color__tan !default;
+$p-Contests__contestDetail__heading__background: url(/images/pattern-6x6-lite.png) darken($t-Color__tan, 7) !default;
+
+.p-ContestProposals__header { //.contest-detail
+  background-color: $p-Contests__contestDetail__backgroundColor;
+  padding-top: $p-ContestProposals__header__paddingTop;
+  padding-bottom: $p-ContestProposals__header__paddingBottom;
+  border-bottom: 1px solid $t-Color__gray--medium-500;
+  color: $t-Color__gray--dark-800;
+  position: relative;
+}
+
+.p-ContestProposals__header__content {
+  overflow: auto;
+}
+
+@if $p-ContestProposals__header__isTwoColumns {
+  .p-ContestProposals__header__mainSection {
+    display: inline-block;
+    width: $p-ContestProposals__header__leftColumn__width;
+    vertical-align: top;
+  }
+}
+
+@if $p-ContestProposals__header__isTwoColumns {
+  .p-ContestProposals__header__metaSection {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-top: $p-ContestProposals__header__rightColumn__borderTop;
+    width: $p-ContestProposals__header__rightColumn__width;
+    vertical-align: top;
+  }
+}
+
+.p-ContestProposals__header__title { //.contest-detail .heading
+  background: $p-Contests__contestDetail__heading__background;
+  min-height: 24px;
+  padding: 20px 42px 20px 20px;
+  font-size: 22px;
+  font-weight: $p-ContestProposals__header__title__fontWeight;
+  vertical-align: middle;
+
+  p {
+    float: left;
+    margin-bottom: 0;
+  }
+
+}
+
+.p-ContestProposals__header__description { //.contest-detail .description {
+  padding: $p-ContestProposals__header__description__padding;
+
+  p { //.contest-detail .description p
+    padding-right: 22px;
+    line-height: 24px;
+    margin: 0;
+  }
+}
+
+.p-ContestProposals__header__sponsorLogo {
+  max-width: 320px;
+  float: right;
+  margin-left: 1rem;
+
+  > img {
+    max-width: 100%;
+    min-height: 30px;
+    max-height: 100px;
+  }
+}
+
+.p-ContestProposals__header__team { //.contest-detail .moreinfo
+  display: $p-ContestProposals__header__team__display;
+  padding: 10px 16px;
+  position: relative;
+}
+
+.p-ContestProposals__header__team__roleName { //.contestTeamRole .contestTeamRoleName
+  display: block;
+  padding-top: $p-ContestProposals__header__team__roleName__paddingTop;
+  width: 115px;
+}
+
+.p-ContestProposals__header__team__member { //.contestTeamRole .contestTeamMember
+  display: $p-ContestProposals__header__team__member__display;
+  white-space: nowrap;
+  padding-right: 10px;
+  max-width: 176px;
+  min-width: 176px;
+  margin-top: 4px;
+  margin-right: 12px;
+  img {
+    margin-right: 5px;
+  }
+}
+
+.p-ContestProposals__header__buttons {
+  padding-right: 20px;
+  text-align: center;
+
+  @include media-breakpoint-up(lg) {
+    text-align: right;
+  }
+}
+
+.p-ContestProposals__header__ontology {
+  padding: 10px 16px;
+
+  @if $p-ContestProposals__header__isTwoColumns {
+    display: inline-block;
+    width: $p-ContestProposals__header__rightColumn__width;
+  }
+}
+
+.p-ContestProposals__header__ontology__term {
+  display: $p-ContestProposals__header__ontology__display;
+  vertical-align: top;
+  margin-top: $p-ContestProposals__header__ontology__term__marginTop;
+  margin-right: 15px;
+  width: 220px;
+}
+
+%p-ContestProposals__header__ontology__term__title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: $t-Typography__fontWeight--bold;
+  height: 24px;
+  padding-top: 1px;
+  padding-right: 10px;
+  background: none;
+  width: auto;
+}
+
+.p-ContestProposals__header__ontology__term__title--what { //.contest-detail .what
+  @extend %p-ContestProposals__header__ontology__term__title;
+  @if $p-ContestProposals__header__ontology__term__useIcons {
+    background: url(/images/icon-list-what.png) no-repeat;
+    padding-left: 30px;
+  }
+}
+
+.p-ContestProposals__header__ontology__term__title--where { //.contest-detail .where {
+  @extend %p-ContestProposals__header__ontology__term__title;
+  @if $p-ContestProposals__header__ontology__term__useIcons {
+    background: url(/images/icon-list-where.png) no-repeat;
+    padding-left: 33px;
+  }
+}
+
+.p-ContestProposals__header__ontology__term__title--who { //.contest-detail .who {
+  @extend %p-ContestProposals__header__ontology__term__title;
+  @if $p-ContestProposals__header__ontology__term__useIcons {
+    background: url(/images/icon-list-who.png) no-repeat;
+    padding-left: 25px;
+  }
+}
+
+.p-ContestProposals__header__ontology__term__title--how {
+  @extend %p-ContestProposals__header__ontology__term__title;
+}
+
+.p-ContestProposals__header__ontology__term__link {
+  display: $p-ContestProposals__header__ontology__link__display;
+}
+
+.p-ContestProposals__header__shareButtons {
+  padding-left: 1rem;
+  margin-top: $t-Spacing__base / 2;
+  text-align: center;
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    right: -32px;
+    top: 20px;
+    width: 35px;
+    padding: 0;
+  }
+}
+
+%p-ContestProposals__list__element {
+  float: left;
+  height: 37px;
+}
+
+.p-ContestProposals__list__element--proposalname { //.blueheaderbar .proposalname
+  @extend %p-ContestProposals__list__element;
+  width: $p-ContestProposals__list__element--proposalname__width;
+  padding-left: 9px;
+  border-right: $p-ContestProposals__list__element__border;
+
+  &.completed { //.blueheaderbar.completed .proposalname
+    width: 765px;
+  }
+
+  &.judgeActions {
+    width: $p-ContestProposals__list__element--proposalname__judgeActions__width;
+  }
+}
+
+.p-ContestProposals__list__element--thumbs { //.blueheaderbar .thumbs
+  @extend %p-ContestProposals__list__element;
+  width: 67px;
+  position: relative;
+  text-align: center;
+  border-right: $p-ContestProposals__list__element__border;
+
+  a {
+    background: url(/images/icon-proposal-vote.png) no-repeat 0 7px;
+    width: 20px;
+    height: 37px;
+    display: inline-block;
+  }
+}
+
+.p-ContestProposals__list__element--votes { //.blueheaderbar .votes a
+  @extend %p-ContestProposals__list__element;
+  width: 67px;
+  text-align: center;
+  border-right: $p-ContestProposals__list__element__border;
+
+  a {
+    background: url(/images/icon-proposal-vote.png) no-repeat 0 7px;
+    width: 20px;
+    height: 37px;
+    display: inline-block;
+  }
+}
+
+.p-ContestProposals__list__element--comments { //.blueheaderbar .propcomm {
+  @extend %p-ContestProposals__list__element;
+  width: 65px;
+  position: relative;
+  text-align: center;
+  border-right: $p-ContestProposals__list__element__border;
+
+  a {
+    background: url(/images/icon-list-comment.png) no-repeat 0 $p-ContestProposals__list__element--comments__background__top;
+    width: 24px;
+    height: 37px;
+    display: inline-block;
+  }
+}
+
+.p-ContestProposals__list__element--modifiedDate { //.blueheaderbar .modified
+  @extend %p-ContestProposals__list__element;
+  width: 85px;
+  text-align: center;
+  border-right: $p-ContestProposals__list__element__border;
+}
+
+.p-ContestProposals__list__element--contributor { //.blueheaderbar .contributor
+  @extend %p-ContestProposals__list__element;
+  width: $p-ContestProposals__list__element--contributor__width;
+  text-align: center;
+}
+
+.p-ContestProposals__list__element--judgeFellow { //.blueheaderbar .judgefellow {
+  @extend %p-ContestProposals__list__element;
+  width: $p-ContestProposals__list__element--judgeFellow__width;
+  position: relative;
+  text-align: center;
+  border-left: $p-ContestProposals__list__element--judgeFellow__border--left;
+
+  a {
+    font-size: 0.9em
+  }
+}

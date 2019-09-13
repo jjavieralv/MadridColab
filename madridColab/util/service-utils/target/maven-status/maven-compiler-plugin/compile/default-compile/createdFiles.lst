@@ -1,0 +1,13 @@
+org\xcolab\service\utils\db\jooq\CustomDsl.class
+org\xcolab\service\utils\db\jooq\fulltext\FulltextMatchClause.class
+org\xcolab\service\utils\db\jooq\config\JooqToSpringExceptionTransformer.class
+org\xcolab\service\utils\db\jooq\generator\XColabGeneratorStrategy.class
+org\xcolab\service\utils\ControllerUtils.class
+org\xcolab\service\utils\db\jooq\fulltext\FulltextCondition$1.class
+org\xcolab\service\utils\db\jooq\fulltext\FulltextField.class
+org\xcolab\service\utils\PaginationHelper.class
+org\xcolab\service\utils\db\jooq\fulltext\FulltextSearchModifier.class
+org\xcolab\service\utils\db\DataSourceUtil.class
+org\xcolab\service\utils\db\jooq\config\JooqConfiguration.class
+org\xcolab\service\utils\db\jooq\fulltext\FulltextCondition.class
+org\xcolab\service\utils\exceptions\IllegalRequestParameterException.class

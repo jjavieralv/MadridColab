@@ -1,0 +1,144 @@
+@import "../../lib/mixins";
+
+$c-ContestBox__metaFlag__capitalization: $b-Typography__capitalization--none !default;
+$c-ContestBox__metaFlag__boxShadow: 2px 2px 1px $t-Color__gray--dark-700 !default;
+$c-ContestBox__metaFlag--color__border: 1px solid $t-Color__secondary--light !default;
+$c-ContestBox__metaFlag__position: absolute !default;
+$c-ContestBox__metaFlag__padding: 0 15px !default;
+$c-ContestBox__metaFlag__textColor: white !default;
+$c-ContestBox__metaFlag__height: 30px !default;
+$c-ContestBox__metaFlag__fontSize: 15px !default;
+$c-ContestBox__metaFlag__marginTop: 0 !default;
+$c-ContestBox__metaFlag__isGradient: true !default;
+$c-ContestBox__metaFlag__background--color: $t-Color__secondary !default;
+$c-ContestBox__metaFlag__background--grey: $t-Color__gray--dark-600 !default;
+$c-ContestBox__metaFlag__fontWeight: $t-Typography__fontWeight !default;
+
+$c-ContestBox__title__textColor: $t-Color__primary !default;
+
+$c-ContestBox__background: white !default;
+$c-ContestBox__border: 4px solid $t-Color__tan !default;
+$c-ContestBox--hover__boxShadow: 0 0 10px #666 !default;
+
+.c-ContestBox {
+  @extend .card;
+
+  position: relative;
+  border: $c-ContestBox__border;
+  background: $c-ContestBox__background;
+
+  &:hover {
+    box-shadow: $c-ContestBox--hover__boxShadow;
+  }
+
+  //Double class name to increase specificity
+  &, .card-deck.card-deck & {
+    margin-bottom: 1.5rem;
+
+    @include media-breakpoint-up(sm) {
+      flex-direction: row;
+    }
+  }
+}
+
+.c-ContestBox__image {
+  align-self: center;
+  flex: 0 0 auto;
+  margin: .5rem;
+  > img {
+    border-radius: $t-Border__radius;
+  }
+}
+
+.c-ContestBox__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+}
+
+.c-ContestBox__text {
+  font-size: 1rem;
+  line-height: 1.3333;
+  color: $t-Color__gray--dark-700;
+}
+
+.c-ContestBox__title {
+  margin-bottom: .5rem;
+
+  a {
+    color: $c-ContestBox__title__textColor;
+  }
+
+  a:hover {
+    color: hover-color($c-ContestBox__title__textColor);
+    text-decoration: none;
+  }
+}
+
+.c-ContestBox__metaCount {
+  margin-top: .5rem;
+  color: $t-Color__gray--dark-600;
+}
+
+.c-ContestBox__metaFlag {
+  display: inline-block;
+  padding: $c-ContestBox__metaFlag__padding;
+  margin-top: $c-ContestBox__metaFlag__marginTop;
+
+  height: $c-ContestBox__metaFlag__height;
+  line-height: $c-ContestBox__metaFlag__height;
+
+  font-size: $c-ContestBox__metaFlag__fontSize;
+  font-weight: $c-ContestBox__metaFlag__fontWeight;
+  color: $c-ContestBox__metaFlag__textColor;
+  text-align: center;
+  text-transform: $c-ContestBox__metaFlag__capitalization;
+
+  box-shadow: $c-ContestBox__metaFlag__boxShadow;
+
+  @if $c-ContestBox__metaFlag__position != none {
+    position: $c-ContestBox__metaFlag__position;
+    top: 115px;
+    left: -20px;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 3px;
+      bottom: 3px;
+      right: 3px;
+    }
+  }
+}
+
+.c-ContestBox__metaFlag--color {
+  @if $c-ContestBox__metaFlag__isGradient {
+    @include background-gradient($c-ContestBox__metaFlag__background--color);
+  } @else {
+    background: $c-ContestBox__metaFlag__background--color;
+  }
+
+  @if $c-ContestBox__metaFlag__position != none {
+    &:after {
+      border: $c-ContestBox__metaFlag--color__border;
+      border-left: 0;
+    }
+  }
+}
+
+.c-ContestBox__metaFlag--grey {
+  @if $c-ContestBox__metaFlag__isGradient {
+    @include background-gradient($c-ContestBox__metaFlag__background--grey);
+  } @else {
+    background: $c-ContestBox__metaFlag__background--grey;
+  }
+
+  @if $c-ContestBox__metaFlag__position != none {
+    &:after {
+      border: 1px solid $t-Color__gray--medium-500;
+      border-left: 0;
+    }
+  }
+}

@@ -1,0 +1,4 @@
+org\xcolab\util\http\exceptions\translation\facebook\FacebookExceptionTranslatorTest.class
+org\xcolab\util\http\exceptions\translation\facebook\FacebookExceptionTranslatorTest$ContentTypeJsonHeaders.class
+org\xcolab\util\http\exceptions\translation\service\ServiceExceptionTranslatorTest$ServiceResponseHeaders.class
+org\xcolab\util\http\exceptions\translation\service\ServiceExceptionTranslatorTest.class

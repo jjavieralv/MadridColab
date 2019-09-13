@@ -1,0 +1,336 @@
+@import "bootstrap/variables";
+@import "bootstrap/mixins/caret";
+
+$p-proposal__header__h1__textColor: $b-Typography__textColor !default;
+$p-proposal__header__borderBottomColor: $t-Color__gray--dark-600 !default;
+$p-proposal__propbox__padding: 0 0 8px 14px !default;
+$p-proposal__propbox__h4__fontWeight: 700 !default;
+$p-proposal__propbox__titleAuthor__width: 632px !default;
+
+$p-proposal__votebox__shade__background: $t-Color__gray--medium-500 !default;
+$p-proposal__votebox__top__left: 5px !default;
+$p-proposal__votebox__marginTop: 0px !default;
+
+$p-proposal__left__h2__textColor: $t-Color__secondary !default;
+$p-proposal__left__h2__capitalization: $b-Typography__capitalization--none !default;
+$p-proposal__left__h2__fontWeight: initial !default;
+
+$p-Proposal__sidebar__sectionBackgroundColor: $t-Color__tan !default;
+$p-proposal__contest__padding--top--bottom: 12px !default;
+
+$p-proposal__history__item__textColor: $t-Color__primary !default;
+
+$p-proposal__propbox__judgementActions__featured__titleAuthor__width: 455px !default;
+$p-proposal__propbox__judgementActions__titleAuthor__width: 476px !default;
+
+$p-Proposal__sidebar__subscribe__capitalization: none !default;
+
+$p-Proposal__edit__button__backgroundColor: $t-Color__primary--darkest !default;
+
+$p-Proposal__propbox--red: $t-Color__alert !default;
+$p-Proposal__propbox--green: $t-Color__secondary--light !default;
+
+/* PROPOSALS ----------------------------------------------------------------------------- */
+
+/* proposal HEADER */
+.proposal-head {
+  margin-bottom: $t-Spacing__base;
+}
+
+.proposal-head h1 {
+  color: $p-proposal__header__h1__textColor;
+  font-size: 1.5rem;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 1.75rem;
+  }
+}
+
+/* edit proposal block */
+
+.lastedited {
+  float: left;
+  height: 19px;
+  font-size: 13px;
+}
+
+.prop-left h2 {
+  font-size: 27px;
+  color: $p-proposal__left__h2__textColor;
+  margin: 10px 0 16px;
+  text-align: justify;
+  text-transform: $p-proposal__left__h2__capitalization;
+  font-weight: $p-proposal__left__h2__fontWeight;
+}
+
+.prop-left h3 {
+  font-size: 22px;
+  margin-bottom: 13px;
+  color: $t-Color__gray--dark-800;
+}
+
+.prop-left p {
+  color: $t-Color__gray--dark-700;
+}
+
+/*  the Table-like rows of proposals */
+.propbox {
+  clear: both;
+  padding: $p-proposal__propbox__padding;
+  border-bottom: 1px solid $t-Color__tan;
+}
+
+.propbox.featured {
+  background: $t-Color__tan;
+  border-bottom: 1px solid $t-Color__gray--medium-500;
+}
+
+.propbox.top {
+  margin-top: -4px;
+}
+
+.propbox .row1 {
+  height: 38px;
+  padding-top: 7px;
+}
+
+.propbox .row2 {
+  font-size: 13px;
+  color: $t-Color__gray--dark-800;
+  clear: both;
+}
+
+.propbox .title-author {
+  float: left;
+  width: $p-proposal__propbox__titleAuthor__width;
+  margin-top: 12px;
+}
+
+.propbox.featured .title-author {
+  float: left;
+  width: 602px;
+  margin-top: 12px;
+}
+
+.propbox.completed .title-author {
+  width: 752px;
+}
+
+.propbox.featured.completed .title-author {
+  width: 722px;
+}
+
+.propbox h4 {
+  float: left;
+  display: inline;
+  font-weight: $p-proposal__propbox__h4__fontWeight;
+  color: $t-Color__gray--dark-800;
+}
+
+.propbox-red {
+  background-color: $p-Proposal__propbox--red !important;
+}
+
+.propbox-green {
+  background-color: $p-Proposal__propbox--green !important;
+}
+
+/* Proposal sidebar */
+
+.p-Proposal__sidebar__subscribe {
+  text-transform: $p-Proposal__sidebar__subscribe__capitalization;
+}
+
+.p-Proposal__sidebar__section {
+  padding: $t-Spacing__base * .5 $t-Spacing__base;
+  margin-top: $t-Spacing__base * .5;
+  font-size: 15px;
+
+  a {
+    font-weight: $t-Typography__fontWeight--bold;
+  }
+}
+
+.p-Proposal__sidebar__section--background {
+  background: $p-Proposal__sidebar__sectionBackgroundColor;
+  border-top: 1px solid $t-Color__gray--medium-500;
+  border-bottom: 1px solid $t-Color__gray--medium-500;
+}
+
+.p-Proposal__sidebar__heading {
+  font-size: .8125rem;
+  color: $t-Color__gray--dark-600;
+  border-top: 1px dotted $t-Color__gray--dark-600;
+  font-weight: $t-Typography__fontWeight--bold;
+  text-transform: uppercase;
+}
+
+/* contributors table */
+
+.contributors td {
+  color: $t-Color__gray--dark-700;
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+.contributors td.big {
+  padding-top: 12px;
+}
+
+.contributors td img {
+  margin-right: 12px;
+}
+
+.contributors tr.odd td {
+  background: $t-Color__tan;
+}
+
+.contributors tr.bottom td {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.p-Proposal__formBox__label {
+  display: flex;
+  flex-direction: row;
+
+  @extend .col-lg-2;
+  @extend .flex-lg-column;
+
+  @include media-breakpoint-down(md) {
+    justify-content: space-between;
+  }
+}
+
+.p-Proposal__formBox__main {
+  @extend .col-lg-10;
+}
+
+.p-Proposal__formBox__helpText {
+  @include caret(left);
+  &:after, &:before {
+    vertical-align: 0.1em;
+  }
+}
+
+.proposals #contactForm {
+  display: block;
+}
+
+.blue-arrow-right {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(/images/arrows.png) 18px 0;
+  vertical-align: top;
+}
+
+.blue-arrow-left {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(/images/arrows.png) 0 0;
+  vertical-align: top;
+}
+
+#proposalPickerTable td {
+  padding: 10px;
+}
+
+/* container */
+.thread-ribbon-container {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  overflow: hidden;
+  height: 120px;
+  padding-top: 15px;
+  line-height: normal;
+  font-size: 10px;
+  pointer-events: none;
+
+  > div {
+    background: $t-Color__primary;
+    padding: 3px;
+    width: 185px;
+    color: white;
+    position: relative;
+    right: -70px;
+    text-align: center;
+    transform: rotate(45deg);
+  }
+
+  //top corner
+  &:before {
+    content: '';
+    position: absolute;
+    left: 109px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $t-Color__primary--dark;
+  }
+
+  //bottom corner
+  &:after {
+    content: ' ';
+    position: absolute;
+    right: 0;
+    bottom: 53px;
+    width: 0;
+    height: 0;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-left: 5px solid $t-Color__primary--dark;
+  }
+}
+
+.ui-widget-content a {
+  color: $p-proposal__history__item__textColor;
+}
+
+.historyTable {
+  font-weight: $t-Typography__fontWeight--bold;
+}
+
+.historyTable td {
+  padding: 5px;
+}
+
+//TODO: does this really need to be different?
+#proposalPickerTable .ui-datatable-odd {
+  background-color: $t-Color__tan;
+}
+
+.historyTable .ui-datatable-highlighted a, .ui-datatable-highlight a {
+  color: $t-Color__secondary !important;
+}
+
+.historyTable table {
+  width: 617px;
+  margin-top: 10px;
+}
+
+.ui-datatable table {
+  width: auto;
+}
+
+.ui-widget-header {
+  background: none;
+}
+
+.propbox.judgement-actions.featured .title-author {
+  width: $p-proposal__propbox__judgementActions__featured__titleAuthor__width;
+}
+
+.propbox.judgement-actions .title-author {
+  width: $p-proposal__propbox__judgementActions__titleAuthor__width;
+}
+
+.p-Proposals__proposalPicker__scrollContainer {
+  height: 300px;
+  overflow: auto;
+  position: relative;
+}

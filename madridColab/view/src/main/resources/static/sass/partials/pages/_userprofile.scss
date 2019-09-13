@@ -1,0 +1,124 @@
+$p-userprofile__comm_rightcol-title2__height: 22px !default;
+
+.profilehelp {
+  background: url(/images/icon-addprop-arrow.png) no-repeat 0 3px;
+  float: right;
+  padding: 0 0 5px 11px;
+  color: $t-Color__gray--dark-700;
+}
+
+//TODO: replace
+.actionColumn {
+  width: 75px;
+  font-size: 12px;
+}
+
+.comm_rightcol-title2 {
+  text-transform: uppercase;
+  background: $t-Color__primary__gray--light;
+  padding: 10px 8px;
+  font-size: 12px;
+  line-height: normal;
+  font-weight: $t-Typography__fontWeight--bold;
+  color: yiq-contrasting-color($t-Color__primary__gray--light);
+  margin-bottom: 5px;
+}
+
+.comm_member {
+  margin: 20px 0 !important;
+}
+
+.profile_about-head {
+  font-weight: bold;
+  line-height: 44px;
+}
+
+.subscriptionSelect {
+  text-align: center !important;
+}
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle ~ label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round ~ label {
+  padding: 1px;
+  width: 60px;
+  height: 30px;
+  background-color: #dddddd;
+  border-radius: 30px;
+  margin-right: 10px;
+}
+
+input.cmn-toggle-round ~ label:before,
+input.cmn-toggle-round ~ label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+
+input.cmn-toggle-round ~ label:before {
+  right: 1px;
+  background-color: #f1f1f1;
+  border-radius: 30px;
+  transition: background 0.4s;
+}
+
+input.cmn-toggle-round ~ label:after {
+  width: 29px;
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: margin 0.4s;
+}
+
+input.cmn-toggle-round:checked ~ label:before {
+  background-color: $t-Color__primary;
+}
+
+input.cmn-toggle-round:checked ~ label:after {
+  margin-left: 30px;
+}
+
+.profileTable td {
+  padding: 3px;
+}
+
+.profileTable td.points_box {
+  border-color: $t-Color__primary;
+  border-width: 2px;
+  /*border is invisible unless border-style is set*/
+}
+
+.profileTable td.left_border {
+  border-left-style: solid;
+}
+
+.profileTable td.right_border {
+  border-right-style: solid;
+}
+
+.profileTable td.bottom_border {
+  border-bottom-style: solid;
+}
+
+.profileTable td.top_border {
+  border-top-style: solid;
+}
+
+td.align_right {
+  text-align: right;
+}

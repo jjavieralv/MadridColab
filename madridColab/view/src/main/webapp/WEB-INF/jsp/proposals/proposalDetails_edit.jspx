@@ -1,0 +1,427 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:proposalsPortlet="urn:jsptagdir:/WEB-INF/tags/proposalsPortlet"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout  title="${proposal.name} - Edit">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+    <!--@elvariable id="isMove" type="java.lang.Boolean"-->
+    <!--@elvariable id="hasUnmappedSections" type="java.lang.Boolean"-->
+    <!--@elvariable id="userTeams" type="java.util.List<org.xcolab.client.members.pojo.PlatformTeam>"-->
+    <!--@elvariable id="contestTosAccepted" type="java.lang.Boolean"-->
+
+    <jsp:directive.include file="./init_proposal.jspx"/>
+
+    <script>
+        var EXTERNAL_IMAGE_UPLOAD_URL = '${requestScope.imageUploadServiceUrl}';
+        var IMAGE_UPLOAD_HELP_TEXT = '${requestScope.imageUploadHelpText}';
+    </script>
+
+    <c:if test="${not empty baseProposal}">
+        <script>
+            var baseProposal = {
+                proposalId: ${baseProposal.id},
+                version: ${baseProposal.version}
+            }
+        </script>
+    </c:if>
+    <c:if test="${not empty baseContest}">
+        <script>
+            var baseContest = {
+                contestId: ${baseContest.id}
+            }
+        </script>
+    </c:if>
+
+    <script>
+        var contestTosAccepted = '${contestTosAccepted}' == 'true';
+    </script>
+
+    <jsp:directive.include file="./proposalDetails/header.jspx" />
+
+    <!--ProposalSectionsTabController-->
+    <c:if test="${isMove}">
+        <jsp:useBean id="baseProposal" scope="request" type="org.xcolab.client.proposals.pojo.Proposal"/>
+        <jsp:useBean id="baseContest" scope="request" type="org.xcolab.client.contest.pojo.Contest"/>
+    </c:if>
+
+    <div class="mb-3">
+        <c:choose>
+            <c:when test="${isMove }">
+                <p>
+                    You're about to move a ${fn:toLowerCase(contestType.proposalName)}
+                    <xcolab:proposalLink proposal="${baseProposal}" escape="true" />
+                    from ${contestType.contestName}
+                    <xcolab:contestLink contest="${baseContest}" />
+                    to ${contestType.contestName}
+                    <xcolab:contestLink contest="${contest}" />.
+                </p>
+            </c:when>
+            <c:when test="${not empty baseProposal}">
+                <p>
+                    You're about to create a ${fn:toLowerCase(contestType.proposalName)} that will be based on
+                    <xcolab:proposalLink proposal="${baseProposal}" escape="true" />.
+                </p>
+            </c:when>
+        </c:choose>
+        <p>
+            <c:if test="${showProposalEditHelpText}">
+                <spring:message code="contests.proposal.help"
+            arguments="${fn:toLowerCase(contestType.proposalName)},${contestType.rulesPageUrl},${contestType.rulesPageName}" />
+            </c:if>
+
+            <br/>
+                <spring:message code="contests.proposal.help.lostworkwarning" />
+        </p>
+
+    </div>
+
+
+    <form:form action="${saveUrl}" commandName="updateProposalDetailsBean"
+               id="editForm" cssClass="addpropform" >
+        <form:hidden path="baseProposalId" />
+        <form:hidden path="baseProposalContestId" />
+        <form:hidden path="isMove" />
+        <form:hidden path="moveType" />
+        <form:hidden path="moveFromContestPhaseId" />
+        <form:hidden path="moveToContestId" />
+        <form:hidden path="uuid" />
+
+        <div class="l-BoxLayout__stacked">
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__bodyRow">
+                    <label class="p-Proposal__formBox__label">
+                        <div>
+                            <strong class="required-field">
+                                <spring:message code="contests.proposal.sections.title" />
+                            </strong>
+                            <a class="ml-1" data-toggle="collapse" href="#js-Help__title">
+                                <collab:image src="/images/icon-addprop-question.png" width="15" height="15" />
+                            </a>
+                        </div>
+                        <div>
+                            <spring:message code="contests.proposal.sections.characterlimit" arguments="80"  />
+                        </div>
+                    </label>
+                    <div class="p-Proposal__formBox__main">
+                        <div class="p-Proposal__formBox__helpText collapse show" id="js-Help__title"><spring:message code="contests.proposal.sections.title.help" arguments="${fn:toLowerCase(contestType.proposalName)}"/></div>
+                        <form:input path="name" id="proposalName" cssClass="form-control" />
+                        <form:errors path="name" cssClass="alert alert-danger" />
+                        <div class="inputLimitContainer"><span class="limit_characterCount"><!--  --></span>/&#160;<span class="limit_charactersMax">80</span> <spring:message code="contests.characterlimit" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__bodyRow">
+                    <label class="p-Proposal__formBox__label">
+                        <div>
+                            <strong class="required-field">${contestType.pitchName}</strong>
+                            <a class="ml-1" data-toggle="collapse" href="#js-Help__pitch">
+                                <collab:image src="/images/icon-addprop-question.png" width="15" height="15" />
+                            </a>
+                        </div>
+                        <div>
+                            <spring:message code="contests.proposal.sections.characterlimit" arguments="140"  />
+                        </div>
+                    </label>
+                    <div class="p-Proposal__formBox__main">
+                        <div class="p-Proposal__formBox__helpText collapse show" id="js-Help__pitch"><spring:message code="contests.proposal.sections.pitch.help" arguments="${fn:toLowerCase(contestType.proposalName)}"/></div>
+                        <form:textarea path="pitch" id="proposalPitchInput" htmlEscape="false" cssClass="form-control" />
+                        <form:errors path="pitch" />
+                        <div class="inputLimitContainer">
+                            <span class="limit_characterCount"><!--  --></span>/&#160;<span class="limit_charactersMax">140</span> <spring:message code="contests.characterlimit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorPrimaryGrayLight ${contestType.showTeamField ? '' : 'd-none'}">
+                <div class="c-Box__bodyRow">
+                    <label class="p-Proposal__formBox__label">
+                        <div>
+                            <strong><spring:message code="contests.proposal.sections.team"/> </strong>
+                            <a class="ml-1" href="#js-Help__team" data-toggle="collapse">
+                                <collab:image src="/images/icon-addprop-question.png" width="15" height="15" />
+                            </a>
+                        </div>
+                        <div><em>optional</em></div>
+                        <div>
+                            <spring:message code="contests.proposal.sections.characterlimit" arguments="35" />
+                        </div>
+                    </label>
+                    <div class="p-Proposal__formBox__main">
+                        <div class="p-Proposal__formBox__helpText collapse show" id="js-Help__team"><spring:message code="contests.proposal.sections.team.help" arguments="${fn:toLowerCase(contestType.proposalName)}"/></div>
+                        <form:input path="team" id="proposalTeam" cssClass="form-control" />
+                        <form:errors path="team" />
+
+                        <div class="inputLimitContainer"><span class="limit_characterCount"><!--  --></span>/&#160;<span class="limit_charactersMax">35</span> <spring:message code="contests.characterlimit" /></div>
+                        <div class="text-muted"><spring:message code="contests.proposal.sections.team.footnote" arguments="${fn:toLowerCase(contestType.proposalName)}"/></div>
+
+                        <c:if test="${userTeams.size() > 0}">
+                            <div class="p-Proposal__formBox__helpText"><spring:message code="contests.proposal.sections.team.selector" /></div>
+
+                            <form:select path="selectedTeam" items="${userTeams}" itemLabel="name" itemValue="id" />
+                            <form:errors path="selectedTeam" />
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+
+            <c:if test="${showImageUpload}">
+                <div class="c-Box c-Box--colorPrimaryGrayLight">
+                    <div class="c-Box__bodyRow">
+                        <label class="p-Proposal__formBox__label">
+                            <span>
+                                <strong><spring:message code="contests.proposal.sections.image.title" arguments="${contestType.proposalName}" /></strong><br />
+                            </span>
+                        </label>
+                        <div class="p-Proposal__formBox__main">
+                            <form:hidden path="imageId" id="proposalImageId" />
+                            <xcolab:imageUpload uniqueName="proposalImageUpload" imageIdInput="proposalImageId"
+                                                compactView="true" defaultImageId="${contest.defaultProposalLogoId}"
+                                                clearImageId="${contest.defaultProposalLogoId}" defaultImage="PROPOSAL" buttonText="Upload an image" />
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+
+            <!-- legacy for old proposals-->
+            <c:if test="${fn:length(proposal.description) gt 0}">
+                <div class="c-Box c-Box--colorTan">
+                    <div class="c-Box__bodyRow">
+                        <label class="p-Proposal__formBox__label">
+                            <strong><spring:message code="contests.proposal.sections.legacy.description" /></strong>
+                        </label>
+
+                        <div class="p-Proposal__formBox__main">
+                            <form:textarea cssClass="rte-editorPlaceholder"  cols="54" rows="7" path="description" />
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+
+            <c:forEach var="section" items="${proposal.sections }">
+                <c:if test="${not section.locked }">
+                    <c:choose>
+                        <c:when test="${section.typeEnum == 'SECTION_HEADER' }">
+                            <h4>${section.title}</h4>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="c-Box ${section.typeEnum.name().startsWith('PROPOSAL_') ? 'c-Box--colorPrimaryGrayLight' : 'c-Box--colorTan'} ${section.type}" data-section-id="${section.sectionDefinitionId }">
+                                <div class="c-Box__bodyRow">
+                                    <proposalsPortlet:proposalSectionEdit section="${section }" showCopySectionContentButton="${hasUnmappedSections and not empty baseProposal }"/>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:forEach>
+        </div>
+    </form:form>
+
+    <c:set var="acceptTosModalTitle">
+        <spring:message code="contests.proposal.modal.tos"
+        arguments="${fn:toLowerCase(contestType.proposalName)}, ${_themeContext.colabName}, ${contestType.contestName}, ${contestType.rulesPageUrl}, ${contestType.rulesPageName}"
+        />
+    </c:set>
+    <xcolab:modal modalId="acceptTosModal" title="${acceptTosModalTitle}">
+        <div class="modal-body">
+            <h5>${fn:toUpperCase(contestType.rulesPageName)}:</h5>
+            <div class="c-Scrollable c-Scrollable--visibleScrollbar" style="height:260px;">
+                ${preferences.termsOfService}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="tosAccepted"><spring:message code="contests.buttons.accept" /></button>
+            <button class="btn btn-gray" id="closeAcceptTos"><spring:message code="contests.buttons.reject" /></button>
+        </div>
+    </xcolab:modal>
+
+    <xcolab:modal modalId="invalidFieldsModal" size="sm"
+                  title="The following sections have too many characters:">
+        <div class="modal-body">
+            <ul id="invalidFieldsList"><!--  --></ul>
+        </div>
+        <div class="modal-footer">
+            <button type="close" data-dismiss="modal" class="btn btn-gray"><spring:message code="contests.buttons.close"/></button>
+        </div>
+    </xcolab:modal>
+
+    <div class="c-ControlsOverlay">
+        <div class="container cb-d-flex-between-center">
+            <div class="d-none d-lg-block">
+                <spring:message code="contests.proposal.help.savereminder"/>
+                <c:if test="${not empty saveHelpText}">
+                    ${saveHelpText}
+                </c:if>
+            </div>
+
+            <div>
+                <button class="btn btn-primary" type="button" id="saveChangesButton">
+                    ${saveButtonText}
+                </button>
+                <c:choose>
+                    <c:when test="${proposal.currentVersion > 0 }">
+                        <xcolab:proposalLink proposal="${proposal}" cssClass="btn btn-gray ml-2"
+                                             linkId="discardChangesButton" text="DISCARD changes" edit="false" />
+                    </c:when>
+                    <c:otherwise>
+                        <!--  proposal creation, return to contest proposals page on discard -->
+                        <xcolab:contestLink contest="${contest}" cssClass="btn btn-gray ml-2"
+                                            linkId="discardChangesButton" text="DISCARD changes" />
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
+    </div>
+    <div id="ckImageUploadTooltip" style="display: none">
+        ${requestScope.imageUploadHelpText}
+    </div>
+    <div id="ckAnchorTooltip" style="display: none">
+        <h4><spring:message code="contests.proposal.anchortooltip.title" /></h4>
+        <h5><spring:message code="contests.proposal.anchortooltip.subtitle" /></h5>
+        <br/>
+        <spring:message code="contests.proposal.anchortooltip.description"
+            arguments="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.6.1/plugins/icons_hidpi.png?t=GB8B"/>
+    </div>
+    <iframe name="_fileUploadFrame" id="fileUploadFrame" class="hidden" style="display: none;"><!-- comment --></iframe>
+
+    <c:set var="acceptTosNotificationText">
+        <spring:message code="contests.proposal.termsofservice.notification" arguments="${contestType.proposalName},${_themeContext.colabName},${contestType.contestName},${contestType.proposalName}" />
+    </c:set>
+    <c:set var="proposalPitchNotificationText">
+        <spring:message code="contests.proposal.sections.pitch.notification" />
+    </c:set>
+    <c:set var="proposalTitleNotificationText">
+        <spring:message code="contests.proposal.sections.title.notification" />
+    </c:set>
+    <c:set var="acceptButtonText">
+        <spring:message code="contests.buttons.accept" />
+    </c:set>
+
+    <script>
+        var acceptTosNotificationText = '${acceptTosNotificationText}';
+        var proposalPitchNotificationText = '${proposalPitchNotificationText}';
+        var proposalTitleNotificationText = '${proposalTitleNotificationText}';
+        var acceptButtonText = '${acceptButtonText}';
+
+        var submitted = false;
+
+        function showTosPopup() {
+            jQuery('#acceptTosModal').modal('show');
+            jQuery("#closeAcceptTos").click(closeTosPopup);
+            jQuery("#tosAccepted").click(tosAcceptedSave);
+
+            jQuery('#acceptTosModal').on('hidden.bs.modal', function (event) {
+                if (!submitted) {
+                    enableButtons();
+                }
+            });
+        }
+
+        function closeTosPopup() {
+            jQuery('#acceptTosModal').modal('hide');
+            noty({
+                text: acceptTosNotificationText,
+                buttons: [
+                    {
+                        addClass: 'btn btn-primary',
+                        text: acceptButtonText,
+                        onClick: function ($noty) {
+                            tosAcceptedSave();
+                            $noty.close();
+                        }
+                    }],
+                type: 'error'
+            });
+            enableButtons();
+        }
+
+        function tosAcceptedSave() {
+            jQuery('#acceptTosModal').modal('hide');
+            disableButtons();
+            saveIfValid();
+        }
+
+        function saveIfValid() {
+            if (jQuery("#proposalPitchInput").length == 1) {
+                if (jQuery("#proposalPitchInput").val() == 0) {
+                    noty({text: proposalPitchNotificationText, type: 'error', timeout: 10000,});
+                    jQuery("#proposalPitchInput").focus();
+                    enableButtons();
+                    return;
+                }
+            }
+            if (jQuery("#proposalName").length == 1) {
+                if (jQuery("#proposalName").val() == 0) {
+                    noty({text: proposalTitleNotificationText, type: 'error', timeout: 10000,});
+                    jQuery("#proposalName").focus();
+                    enableButtons();
+                    return;
+                }
+            }
+            if (validatePlanEditForm()) {
+                disableDirtyCheck();
+                submitted = true;
+                jQuery("#editForm").submit();
+            }
+        }
+
+        jQuery(function () {
+            enableButtons();
+            enableDirtyCheck();
+        });
+
+        function enableButtons() {
+            jQuery("#saveChangesButton,#discardChangesButton").removeClass("disabled");
+            jQuery("#saveChangesButton").click(function () {
+                disableButtons();
+                if (currentProposal.id > 0) {
+                    saveIfValid();
+                } else {
+                    if (!contestTosAccepted) {
+                        showTosPopup();
+                    } else {
+                        saveIfValid();
+                    }
+                }
+            });
+        }
+
+        function disableButtons() {
+            jQuery("#saveChangesButton,#discardChangesButton").addClass("disabled");
+            jQuery("#saveChangesButton").off('click');
+        }
+    </script>
+
+    <xcolab:modal modalId="copyProposalModal" size="lg"
+                  title="Choose section from base ${contestType.proposalNameLowercase}, which content you want to copy">
+        <div class="modal-body">
+            <div id="copyProposalPopupContent" style="overflow: auto; height: 50vh">
+                <div id="copyProposalContests"><!--  --></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="close" data-dismiss="modal" class="btn btn-gray">Cancel</button>
+        </div>
+    </xcolab:modal>
+
+    <xcolab:requireLibrary name="CKEditor" />
+
+    <c:if test="${isMove}">
+        <collab:script src="/js/proposals/copyProposalWidget.js"/>
+    </c:if>
+
+    <c:if test="${hasProposalPicker}">
+        <jsp:directive.include file="./proposalDetails/proposalPicker_widget.jspx" />
+    </c:if>
+</xcolab:layout>
+</jsp:root>

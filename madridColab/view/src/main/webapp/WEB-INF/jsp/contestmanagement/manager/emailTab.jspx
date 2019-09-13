@@ -1,0 +1,138 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <!--@elvariable id="templateType" type="java.lang.String"-->
+    <!--@elvariable id="emailTemplateWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.EmailTemplateWrapper"-->
+    <!--@elvariable id="templateSelectionItems" type="java.util.List<org.xcolab.commons.html.LabelStringValue>"-->
+
+    <jsp:directive.include file="../init.jspx"/>
+    <jsp:directive.include file="./header.jspx"/>
+
+    <c:set var="changeElementUrl" value="/admin/contest/manager/tab/EMAIL_TEMPLATES?elementId=" />
+    <c:set var="createEmailTemplateUrl" value="/admin/contest/manager/tab/EMAIL_TEMPLATES/create" />
+    <c:set var="updateEmailTemplateUrl" value="/admin/contest/manager/tab/EMAIL_TEMPLATES/update" />
+    <c:set var="deleteEmailTemplateUrl" value="/admin/contest/manager/tab/EMAIL_TEMPLATES/delete/${emailTemplateWrapper.type}" />
+
+    <form:form action="" id="deleteTemplateForm" method="post" style="visibility: hidden;">
+        <!-- -->
+    </form:form>
+
+    <form:form action="${createEmailTemplateUrl}" id="createTemplateForm" method="post" style="visibility: hidden;">
+        <!-- -->
+    </form:form>
+
+    <div class="c-ContentBox">
+        <div class="text-right cb-btn-spacer">
+            <a class="btn btn-primary" href="#" onclick="saveExistingTemplate()">SAVE template</a>
+            <!--<a class="btn btn-primary" href="#" onclick="saveAsNewTemplate()">SAVE as new template</a>-->
+            <!--<a class="btn btn-primary" href="#" onclick="submitCreateTemplateForm()">CREATE new template</a>-->
+            <!--<a class="btn btn-outline-danger" href="#" onclick="submitDeleteTemplateForm()">DELETE template</a>-->
+        </div>
+    </div>
+
+    <div class="c-ContentBox l-BoxLayout__stacked">
+        <form:errors cssClass="alert alert-danger" element="div" path="*"/>
+
+        <div class="c-Box c-Box--colorTan">
+            <form:form commandName="emailTemplateWrapper">
+                <div class="c-Box__body">
+                    <label for="changeEmailTemplateSelect">
+                        <b>Email template:</b>
+                    </label>
+
+                    <form:select path="type" id="changeEmailTemplateSelect" cssClass="form-control">
+                        <form:options items="${templateSelectionItems}"
+                                      itemValue="value" itemLabel="lable" />
+                    </form:select>
+                </div>
+            </form:form>
+        </div>
+
+        <form:form action="${updateEmailTemplateUrl }" commandName="emailTemplateWrapper"
+                   id="editForm" method="post" class="mt-3">
+
+            <form:hidden path="createNew" id="createNewFlag"/>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong class="inputTitleLeft">Template type:</strong>
+                    <form:input id="type" path="type"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                disabled="disabled" />
+                    <form:errors cssClass="invalid-feedback" path="type" />
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong class="inputTitleLeft">Subject:</strong>
+                    <form:input id="subject" path="subject"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="subject" />
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong class="inputTitleLeft">Content:</strong>
+                    <form:textarea path="content" cssClass="form-control"/>
+                    <form:errors cssClass="invalid-feedback" path="content"/>
+                </div>
+            </div>
+
+            <div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong class="inputTitleLeft">Footer:</strong>
+                    <form:input id="footer" path="footer"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="footer" />
+                </div>
+            </div>
+
+        </form:form>
+    </div>
+
+    <script>
+        <![CDATA[
+
+        jQuery(function () {
+            bindTemplateSelectChange();
+        });
+
+        function bindTemplateSelectChange() {
+
+            var dropDownElement = document.getElementById("changeEmailTemplateSelect");
+
+            dropDownElement.addEventListener("change", function (ev) {
+                var templateName = ev.target.value;
+                window.location = "${changeElementUrl}" + templateName;
+            })
+        }
+
+        function saveExistingTemplate() {
+            document.getElementById('createNewFlag').value = false;
+
+            document.getElementById('editForm').submit();
+        }
+
+        function saveAsNewTemplate() {
+            document.getElementById('createNewFlag').value = true;
+
+            document.getElementById('editForm').submit();
+        }
+
+        function submitCreateTemplateForm() {
+            document.getElementById('createTemplateForm').submit();
+        }
+
+        function submitDeleteTemplateForm() {
+            document.getElementById('deleteTemplateForm').submit();
+        }
+
+        ]]>
+    </script>
+</xcolab:layout>
+</jsp:root>

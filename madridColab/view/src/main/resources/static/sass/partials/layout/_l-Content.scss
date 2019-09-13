@@ -1,0 +1,71 @@
+@import "bootstrap/variables";
+@import "bootstrap/mixins/breakpoints";
+
+//Local vars
+$_l-Content__margin: $t-Spacing__base * .5;
+$_l-Content__gutter: $t-Spacing__gridGutter;
+
+.l-Content {
+  display: flex;
+  flex-direction: column;
+}
+
+%l-Content__element {
+  margin: $_l-Content__margin 0;
+}
+
+.l-Content__main {
+  @extend %l-Content__element;
+  flex: 1 1 auto;
+}
+
+.l-Content__sidebar {
+  @extend %l-Content__element;
+
+  order: -1;
+  flex-grow: 1;
+}
+
+.l-Content__sidebar--collapseBottom {
+  order: 99;
+}
+
+// Mixin to contain the rules for an expanded sidebar
+@mixin expanded-sidebar {
+  flex-direction: row;
+
+  .l-Content__sidebar--small {
+    flex-basis: 250px;
+  }
+
+  .l-Content__sidebar--smallest {
+    flex-basis: 200px;
+  }
+
+  .l-Content__sidebar--large {
+    flex-basis: 350px;
+  }
+
+  .l-Content__sidebar--right {
+    margin-left: $_l-Content__gutter;
+    margin-right: 0;
+    order: 99;
+  }
+
+  .l-Content__sidebar {
+    margin-right: $_l-Content__gutter;
+    flex: 0 0 300px;
+  }
+}
+
+// Apply expand rules at different breakpoints
+@include media-breakpoint-up(md) {
+  .l-Content:not(.l-Content--break-early) {
+    @include expanded-sidebar;
+  }
+}
+@include media-breakpoint-up(lg) {
+  .l-Content.l-Content--break-early {
+    @include expanded-sidebar;
+  }
+}

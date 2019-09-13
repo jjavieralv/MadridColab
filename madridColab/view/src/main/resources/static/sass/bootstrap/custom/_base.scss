@@ -1,0 +1,14 @@
+@import "../../lib/mixins";
+@import "bootstrap/mixins/breakpoints";
+
+//TODO: remove deprecated selector
+//@Deprecated - still used in content articles
+.cb-container-fixed {
+  @extend .container;
+}
+
+// To reset our default list style
+ol.breadcrumb li,
+ul.pagination li{
+  margin-left: 0;
+}

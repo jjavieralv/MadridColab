@@ -1,0 +1,119 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+>
+
+	<ol class="breadcrumb">
+
+  		<li><a href="javascript:window.history.back()">Back</a></li>
+  		<li class="active">Add/Edit text</li>
+		</ol>
+	<h1>
+		<c:choose>
+			<c:when test="${empty balloonText }">
+				Add new balloon text
+			</c:when>
+			<c:otherwise>
+				Edit ${balloonText.name }
+			</c:otherwise>
+		</c:choose>
+	</h1>
+	
+	<c:set var="addEditBalloonTextUrl" value="/redballoon/addEditBalloonText" />
+	
+	<form:form action="${addEditBalloonTextUrl }" modelAttribute="addEditBalloonText">
+		<input type="hidden" name="action" value="addEditBalloonText" />
+		<input type="hidden" name="balloonTextId" value="${addEditBalloonText.balloonTextId }" />
+		<div class="control-group">
+    		<div class="controls">
+      			<label>
+        			<form:checkbox path="enabled" /> Enabled
+				</label>
+    		</div>
+		</div>
+	  <div class="form-group">
+    	<label for="balloonTextName">Name</label>
+    	<form:input class="form-control" id="balloonTextName" placeholder="Enter name" path="name" />
+  	  </div>
+  	  
+  	<div class="form-group">
+    	<label for="balloonAcceptTosText">Terms of service text</label>
+    	<form:textarea class="form-control" id="balloonAcceptTosText" path="acceptTosText" />
+  	</div>
+  	<div class="form-group ckeditorContainer">
+    	<label for="balloonTextTextBeforeForm">Text before form requesting email address</label>
+    	<form:textarea class="form-control hidden" id="balloonTextTextBeforeForm" path="textBeforeForm" />
+  	</div>
+  	  <div class="form-group ckeditorContainer">
+    	<label for="balloonTextTextBeforeForm">Text after form requesting email address</label>
+
+    	<form:textarea class="form-control hidden" id="balloonTextTextAfterForm" path="textAfterForm" />
+  	</div>
+  	<div class="form-group ckeditorContainer">
+    	<label for="balloonTextTextBeforeForm">Text before share buttons</label>
+    	<form:textarea class="form-control hidden" id="balloonTextTextBeforeShareButtons" path="textBeforeShareButtons" />
+  	</div>
+  	  <div class="form-group ckeditorContainer">
+    	<label for="balloonTextTextBeforeForm">Text after share buttons</label>
+
+    	<form:textarea class="form-control hidden" id="balloonTextTextAfterShareButtons" path="textAfterShareButtons" />
+  	</div>
+  	
+  	<div class="form-group">
+    	<label for="balloonTextEmailSubjectTemplate">Subject for email that is sent to the user after registration</label>
+    	<form:textarea class="form-control" id="balloonTextEmailSubjectTemplate" path="emailSubjectTemplate" />
+  	</div>
+  	
+  	
+  	<div class="form-group">
+    	<label for="facebookPageTitle">Facebook - page title</label>
+    	<form:input class="form-control" id="facebookPageTitle" path="facebookTitle" />
+  	</div>
+  	
+  	<div class="form-group">
+    	<label for="facebookPageDescription">Facebook - page description</label>
+    	<form:textarea class="form-control" id="facebookPageDescription" path="facebookDescription" />
+  	</div>
+  	
+  	<div class="form-group">
+    	<label for="twitterTitle">Twitter - page title</label>
+    	<form:input class="form-control" id="twitterPageTitle" path="twitterTitle" />
+  	</div>
+  	
+  	<div class="form-group">
+    	<label for="twitterDscription">Twitter - page description</label>
+    	<form:textarea class="form-control" id="twitterPageDescription" path="twitterDescription" />
+  	</div>
+  	
+  	<div class="form-group ckeditorContainer">
+    	<label for="balloonTextTextBeforeForm">Email that is sent to the user after registration</label>
+       <p><strong>URLPLACEHOLDER</strong> will be replaced with the users link.<br/></p>
+
+    	<form:textarea class="form-control hidden" id="balloonTextEmailTemplate" path="emailTemplate" />
+  	</div>
+  <button type="submit" class="btn btn-default">Submit</button>
+  
+  
+	
+	
+	</form:form>
+	
+    <script>
+    	function initEditor(dataContainerId) {
+    		var dataContainer = $(dataContainerId);
+    		var val = dataContainer.val();
+    		dataContainer.remove();
+    	    
+    		return val;
+    	}    
+
+        
+    </script>
+	
+	
+	
+	
+</jsp:root>

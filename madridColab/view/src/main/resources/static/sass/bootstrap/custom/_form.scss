@@ -1,0 +1,71 @@
+@import "../../variables/t-base";
+
+//TODO COLAB-2576: This might no longer be necessary
+.cb-form-control-inline {
+
+  @media (min-width: 768px) {
+    &.form-control {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
+
+    &.cb-form-control-xs {
+      width: 50px;
+    }
+
+    &.cb-form-control-sm {
+      width: 200px;
+    }
+
+    &.cb-form-control-md {
+      width: 300px;
+    }
+
+    &.cb-form-control-lg {
+      width: 400px;
+    }
+  }
+}
+
+.form-control.cb-form-has-error {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+
+  &:focus {
+    border-color: #843534;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+  }
+}
+
+//=
+//Form grid
+.form-row ~ .form-row {
+  margin-top: $t-Spacing__base;
+}
+
+.cb-form-col-label {
+  @extend .col-12, .col-lg-3, .col-xl-2;
+  font-weight: $t-Typography__fontWeight--bold;
+  display: flex;
+  align-items: center;
+}
+
+.cb-form-col-input {
+  @extend .col-12, .col-lg;
+}
+
+
+//workaround to override legacy input and label rules
+.checkbox {
+  label {
+    float: none !important;
+    width: initial !important;
+  }
+
+  input[type=checkbox] {
+    float: none !important;
+    height: initial !important;
+    width: initial !important;
+  }
+}

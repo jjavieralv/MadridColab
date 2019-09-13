@@ -1,0 +1,13 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page">
+
+	<!--@elvariable id="newContestLink" type="java.lang.String"-->
+
+	<jsp:directive.include file="../init.jspx" />
+
+    <div class="content">
+        <h1>Congratulations!</h1>
+        <br /><br />
+        <a href="${newContestLink}">Click here to start editing!</a>
+    </div>
+
+</jsp:root>

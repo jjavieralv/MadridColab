@@ -1,0 +1,644 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout title="Edit Profile">
+    <jsp:directive.include file="./init.jspx" />
+
+    <!--@elvariable id="userBean" type="org.xcolab.view.pages.profile.beans.UserBean"-->
+    <!--@elvariable id="permissions" type="org.xcolab.view.pages.profile.utils.UserProfilePermissions"-->
+    <!--@elvariable id="currentUserProfile" type="org.xcolab.view.pages.profile.wrappers.UserProfileWrapper"-->
+    <!--@elvariable id="memberCategories" type="java.util.List<org.xcolab.client.members.pojo.MemberCategory>"-->
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+	<c:if test="${updateError}">
+		<script>
+			updateError();
+		</script>
+	</c:if>
+
+    <c:if test="${imageSizeError}">
+        <script>
+            imageSizeError();
+        </script>
+    </c:if>
+
+	<c:set var="unlinkFacebookSSO" value="/members/profile/${userBean.userId}/api/sso/facebook/unlink" />
+    <c:set var="unlinkGoogleSSO" value="/members/profile/${userBean.userId}/api/sso/google/unlink" />
+
+	<c:set var="updateUserSendEmailOnMessageSettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateEmailOnMessage" />
+	<c:set var="updateUserSendEmailOnActivitySettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateEmailOnActivity" />
+	<c:set var="updateUserSendDailyEmailOnActivitySettings" value="/members/profile/${userBean.userId}/api/settings/messaging/updateDailyEmail" />
+
+	<c:set var="newsletterSubscribe" value="/members/profile/${userBean.userId}/api/settings/newsletter/subscribe" />
+	<c:set var="newsletterUnSubscribe" value="/members/profile/${userBean.userId}/api/settings/newsletter/subscribe" />
+
+	<c:set var="updateUserProfileForm" value="/members/profile/${userBean.userId}/edit" />
+
+    <c:set var="deleteProfileUrl" value="/members/profile/${userBean.userId}/delete" />
+    <c:set var="deleteAndAnonymizeProfileUrl" value="/members/profile/${userBean.userId}/delete?anonymize=true" />
+
+
+    <h1><spring:message code="profile.title.edit" /></h1>
+	<div class="text-muted">
+		<em>
+            <span class="required-field"><!-- --></span> <spring:message code="profile.validation.mandatory" />.
+        </em>
+	</div>
+
+	<form:form autocomplete="off" id="updateUserProfileForm" cssClass="l-Content"
+			   action="${updateUserProfileForm}" commandName="userBean" method="post">
+        <c:if test="${not _themeContext.i18NVariables.isI18NActive}">
+            <form:hidden path="defaultLocale" />
+        </c:if>
+		<div class="l-Content__main">
+            <form:hidden path="userId"/>
+            <form:hidden path="screenName" autocomplete="username"/>
+
+			<form:errors cssClass="alert alert-danger" element="div" path="*" htmlEscape="false" />
+
+            <div class="row mb-2">
+                <div class="col-4 col-md-5 col-lg-3">
+                    <form:hidden id="userPortraitInput" path="imageId" />
+                    <xcolab:imageUpload uniqueName="userPortraitUpload" imageIdInput="userPortraitInput"
+                                        defaultImage="MEMBER" />
+                </div>
+                <div class="col-12 col-sm-8 col-md-7 col-lg-9">
+                    <div class="form-row">
+                        <div class="cb-form-col-label required-field">
+                            <spring:message code="profile.form.fields.firstname"/>
+                        </div>
+                        <div class="col">
+                            <form:input id="firstName" path="firstName"
+                                        cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                        autocomplete="given-name" />
+                            <form:errors cssClass="invalid-feedback" path="firstName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="cb-form-col-label required-field">
+                            <spring:message code="profile.form.fields.lastname"/>
+                        </div>
+                        <div class="col">
+                            <form:input id="lastName" path="lastName"
+                                        cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                        autocomplete="family-name" />
+                            <form:errors cssClass="invalid-feedback" path="lastName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="cb-form-col-label required-field">
+                            <spring:message code="profile.form.fields.country"/>
+                        </div>
+                        <div class="col">
+                            <form:select cssClass="form-control" cssErrorClass="form-control is-invalid" path="countryCode" autocomplete="country">
+                                <form:option value="" label="Select country"/>
+                                <form:options items="${countrySelectItems}" itemValue="value" itemLabel="lable"/>
+                            </form:select>
+                            <form:errors cssClass="invalid-feedback" path="countryCode" />
+                        </div>
+                    </div>
+                    <c:if test="${isI18NActive}">
+                        <div class="form-row">
+                            <div class="cb-form-col-label required-field">
+                                <spring:message code="profile.form.fields.language"/>
+                            </div>
+                            <div class="col">
+                                <form:select cssClass="form-control" cssErrorClass="form-control is-invalid" path="defaultLocale" autocomplete="language">
+                                    <form:option value="" label="Select language"/>
+                                    <c:forEach var="lang" items="${_themeContext.i18NVariables.languageSelectItems}">
+                                        <form:option value="${lang['value']}" >
+                                            <spring:message code="${lang['lable']}"/>
+                                        </form:option>
+                                    </c:forEach>
+                                </form:select>
+                                <form:errors cssClass="invalid-feedback" path="countryCode" />
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="cb-form-col-label">
+                    <spring:message code="profile.form.fields.email"/>
+                </div>
+                <div class="col">
+                    <form:input id="emailStored" cssClass="form-control" path="emailStored" readonly="true"/>
+                </div>
+            </div>
+            <div class="form-row" id="EmailRow">
+                <div class="cb-form-col-label">
+                    <spring:message code="profile.form.fields.newemail"/>
+                </div>
+                <div class="col">
+                    <form:input id="email" path="email"
+                                cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                    <form:errors cssClass="invalid-feedback" path="email" />
+                </div>
+            </div>
+
+            <c:if test="${not empty currentUserProfile.user.loginTokenId}">
+                <div class="form-row">
+                    <div class="cb-form-col-label">
+                        <spring:message code="profile.form.fields.newlink"/>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" onclick="sendNewLoginLink()">
+                            <spring:message code="profile.form.button.sendlink"/>
+                        </button>
+                    </div>
+                </div>
+            </c:if>
+
+            <c:choose>
+                <c:when test="${currentUserProfile.viewingOwnProfile and empty currentUserProfile.user.hashedPassword}">
+                    <xcolab:requireLibrary name="forgotPasswordModal"/>
+                    <!-- User has no password yet - allow sending reset link -->
+                    <div class="form-row">
+                        <div class="cb-form-col-label">
+                            <spring:message code="profile.form.fields.newpassword"/>
+                        </div>
+                        <div class="col">
+                            <button type="button" data-toggle="modal" data-target="#forgotPasswordModal" class="btn btn-primary">
+                                <spring:message code="profile.form.button.setpassword"/>
+                            </button>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="form-row">
+                        <div class="cb-form-col-label">
+                            <spring:message code="profile.form.fields.password"/>
+                        </div>
+                        <div class="col">
+                            <form:password id="currentPassword" path="currentPassword" cssClass="form-control" cssErrorClass="form-control is-invalid" autocomplete="current-password" />
+                            <form:errors cssClass="invalid-feedback" path="currentPassword" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="cb-form-col-label">
+                            <spring:message code="profile.form.fields.newpassword"/>
+                        </div>
+                        <div class="col">
+                            <form:password id="password" path="password" cssClass="form-control" cssErrorClass="form-control is-invalid" autocomplete="new-password" />
+                            <form:errors cssClass="invalid-feedback" path="password" />
+                        </div>
+                    </div>
+                    <div class="form-row" id="retypePasswordRow" style="${passwordError ? '' : 'display: none;'}">
+                        <div class="cb-form-col-label required-field">
+                            <spring:message code="profile.form.fields.retypepassword"/>
+                        </div>
+                        <div class="col">
+                            <form:password id="retypePassword" path="retypePassword" cssClass="form-control" cssErrorClass="form-control is-invalid" autocomplete="new-password" />
+                            <form:errors cssClass="invalid-feedback" path="retypePassword" />
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${permissions.canAdmin}">
+                <button type="button" class="btn btn-link js-EnhancedLink" data-method="post"
+                        data-url="/impersonate?userId=${currentUserProfile.userId}">
+                    Impersonate ${userBean.firstName}
+                </button>
+            </c:if>
+
+            <div class="profile_about-head"><spring:message code="profile.form.fields.shortbio"/></div>
+            <div>
+                <form:textarea
+                    cssClass="rte-editorPlaceholder form-control"
+                    cssErrorClass="form-control is-invalid" path="shortBio" />
+                <form:errors cssClass="invalid-feedback" path="shortBio" />
+                <div class="inputLimitContainer" style="margin-top: 10px; float:right; ">
+                    <span class="limit_characterCount"><!--  --></span>/&#160;
+                    <span class="limit_charactersMax">2000</span> characters
+                </div>
+                <div class="clearfix">&#160;</div>
+            </div>
+
+            <a class="btn btn-primary" href="javascript:;" onclick="updateTextarea();jQuery('#updateUserProfileForm').submit();">
+                <spring:message code="profile.form.button.save"/>
+            </a>
+            <a class="btn btn-gray ml-2" href="/members/profile/${currentUserProfile.userId}">
+                <spring:message code="profile.form.button.cancel"/>
+            </a>
+        </div>
+
+        <div class="l-Content__sidebar l-Content__sidebar--right l-Content__sidebar--small l-Content__sidebar--collapseBottom">
+            <div>
+                <div class="comm_rightcol-title2"><spring:message code="profile.message.settings.title"/></div>
+                <table border="0" cellpadding="0" cellspacing="0" class="colab">
+                    <tr class="colabRow">
+                        <td class="actionColumn">
+                            <form:checkbox id="sendEmailOnMessage" cssClass="cmn-toggle cmn-toggle-round"
+                                           path="sendEmailOnMessage" onchange="updateUserSendEmailOnMessageSettings(this)"/>
+                            <form:label path="sendEmailOnMessage"/>
+                        </td>
+                        <td class="profile_settings">
+                            <spring:message code="profile.message.settings.emailreceive"/>
+                        </td>
+                    </tr>
+                    <tr class="colabRow">
+                        <td class="actionColumn">
+                            <form:checkbox id="sendEmailOnActivity" cssClass="cmn-toggle cmn-toggle-round"
+                                           path="sendEmailOnActivity" onchange="updateUserSendEmailOnActivitySettings(this)"/>
+                            <form:label path="sendEmailOnActivity"/>
+                        </td>
+                        <td class="profile_settings">
+                            <spring:message code="profile.message.settings.emailsubscription"/>
+                        </td>
+                    </tr>
+                    <tr class="colabRow">
+                        <td class="actionColumn">
+                            <form:checkbox id="sendDailyEmailOnActivity" disabled="${not userBean.sendEmailOnActivity}"
+                                           cssClass="cmn-toggle cmn-toggle-round" path="sendDailyEmailOnActivity"
+                                           onchange="updateUserSendDailyEmailOnActivitySettings(this)" />
+                            <form:label path="sendDailyEmailOnActivity"/>
+                        </td>
+                        <td class="profile_settings">
+                            <spring:message code="profile.message.settings.emaildailydigest"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <c:if test="${newsletterActive}">
+                <div>
+                    <div class="comm_rightcol-title2"><spring:message code="profile.newsletter.settings.title" arguments="${_themeContext.colabShortName}" /></div>
+                    <table border="0" cellpadding="0" cellspacing="0" class="colab">
+                        <form:form commandName="newsletterBean">
+                            <tr class="colabRow">
+                                <td class="actionColumn">
+                                    <form:checkbox id="emailSubscribedToNewsletter" cssClass="cmn-toggle cmn-toggle-round"
+                                                   path="emailSubscribedToNewsletter" onchange="updateNewsletterSettings(this)" />
+                                    <form:label path="emailSubscribedToNewsletter"/>
+                                </td>
+                                <td>
+                                    <spring:message code="profile.newsletter.settings.sendme" arguments="${_themeContext.colabShortName}"/>
+                                </td>
+                            </tr>
+                        </form:form>
+                    </table>
+                </div>
+            </c:if>
+
+            <c:if test="${(_themeContext.authenticationVariables.isFacebookSsoActive or _themeContext.authenticationVariables.isGoogleSsoActive)}">
+                <div>
+                    <div class="comm_rightcol-title2"><spring:message code="profile.sso.settings.title"/></div>
+                    <table border="0" cellpadding="0" cellspacing="0" class="colab">
+                        <c:if test="${_themeContext.authenticationVariables.isFacebookSsoActive}">
+                            <tr class="colabRow">
+                                <td class="actionColumn">
+                                    <c:choose>
+                                        <c:when test="${currentUserProfile.hasFacebookId}">
+                                            <input id="hasFacebookId" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   value="true" checked="checked" onClick="unlinkFacebookSSO();" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input id="hasFacebookId" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   disabled="true" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <label for="hasFacebookId"><!-- --></label>
+                                </td>
+                                <td>
+                                    <spring:message code="profile.sso.settings.facebook"/>
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${_themeContext.authenticationVariables.isGoogleSsoActive}">
+                            <tr class="colabRow">
+                                <td class="actionColumn">
+                                    <c:choose>
+                                        <c:when test="${currentUserProfile.hasGoogleId}">
+                                            <input id="hasOpenId" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   value="true" checked="checked" onClick="unlinkGoogleSSO();" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input id="hasOpenId" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   disabled="true" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <label for="hasOpenId"><!-- --></label>
+                                </td>
+                                <td>
+                                    <spring:message code="profile.sso.settings.google"/>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </table>
+                </div>
+            </c:if>
+
+            <div>
+                <div class="comm_rightcol-title2"><spring:message code="profile.account.settings.title"/></div>
+                <table border="0" cellpadding="0" cellspacing="0" class="colab">
+                    <tr class="colabRow">
+                        <td class="actionColumn">
+                            <spring:message code="profile.account.delete.question" arguments="${_themeContext.colabName}" var="deleteMsg"/>
+                            <button type="button" class="btn btn-gray btn-sm js-EnhancedLink" data-method="post"
+                                    data-url="${deleteProfileUrl}" data-confirm="${deleteMsg}">
+                                <spring:message code="profile.account.delete.button"/>
+                            </button>
+                        </td>
+                        <td>
+                            <spring:message code="profile.account.delete.message" arguments="${_themeContext.colabName}"/>
+                        </td>
+                    </tr>
+                    <c:if test="${permissions.canAdmin}">
+                        <tr class="colabRow">
+                            <td class="actionColumn">
+                                <spring:message code="profile.account.anonymize.question" var="anonymizeMsg"/>
+                                <button type="button" class="btn btn-gray btn-sm js-EnhancedLink" data-method="post"
+                                        data-url="${deleteAndAnonymizeProfileUrl}" data-confirm="${anonymizeMsg}">
+                                    <spring:message code="profile.account.anonymize.button"/>
+                                </button>
+                            </td>
+                            <td>
+                                <spring:message code="profile.account.anonymize.message" />
+                            </td>
+                        </tr>
+                    </c:if>
+
+                </table>
+            </div>
+
+            <c:if test="${permissions.canAdmin}">
+                <div>
+                    <div class="comm_rightcol-title2"><spring:message code="profile.account.roles.title"/></div>
+                    <table border="0" cellpadding="0" cellspacing="0" class="colab">
+                        <c:forEach var="memberCategory" items="${memberCategories}">
+                            <tr class="colabRow">
+                                <td class="actionColumn">
+                                    <c:choose>
+                                        <c:when test="${currentUserProfile.hasRole(memberCategory.roleId)}">
+                                            <input id="hasRole${memberCategory.roleId}" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   value="true" checked="checked" onClick="removeRole(${memberCategory.roleId});" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input id="hasRole${memberCategory.roleId}" class="cmn-toggle cmn-toggle-round" type="checkbox"
+                                                   value="false" onClick="addRole(${memberCategory.roleId});" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <label for="hasRole${memberCategory.roleId}"></label>
+                                </td>
+                                <td class="${memberCategory.showInList ? '' : 'text-muted'}">
+                                    <collab:image src="/images/${memberCategory.imageName}.png"
+                                                  width="16" height="16" /> ${memberCategory.categoryName}
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+            </c:if>
+        </div>
+	</form:form>
+
+	<xcolab:requireLibrary name="CKEditor" />
+    <!-- TODO COLAB-1191: also used in register -->
+	<script>
+        jQuery(function() {
+            updateTextarea();
+        });
+
+		function updateTextarea() {
+			for ( var instance in CKEDITOR.instances) {
+				CKEDITOR.instances[instance].updateElement();
+			}
+		}
+	</script>
+
+
+	<iframe name="_fileUploadFrame" id="fileUploadFrame" class="hidden"
+			style="display: none;">
+		<!-- comment -->
+	</iframe>
+
+    <spring:message code="profile.message.settings.notification.successufull" var="messageSuccess"/>
+    <spring:message code="profile.message.settings.notification.failed" var="messageFailed"/>
+    <spring:message code="profile.newsletter.notification.successufull" var="newsletterSuccess"/>
+    <spring:message code="profile.newsletter.notification.failed" var="newsletterFailed"/>
+    <spring:message code="profile.sso.notification.successufull" var="ssoSuccess"/>
+    <spring:message code="profile.sso.notification.failed" var="ssoFailed"/>
+
+    <script>
+        var profileUserId = ${userBean.userId};
+    </script>
+
+	<script>
+		jQuery("#password").keyup(function(){
+			if (jQuery("#password").val() !== "") {
+				jQuery("#retypePasswordRow").slideDown();
+			} else {
+				jQuery("#retypePasswordRow").slideUp();
+			}
+		});
+
+		jQuery("#sendEmailOnActivity").change(function(){
+
+			var $dailyEmailsToggleElement = jQuery("#sendDailyEmailOnActivity");
+            if (!jQuery("#sendEmailOnActivity").is(":checked")) {
+				$dailyEmailsToggleElement.attr('checked', false);
+				$dailyEmailsToggleElement.attr("disabled", true);
+			} else {
+				$dailyEmailsToggleElement.removeAttr("disabled");
+			}
+		});
+
+		function sendNewLoginLink() {
+		    jQuery.post({
+                url: '/members/profile/' + profileUserId + '/api/login/generateNewToken',
+                success: function() {
+                    noty({text: 'New login link sent.', type: 'success'});
+                },
+                error: function() {
+                    noty({text: 'Error sending login link!', type: 'error'});
+                }
+            });
+        }
+
+		function updateMessageSettingsOnServer(updateUrl, formData){
+			var deferred = jQuery.Deferred();
+				sendAjaxToServer(updateUrl, formData).done(function(response){
+					if (response) {
+                        noty({text: '${messageSuccess}', type: 'success'});
+					} else {
+                        noty({text: '${messageFailed}', type: 'error'});
+					}
+				});
+			return deferred;
+		}
+
+		function updateUserSendEmailOnActivitySettings(element){
+
+			var updateMessageSettingsURL = '${updateUserSendEmailOnActivitySettings}';
+			var checkedFormData = createCheckedFormData(element.checked);
+			updateMessageSettingsOnServer(updateMessageSettingsURL, checkedFormData).done(function (result) {
+				if (!result) {
+					jQuery("#updateUserSendEmailOnActivitySettings").attr('checked', !element.checked);
+				}
+			});
+		}
+
+		function updateUserSendEmailOnMessageSettings(element){
+
+			var updateMessageSettingsURL = '${updateUserSendEmailOnMessageSettings}';
+			var checkedFormData = createCheckedFormData(element.checked);
+			updateMessageSettingsOnServer(updateMessageSettingsURL, checkedFormData).done(function (result) {
+				if (!result) {
+					jQuery("#updateUserSendEmailOnMessageSettings").attr('checked', !element.checked);
+				}
+			});
+		}
+
+		function createCheckedFormData(elementChecked){
+			var formData = "messageSetting=";
+			if (elementChecked) {
+				formData += "true";
+			} else {
+				formData += "false";
+			}
+			return formData;
+		}
+
+		function updateUserSendDailyEmailOnActivitySettings(element) {
+			var updateMessageSettingsURL = '${updateUserSendDailyEmailOnActivitySettings}';
+			var checkedFormData = createCheckedFormData(element.checked);
+			updateMessageSettingsOnServer(updateMessageSettingsURL, checkedFormData).done(function (result) {
+				if(!result) {
+					jQuery("#updateUserSendDailyEmailOnActivitySettings").attr('checked', !element.checked);
+				}
+			});
+		}
+
+		function updateNewsletterSettings(element) {
+			//console.log("updateNewsletterSettings", element.checked);
+			if(element.checked){
+				subscribeNewsletter();
+			} else{
+				unSubscribeNewsletter();
+			}
+		}
+
+		function updateNewsletterSettingsOnServer(updateUrl) {
+			var deferred = jQuery.Deferred();
+				sendAjaxToServer(updateUrl).done(function(response) {
+					if (response) {
+						deferred.resolve(true);
+                        noty({text: '${newsletterSuccess}', type: 'success'});
+					} else {
+						deferred.resolve(false);
+                        noty({text: '${newsletterFailed}', type: 'error'});
+					}
+				});
+			return deferred;
+		}
+
+		function subscribeNewsletter() {
+			var newsletterSubscribeURL = '${newsletterSubscribe}';
+			updateNewsletterSettingsOnServer(newsletterSubscribeURL).done(function (result) {
+				if (!result) {
+					jQuery("#emailSubscribedToNewsletter").attr('checked', false);
+				}
+			});
+
+		}
+		function unSubscribeNewsletter() {
+			var newsletterUnSubscribeURL = '${newsletterUnSubscribe}';
+			updateNewsletterSettingsOnServer(newsletterUnSubscribeURL).done(function (result) {
+				if (!result) {
+					jQuery("#emailSubscribedToNewsletter").attr('checked', true);
+				}
+			});
+		}
+
+		function unlinkSSOonServer(updateUrl) {
+			var deferred = jQuery.Deferred();
+            sendAjaxToServer(updateUrl).done(function(response){
+                if (response) {
+                    deferred.resolve(true);
+                    noty({text: '${ssoSuccess}', type: 'success'});
+                } else {
+                    deferred.resolve(false);
+                    noty({text: '${ssoFailed}', type: 'error'});
+                }
+            });
+			return deferred;
+		}
+
+		function unlinkFacebookSSO() {
+			var unlinkSSOURL = '${unlinkFacebookSSO}';
+			unlinkSSOonServer(unlinkSSOURL).done(function (result) {
+				if (result) {
+					jQuery("#hasFacebookId").attr('onclick',"");
+					var $hasOpenIdElement = jQuery("#hasOpenId");
+                    $hasOpenIdElement.attr('disabled', true);
+					$hasOpenIdElement.removeAttr('checked');
+				} else {
+					jQuery("#hasFacebookId").attr('checked', true);
+				}
+			});
+		}
+
+		function unlinkGoogleSSO() {
+			var unlinkSSOURL = '${unlinkGoogleSSO}';
+			unlinkSSOonServer(unlinkSSOURL).done(function (result) {
+				var $hasOpenIdElement = jQuery("#hasOpenId");
+                if (result) {
+					$hasOpenIdElement.attr('onclick', "");
+					$hasOpenIdElement.attr('disabled', "true");
+					$hasOpenIdElement.removeAttr('checked');
+				} else {
+					$hasOpenIdElement.attr('checked', true);
+				}
+			});
+		}
+
+        function changeRoleOnServer(updateUrl) {
+            var deferred = jQuery.Deferred();
+            sendAjaxToServer(updateUrl).done(function(response){
+                if (response) {
+                    deferred.resolve(true);
+                    noty({text: 'Role updated successfully!', type: 'success'});
+                } else {
+                    deferred.resolve(false);
+                    noty({text: 'Failed to update role!', type: 'error'});
+                }
+            });
+            return deferred;
+        }
+
+        function addRole(roleId) {
+            var addRoleUrl = '/members/profile/${currentUserProfile.userId}/api/roles/add/' + roleId;
+            changeRoleOnServer(addRoleUrl).done(function(success) {
+                var $roleToggleElement = jQuery("#hasRole" + roleId);
+                if (success) {
+                    $roleToggleElement.attr('checked', true);
+                } else {
+                    $roleToggleElement.removeAttr('checked');
+                }
+            });
+        }
+
+		function removeRole(roleId) {
+            var removeRoleUrl = '/members/profile/${currentUserProfile.userId}/api/roles/remove/' + roleId;
+            changeRoleOnServer(removeRoleUrl).done(function(success) {
+                var $roleToggleElement = jQuery("#hasRole" + roleId);
+                if (success) {
+                    $roleToggleElement.removeAttr('checked');
+                } else {
+                    $roleToggleElement.attr('checked', true);
+
+                }
+            });
+        }
+
+	</script>
+</xcolab:layout>
+</jsp:root>

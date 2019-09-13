@@ -1,0 +1,71 @@
+@import "../../lib/functions";
+
+$c-Box__border: 1px solid $t-Color__gray--medium-500 !default;
+$c-Box__shadow: 3px 3px 1px $t-Color__gray--dark-600 !default;
+
+$c-Box__background__color--dark: $t-Color__tan !default;
+
+$c-Box__messaging__padding--top: 5px !default;
+
+.c-Box {
+  @extend .card;
+  border: $c-Box__border;
+
+  &.c-Box--colorPrimary {
+    background: $t-Color__primary;
+    color: yiq-contrasting-color($t-Color__primary);
+  }
+
+  &.c-Box--colorTan {
+    background: $t-Color__tan;
+    color: yiq-contrasting-color($t-Color__tan);
+  }
+
+  &.c-Box--colorPrimaryGrayLight {
+    background: $t-Color__primary__gray--light;
+    color: yiq-contrasting-color($t-Color__primary__gray--light);
+  }
+
+  &.c-Box--colorDark {
+    background-color: $c-Box__background__color--dark;
+    color: yiq-contrasting-color($c-Box__background__color--dark);
+  }
+
+  &.c-Box--hasShadow {
+    box-shadow: $c-Box__shadow;
+  }
+
+  &.c-Box--noBorder {
+    border: none;
+  }
+
+  &.c-Box--straightCorners {
+    border-radius: 0;
+  }
+
+  hr {
+    margin: 0;
+  }
+}
+
+.c-Box__body {
+  padding: $t-Spacing__base;
+}
+
+.c-Box__bodyFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: $t-Spacing__base;
+
+  &.c-Box__bodyFlex--columns {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.c-Box__bodyRow {
+  @extend .row;
+  padding: $t-Spacing__base;
+}

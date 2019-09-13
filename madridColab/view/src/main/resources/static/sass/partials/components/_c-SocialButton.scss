@@ -1,0 +1,49 @@
+$_c-SocialButton__size: 30px !default;
+$_c-SocialButton__size--lg: 35px !default;
+$_c-SocialButton__size--sm: 25px !default;
+$_c-SocialButton__size--xs: 20px !default;
+
+.c-SocialButton {
+  display: inline-block;
+  margin: 0.125rem;
+  cursor: pointer;
+
+  > img {
+    height: $_c-SocialButton__size;
+    width: $_c-SocialButton__size;
+    margin: 0;
+    padding: 0;
+  }
+
+  &.c-SocialButton--lg > img {
+    height: $_c-SocialButton__size--lg;
+    width: $_c-SocialButton__size--lg;
+  }
+
+  &.c-SocialButton--sm > img {
+    height: $_c-SocialButton__size--sm;
+    width: $_c-SocialButton__size--sm;
+  }
+
+  &.c-SocialButton--xs > img {
+    height: $_c-SocialButton__size--xs;
+    width: $_c-SocialButton__size--xs;
+  }
+}
+
+.c-SocialButton--hoverTranslate {
+  transition: all .2s ease-in-out;
+  animation-fill-mode: both;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.c-SocialButton__text {
+  margin-left: 5px;
+
+  &:hover {
+    border-bottom: 1px dashed;
+  }
+}

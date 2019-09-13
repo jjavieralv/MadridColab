@@ -1,0 +1,91 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <!--@elvariable id="activities" type="java.util.List<org.xcolab.view.widgets.feeds.wrappers.SocialActivityWrapper>"-->
+
+    <div class="text-right ${_themeContext.authenticationVariables.isAdmin ? '' : 'hidden'}">
+        <button class="btn cb-btn-admin btn-sm" rel="nofollow" href="/activities/downloadCsv">
+            Download activities
+        </button>
+    </div>
+    <h2>${title}</h2>
+    <c:if test="${_themeContext.authenticationVariables.isAdmin}">
+        <div class="text-right">
+            <a href="/widgets/feeds/preferences" class="btn cb-btn-admin btn-sm">
+                Edit preferences
+            </a>
+        </div>
+    </c:if>
+    <c:choose>
+        <c:when test="${empty activities  }">
+            <spring:message code="activities.page.nothing.found"/>
+        </c:when>
+        <c:when test="${feedStyle == 'FULL' }">
+            <xcolab:activityList activities="${activities}" isResponsive="true"/>
+
+            <div class="paginatorControls">
+                <c:choose>
+
+                    <c:when test="${empty filterUserId }">
+                        <c:set var="prevURL" value="/activities?page=${sortFilterPage.page - 1}"/>
+                    </c:when>
+                    <c:otherwise>
+
+                        <c:set var="prevURL"
+                               value="/activities?page=${sortFilterPage.page - 1}&amp;userId=${filterUserId}"/>
+
+                    </c:otherwise>
+                </c:choose>
+                <div class="alignleft">
+                    <c:if test="${sortFilterPage.page > 0 }">
+                        <a href="${prevURL }">&amp;laquo; <spring:message
+                                code="activities.page.pagination.newer"/></a>
+                    </c:if>
+                </div>
+
+                <div class="alignright">
+                    <c:choose>
+                        <c:when test="${empty filterUserId }">
+                            <c:set var="nextURL"
+                                   value="/activities?page=${sortFilterPage.page + 1}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="nextURL"
+                                   value="/activities?page=${sortFilterPage.page + 1}&amp;userId=${filterUserId}"/>
+
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${ not isLastPage }">
+                        <a href="${nextURL }"><spring:message
+                                code="activities.page.pagination.older"/> &amp;raquo;</a>
+                    </c:if>
+                </div>
+            </div>
+            <div class="clearfix"><!--  --></div>
+        </c:when>
+        <c:otherwise>
+            <xcolab:activityList activities="${activities}" isResponsive="false"/>
+        </c:otherwise>
+    </c:choose>
+
+    <c:if test="${seeMoreLinkShown}">
+        <div class="alignright" style="margin-top:10px;">
+            <a href="/activities"><spring:message code="activities.page.pagination.showall"/> </a>
+        </div>
+    </c:if>
+    <c:if test="${not empty filterUserId}">
+        <script>
+            var filterSettings = {
+                filterUserId: ${filterUserId},
+                filterUserName: '${filterUser.screenName}'
+            };
+        </script>
+    </c:if>
+</jsp:root>

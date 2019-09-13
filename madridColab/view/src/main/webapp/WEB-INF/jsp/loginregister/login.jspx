@@ -1,0 +1,29 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:layout="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:jsp="http://java.sun.com/JSP/Page">
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+<layout:layout title="Login" canonicalUrlRelative="/login">
+    <c:choose>
+        <c:when test="${not _themeContext.authenticationVariables.isLoggedIn}">
+            <h2>Restricted access - login required</h2>
+            <p>
+                Use popup to login or click <a href="#" data-require-login="true" class="js-EnhancedLink">here</a>.
+            </p>
+            <script>
+                jQuery(function() {
+                    $('#loginModal').modal();
+                });
+            </script>
+        </c:when>
+        <c:otherwise>
+            <h2>You are logged in.</h2>
+            <p>
+                Continue browsing or click <a href="/">here</a> to return to the home page.
+            </p>
+        </c:otherwise>
+    </c:choose>
+</layout:layout>
+</jsp:root>

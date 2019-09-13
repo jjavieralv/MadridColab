@@ -1,0 +1,99 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+
+    <!--@elvariable id="contestWrapper" type="org.xcolab.client.contest.pojo.Contest"-->
+
+    <jsp:directive.include file="../init.jspx"/>
+    <jsp:directive.include file="./header.jspx"/>
+
+    <c:set var="updateUrl" value="/admin/contest/details/contestId/${contestWrapper.id}/tab/TRANSLATIONS" />
+
+    <div class="c-ContentBox l-BoxLayout__stacked">
+        <p>*Be sure to click <strong>SAVE changes</strong> before exiting a tab or submitting a comment for the contest
+            team, or your content may be lost.</p>
+
+        <form:form action="${updateUrl}" commandName="contestTranslationBean" cssClass="addpropform"
+                   id="editForm" method="post">
+            <form:errors cssClass="alert alert-danger" element="div" path="*"/>
+            <ul id="i18nTabBar" class="c-TabBar clearfix nav nav-tabs" role="tablist">
+                <c:forEach var="lang" items="${i18nOptions}">
+                    <li role="presentation" class="c-TabBar__tab small nav-item">
+                        <a href="#translation_${lang['value']}" data-toogle="tab" class="nav-link">
+                            <spring:message code="${lang['lable']}"/>
+                        </a>
+                    </li>
+                </c:forEach>
+            </ul>
+            <div class="tab-content">
+                <c:forEach var="lang" items="${i18nOptions}" varStatus="x">
+                    <div role="tabpanel" class="tab-pane fade" id="translation_${lang['value']}">
+                        <h3><spring:message code="${lang['lable']}"/> translation</h3>
+                        <form:hidden path="translations[${x.index}].contestId" />
+                        <form:hidden path="translations[${x.index}].lang" />
+                        <div class="c-Box c-Box--colorTan">
+                            <div class="c-Box__body">
+                                <div>
+                                    <strong>English title:</strong> ${contestWrapper.title}
+                                </div>
+                                <div>
+                                    <strong><spring:message code="${lang['lable']}"/> title:</strong>
+                                </div>
+                                <form:input path="translations[${x.index}].title"
+                                            cssClass="form-control" cssErrorClass="form-control cb-form-has-error"/>
+                            </div>
+                        </div>
+
+                        <div class="c-Box c-Box--colorTan">
+                            <div class="c-Box__body">
+                                <div>
+                                    <strong>English question:</strong> ${contestWrapper.question}
+                                </div>
+                                <div>
+                                    <strong><spring:message code="${lang['lable']}"/> question:</strong>
+                                </div>
+                                <form:input path="translations[${x.index}].question"
+                                            cssClass="form-control" cssErrorClass="form-control cb-form-has-error"/>
+                            </div>
+                        </div>
+
+                        <div class="c-Box c-Box--colorTan">
+                            <div class="c-Box__body">
+                                <div>
+                                    <strong>English description:</strong> ${contestWrapper.description}
+                                </div>
+                                <div>
+                                    <strong><spring:message code="${lang['lable']}"/> description:</strong>
+                                </div>
+                                <form:textarea path="translations[${x.index}].description"
+                                               cssClass="rte-editorPlaceholder form-control" cssErrorClass="form-control cb-form-has-error"/>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+
+        </form:form>
+    </div>
+
+    <xcolab:requireLibrary name="CKEditor" />
+
+    <jsp:directive.include file="./footer.jspx"/>
+
+    <script>
+        jQuery('#i18nTabBar').find('a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        jQuery(function() {
+            $('#i18nTabBar').find('a:first').tab('show');
+        });
+
+    </script>
+</xcolab:layout>
+</jsp:root>

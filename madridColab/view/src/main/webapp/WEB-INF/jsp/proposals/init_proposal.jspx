@@ -1,0 +1,17 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page">
+
+	<jsp:directive.include file="./init_contest.jspx" />
+
+	<!--PopulateContextInterceptor-->
+	<jsp:useBean id="proposal" scope="request" type="org.xcolab.client.proposals.pojo.Proposal"/>
+
+    <script>
+        var currentProposal = {
+            id: ${proposal.id},
+            version: ${proposal.version},
+            contestId: ${proposal.contest.id},
+            contestPhaseId: ${proposal.contestPhase.id}
+        }
+    </script>
+
+</jsp:root>

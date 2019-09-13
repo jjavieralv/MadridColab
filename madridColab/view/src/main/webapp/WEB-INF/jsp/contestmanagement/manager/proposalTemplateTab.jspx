@@ -1,0 +1,541 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <!--@elvariable id="elementSelectIdWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.ElementSelectIdWrapper"-->
+    <!--@elvariable id="contestProposalTemplateWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.ProposalTemplateWrapper"-->
+
+    <!--@elvariable id="contestTypeSelectionItems" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="sectionTypeSelectionItems" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="contestPhaseAutopromoteSelectionItems" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="levelSelectionItems" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+
+    <!--@elvariable id="whatTerms" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="whereTerms" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="whoTerms" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+    <!--@elvariable id="howTerms" type="java.util.List<org.xcolab.commons.html.LabelValue>"-->
+
+    <jsp:directive.include file="../init.jspx" />
+
+	<jsp:directive.include file="header.jspx"/>
+
+	<c:set var="getSectionDefinition" value="/admin/contest/api/getSectionDefinition/" />
+
+	<c:set var="changeElementUrl" value="/admin/contest/manager/tab/PROPOSAL_TEMPLATES?elementId=" />
+
+	<xcolab:requireLibrary name="CKEditor" />
+
+    <xcolab:editButtons elementName="template" baseUrl="/admin/contest/manager/tab/PROPOSAL_TEMPLATES" elementId="${contestProposalTemplateWrapper.proposalTemplateId}" />
+
+	<div class="c-ContentBox">
+
+		<p>
+            Templates hold the set of questions members will be asked to answer in completing a proposal.<br/>
+			If you would like any changes to your template, please submit a comment below for the Climate CoLab team.
+		</p>
+
+		<h3>Proposal template details</h3>
+
+		<form:form action="${changeElementUrl }" commandName="elementSelectIdWrapper" id="selectForm" method="post">
+			<div class="c-Box c-Box--colorTan">
+                <div class="c-Box__body">
+                    <strong>Selected template:</strong>
+                    <form:select path="elementId" id="changeElementSelect" cssClass="form-control">
+                        <form:options items="${elementSelectIdWrapper.selectionItems}" itemValue="value" itemLabel="lable"/>
+                    </form:select>
+                    <form:errors cssClass="invalid-feedback" path="elementId" />
+                </div>
+			</div>
+		</form:form>
+
+		<c:if test="${not empty contestProposalTemplateWrapper}">
+			<div id="resourcesSections">
+				<form:form action="${updateElementFormURL }" commandName="contestProposalTemplateWrapper"
+				 cssClass="addpropform mt-3" id="editForm" method="post">
+
+					<form:hidden path="createNew" id="createNew"/>
+					<form:hidden path="numberOfSections"/>
+					<form:hidden path="proposalTemplateId"/>
+
+                    <form:errors cssClass="alert alert-danger" element="div" path="*" />
+
+					<div class="c-Box c-Box--colorTan">
+                        <div class="c-Box__body">
+                            <strong>Template name:</strong>
+                            <form:input path="templateName" cssClass="form-control"/>
+                            <form:errors cssClass="invalid-feedback" path="templateName" />
+                        </div>
+					</div>
+					<h3>Proposal template sections</h3>
+					<c:forEach var="section" items="${contestProposalTemplateWrapper.sections}" varStatus="x" >
+
+                    <div class="dropzone" style="display: ${fn:length(contestProposalTemplateWrapper.sections)-1 eq x.index ? 'none' : ''}"
+                         ondrop="drop(event)" ondragenter="dragEnter(event)" ondragover="dragOver(event)" ondragleave="dragLeave(event)"
+                         data-bind-id="${x.index}"
+                         id="dropzone${x.index}">
+                        <span class="counter" style="float: left;">Position # ${x.index +1}</span>
+                        <span style="float:right">To change order drag a section and drop it on any of these areas.</span>
+                    </div>
+
+                    <div class="c-Box c-Box--colorTan js-SectionParent ${section.deletable ? 'blue deletable' : ''} ${section.type}"
+                         style="display: ${fn:length(contestProposalTemplateWrapper.sections)-1 eq x.index ? 'none' : ''}"
+                         id="section${x.index}"
+                         data-section-id="${x.index}"
+                         draggable="true"
+                         ondragend="dragEnd(event)"
+                         ondragstart="dragStart(event)">
+                        <div class="c-Box__body">
+
+							<form:hidden path="sections[${x.index}].templateSection" data-form-name="templateSection"/>
+							<form:hidden path="sections[${x.index}].sectionNew" data-form-name="sectionNew"/>
+							<form:hidden path="sections[${x.index}].weight" cssClass="weightInput" data-form-name="weight" />
+							<form:hidden path="sections[${x.index}].id" data-form-name="id" />
+
+							<c:if test="${section.deletable}">
+								<div class="deleteIcon"><!-- --></div>
+							</c:if>
+
+							<div>
+								<strong>Section type:</strong><br/>
+								<form:select path="sections[${x.index}].type" data-form-name="type" cssClass="form-control">
+									<form:option value="NONE" label="--- Select ---" />
+									<form:options items="${sectionTypeSelectionItems}" itemValue="value" itemLabel="lable"/>
+								</form:select>
+							</div>
+
+                            <div class="form-check">
+                                <form:checkbox path="sections[${x.index}].includeInJudgingReport"
+                                               id="sections${x.index}.includeInJudgingReport"
+                                               data-form-name="includeInJudgingReport"
+                                               cssClass="form-check-input"/>
+                                <label class="form-check-label" for="sections${x.index}.includeInJudgingReport">
+                                    <strong>Should the content of this section be included in the judging report CSV?</strong>
+                                </label>
+                            </div>
+
+                            <div class="js-sectionTypeDependent" data-section-type="PROPOSAL"
+                                    style="display: none">
+                                <div class="levelVisible">
+                                    <div>
+                                        <strong>Contest Types allowed:</strong>
+                                        <span class="ontology-term-label"><!-- --></span> <br/>
+                                        <form:select multiple="true" path="sections[${x.index}].allowedContestTypeIds" data-form-name="allowedContestTypeIds"
+                                                     cssClass="ontology-terms form-control" size="5">
+                                            <form:options items="${contestTypeSelectionItems}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+
+                                    <div>
+                                        <strong>Point override - PointType: </strong><br/>
+                                        <form:select path="sections[${x.index}].pointType" data-form-name="pointType" cssClass="form-control">
+                                            <form:options items="${pointTypeSelectionItems}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                        <br/>
+                                        <strong>Point override - Percentage: </strong><br/>
+                                        <form:input path="sections[${x.index}].pointPercentage" data-form-name="pointPercentage"/>
+                                        <div class="clearfix"><!-- --></div>
+                                    </div>
+
+                                    <div>
+                                        <strong>Level:</strong><br/>
+                                        <form:select path="sections[${x.index}].level" data-form-name="level" cssClass="form-control">
+                                            <form:options items="${levelSelectionItems}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <form:checkbox path="sections[${x.index}].contestIntegrationRelevance"
+                                                       id="sections${x.index}.contestIntegrationRelevance"
+                                                       data-form-name="contestIntegrationRelevance"
+                                                       cssClass="form-check-input"/>
+                                        <label class="form-check-label" for="sections${x.index}.contestIntegrationRelevance">
+                                            <strong>Is this proposal reference field used for contest integration?</strong>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"><!-- --></div>
+                                <div class="js-sectionTypeDependent" data-section-type="PROPOSAL"
+                                        style="display: none">
+                                    <form:hidden path="sections[${x.index}].focusAreaId" data-form-name="focusAreaId" />
+                                    <div>
+                                        <strong>WHAT Ontology term:</strong>
+                                        <span class="ontology-term-label"><!-- --></span>
+                                        <br/>
+                                        <form:select multiple="true" path="sections[${x.index}].whatTermIds" data-form-name="whatTermId"
+                                                     cssClass="ontology-terms form-control" size="5">
+                                            <form:options items="${whatTerms}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+                                    <div>
+                                        <strong>WHERE Ontology term:</strong>
+                                        <span class="ontology-term-label"><!-- --></span><br/>
+                                        <form:select multiple="true" path="sections[${x.index}].whereTermIds" data-form-name="whereTermId"
+                                                     cssClass="ontology-terms form-control" size="5">
+                                            <form:options items="${whereTerms}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+                                    <div>
+                                        <strong>WHO Ontology term:</strong>
+                                        <span class="ontology-term-label"><!-- --></span><br/>
+                                        <form:select multiple="true" path="sections[${x.index}].whoTermIds" data-form-name="whoTermId"
+                                                     cssClass="ontology-terms form-control" size="5">
+                                            <form:options items="${whoTerms}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+                                    <div>
+                                        <strong>HOW Ontology term:</strong>
+                                        <span class="ontology-term-label"><!-- --></span><br/>
+                                        <form:select multiple="true" path="sections[${x.index}].howTermIds" data-form-name="howTermId"
+                                                     cssClass="ontology-terms form-control" size="5">
+                                            <form:options items="${howTerms}" itemValue="value" itemLabel="lable"/>
+                                        </form:select>
+                                    </div>
+                                    <div>
+                                        <strong>Exclude the following contest ids from ontology term filtering (Comma-separated list):</strong><br/><form:input path="sections[${x.index}].additionalIds" data-form-name="additionalIds"/>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="clearfix"><!-- --></div>
+							<div>
+								<div>
+									<strong>Title:</strong><br/>
+                                    <form:input path="sections[${x.index}].title" data-form-name="title" cssClass="form-control"/>
+								</div>
+								<div class="clearfix"><!-- --></div>
+								<div>
+									<span class="floatLeft"><strong>Character limit:</strong></span><br/>
+									<form:input path="sections[${x.index}].characterLimit" data-form-name="characterLimit" cssClass="form-control"/>
+								</div>
+							</div>
+
+							<div class="clearfix"><!--  --></div>
+							<strong>Help text:</strong><br/>
+                            <form:textarea path="sections[${x.index}].helpText"  data-form-name="helpText" cssClass="form-control" />   <!-- cssClass="rte-editorPlaceholder" -->
+                            <form:errors cssClass="invalid-feedback" path="sections[${x.index}].helpText" />
+							<div class="clearfix"><!--  --></div>
+							<strong>Default text:</strong><br/>
+                            <form:textarea path="sections[${x.index}].defaultText"  data-form-name="defaultText" cssClass="form-control" />   <!-- cssClass="rte-editorPlaceholder" -->
+                            <form:errors cssClass="invalid-feedback" path="sections[${x.index}].defaultText" />
+
+                            <div class="js-sectionTypeDependent" data-section-type="DROPDOWN_MENU"
+                                    style="display: none">
+                                <strong >Options :</strong><small>(use ';' to separate the options)</small><br/>
+                                <form:input  path="sections[${x.index}].allowedValues" data-form-name="allowedValues" cssClass="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        jQuery(function() {
+                            setSectionType(parseInt("${x.index}"), "${section.type}");
+                        });
+                    </script>
+					</c:forEach>
+
+					<div class="addSection" id="addSection" name="addSection">
+						<a class="btn btn-primary" id="addSectionButton" href="#addSection">ADD section</a>
+					</div>
+				</form:form>
+			</div>
+		</c:if>
+	</div>
+	<c:if test="${not empty contestProposalTemplateWrapper}">
+		<div class="c-ContentBox">
+			<h3>Contests using this template:</h3>
+			<div class="c-Box c-Box--colorTan" style="margin-top: 20px;">
+                <div class="c-Box__body">
+                    <table class="c-ContentBox__Table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Tier</th>
+                            <th><!-- --></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${contestProposalTemplateWrapper.contestsUsingTemplate}" var="contestWrapper" varStatus="x">
+                            <tr>
+                                <td data-form-name="index">${x.index + 1}</td>
+                                <td ><xcolab:contestLink contest="${contestWrapper}" /></td>
+                                <td>Tier ${contestWrapper.contestTier}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="/admin/contest/details/contestId/${contestWrapper.id}" target="_blank">EDIT</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+		</div>
+	</c:if>
+
+	<script>
+		<![CDATA[
+
+		jQuery(function(){
+//		    TODO COLAB-2580: re-enable dirty check
+//			enableDirtyCheck();
+			bindDeleteClicks();
+			bindAddSectionClick();
+			bindTypeSelectChange();
+			bindElementSelectChange();
+			bindOntologyDropdownChange()
+		});
+
+
+		function bindDeleteClicks(){
+			[].forEach.call(document.getElementsByClassName('deletable'), function(deletableSectionElements) {
+				deletableSectionElements.getElementsByClassName('deleteIcon')[0].addEventListener('click', deleteSection, false);
+			});
+		}
+
+		function bindAddSectionClick(){
+			var initialNumberOfSections = getNumberOfSections()-1;
+			var addSectionButtonElement = document.getElementById("addSectionButton");
+			addSectionButtonElement.addEventListener("click", function() {
+				var numberOfSections = getNumberOfSections();
+				addNewSection(initialNumberOfSections, numberOfSections + 1);
+			});
+		}
+
+		function bindTypeSelectChange(){
+			[].forEach.call(document.getElementsByTagName('select'), function(selectElement) {
+				var dataFormName = selectElement.getAttribute("data-form-name");
+				if (dataFormName === "type") {
+					selectElement.addEventListener('change', selectTypeChangeCallback, false);
+				}
+			});
+		}
+
+		function bindOntologyDropdownChange() {
+			var ontologyTermDropdowns = $('select.ontology-terms');
+			var updateSelectedTermsLabel = function() {
+				var selectedTermLabels = $(this).find(':selected').map(function () {
+					return $(this).text();
+				}).get();
+
+				var cleanedLabels = selectedTermLabels.map(eliminateOntologyTermMetacharactersFromString);
+				$(this).parent().find('span.ontology-term-label').text(cleanedLabels.join(", "));
+			};
+
+			ontologyTermDropdowns.on("change", updateSelectedTermsLabel);
+			ontologyTermDropdowns.each(function(idx, dropdown) {
+				updateSelectedTermsLabel.apply(dropdown);
+			});
+		}
+
+		function eliminateOntologyTermMetacharactersFromString(ontologyTermString) {
+			return ontologyTermString.replace(/-[-|]+-/g, "");
+		}
+
+
+		function getSectionDefinitionFromServer(sectionDefinitionId){
+			var deferred = jQuery.Deferred();
+
+			jQuery.ajax({
+				type: 'POST',
+				dataType: 'text',
+				url : "${getSectionDefinition}" + sectionDefinitionId,
+				success: function(jsondata){
+					deferred.resolve(jsondata);
+				}
+			});
+
+			return deferred;
+		}
+
+		function dragEnd(ev) {
+			ev.target.classList.remove("dragState");
+			[].forEach.call(document.getElementsByClassName('dropzone'), function (element) {
+				element.classList.remove("showAllowDropState");
+				element.classList.remove("allowDropState");
+			});
+		}
+
+		function dragLeave(ev){
+			ev.target.classList.remove("allowDropState");
+		}
+
+		function dragOver(ev) {
+			ev.preventDefault();
+			return false;
+		}
+
+		function dragEnter(ev) {
+			ev.target.classList.add("allowDropState");
+		}
+
+		function dragStart(ev) {
+			ev.dataTransfer.setData("srcElementId", ev.target.id);
+			ev.target.classList.add("dragState");
+			[].forEach.call(document.getElementsByClassName('dropzone'), function(element) {
+				if(!ev.target.previousSibling.isEqualNode(element)) {
+					element.classList.add("showAllowDropState");
+				}
+			});
+		}
+
+		function drop(ev) {
+
+			var targetDropzoneElement = ev.target;
+			var targetParentElement = targetDropzoneElement.parentNode;
+
+			var srcElementId = ev.dataTransfer.getData("srcElementId");
+			var srcSectionElement = document.getElementById(srcElementId);
+			var srcSectionDropzoneElement = srcSectionElement.previousSibling;
+
+			if(!srcSectionElement.previousSibling.isEqualNode(targetDropzoneElement)) {
+
+			    console.log("  -  " + targetDropzoneElement.getAttribute("data-bind-id"));
+				var posTargetDropzone = parseInt(targetDropzoneElement.getAttribute("data-bind-id"))+1;
+			    console.log(" ( " + posTargetDropzone + " ) ");
+				var posSectionElement = parseInt(srcSectionElement.getElementsByClassName("weightInput")[0].value);
+
+                console.log(" ( " + posSectionElement + " ) ");
+				if(posTargetDropzone <= posSectionElement) {
+					targetParentElement.insertBefore(srcSectionElement, targetDropzoneElement);
+					targetParentElement.insertBefore(srcSectionDropzoneElement, srcSectionElement);
+				} else {
+
+					var targetDropzoneElementBelow = ev.target.nextSibling.nextSibling;
+					targetParentElement.insertBefore(srcSectionElement, targetDropzoneElementBelow);
+					targetParentElement.insertBefore(srcSectionDropzoneElement, srcSectionElement);
+				}
+				reCalculateWeights();
+			}
+
+			[].forEach.call(document.getElementsByClassName('dropzone'), function (element) {
+				element.classList.remove("showAllowDropState");
+				element.classList.remove("allowDropState");
+			});
+
+			[].forEach.call(document.getElementsByClassName('c-Box c-Box--colorTan'), function (element) {
+				element.classList.remove("dragState");
+			});
+
+			ev.preventDefault();
+			return false;
+		}
+
+		function filter(className, element){
+			return element.getElementsByClassName(className)[0] != undefined;
+		}
+
+		function reCalculateWeights(){
+			var firstSectionInList = document.getElementById("editForm");
+			var nextSectionInList = firstSectionInList.firstChild;
+			var index = 0;
+			do {
+
+				if (filter("counter", nextSectionInList)){
+					if(getNumberOfSections() !== index) {
+						index++;
+					}
+					var dropZoneDivCounter = nextSectionInList.getElementsByClassName("counter")[0];
+					dropZoneDivCounter.innerHTML = "Position #" + index ;
+				}
+
+				if (filter("weightInput", nextSectionInList)){
+					var weightInput = nextSectionInList.getElementsByClassName("weightInput")[0];
+					weightInput.value = index;
+				}
+
+			} while (nextSectionInList = nextSectionInList.nextSibling)
+
+		}
+
+		function getNumberOfSections(){
+			return parseInt(document.getElementById("numberOfSections").value);
+		}
+
+		function setNumberOfSections(numberOfSections){
+			document.getElementById("numberOfSections").value = numberOfSections.toString();
+		}
+
+		function addNewSection(templateSectionId, newSectionId){
+			var templateSectionElement = document.getElementById("section" + templateSectionId);
+
+			var newDropzoneElement = templateSectionElement.previousSibling.cloneNode(true);
+			var newSectionElement = templateSectionElement.cloneNode(true);
+
+			var sectionElementNames = extractInputElementsInNode(newSectionElement);
+			var newSectionInputData = createFormInputsIdReplacements(templateSectionId, newSectionId, sectionElementNames, "sections");
+			replaceSectionFormIds(newSectionElement, newSectionInputData, newSectionId );
+
+			var addSectionElement = document.getElementById("addSection");
+			document.getElementById("editForm").insertBefore(newSectionElement,addSectionElement);
+
+			newDropzoneElement.style.display = "";
+			newDropzoneElement.id = "dropzone" + newSectionId;
+			newDropzoneElement.setAttribute("data-bind-id", newSectionId);
+
+			document.getElementById("editForm").insertBefore(newDropzoneElement,newSectionElement);
+
+			setNumberOfSections(newSectionId);
+
+			newSectionElement.getElementsByClassName('deleteIcon')[0].addEventListener('click', deleteSection, false);
+
+			reCalculateWeights();
+            $(newSectionElement).attr('id', "section" + newSectionId);
+            bindTypeSelectChange();
+		}
+
+		function deleteSection(event){
+			if (confirm("Do you want to remove this section ?")) {
+				var newNumberOfSections = getNumberOfSections() - 1;
+				setNumberOfSections(newNumberOfSections);
+				var sectionElement = jQuery(event.target).closest('.js-SectionParent.deletable');
+				var previousDropzone = sectionElement.prev();
+                sectionElement.remove();
+                previousDropzone.remote();
+				reCalculateWeights();
+			}
+		}
+
+		function selectTypeChangeCallback(event){
+			event.preventDefault();
+            var newSectionType = event.target.value;
+            var sectionIndex = jQuery(event.target).closest('.js-SectionParent').data('section-id');
+            setSectionType(sectionIndex, newSectionType);
+		}
+
+
+		function setSectionType(sectionIndex, newSectionType) {
+            jQuery('#section' + sectionIndex + ' .js-sectionTypeDependent')
+                .each(function(i, element) {
+                    var $element = jQuery(element);
+                    var conditionalSectionTypeFragment = $element.data('section-type');
+                    if (newSectionType.indexOf(conditionalSectionTypeFragment) >= 0) {
+                        $element.show();
+                        //console.log(" - newSectionType - "+newSectionType);
+                        //setupInputFieldForAllowedValues(sectionIndex,newSectionType);
+
+                    } else {
+                        $element.hide();
+                    }
+                });
+        }
+
+		function bindElementSelectChange(){
+			var dropDownElement = document.getElementById("changeElementSelect");
+			dropDownElement.addEventListener("change", function(ev){
+				var selectedScheduleId = ev.target.value;
+				window.location="${changeElementUrl}" + selectedScheduleId;
+			})
+		}
+
+		]]>
+	</script>
+
+	<!--  TODO COLAB-2579: comments for details? -->
+	<!--<c:if test="${not param.manager}">-->
+		<!--<jsp:directive.include file="../details/footer.jspx"/>-->
+	<!--</c:if>-->
+</xcolab:layout>
+</jsp:root>

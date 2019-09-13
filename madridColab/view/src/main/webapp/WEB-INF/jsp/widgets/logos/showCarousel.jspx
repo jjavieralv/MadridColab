@@ -1,0 +1,36 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+    <!--@elvariable id="carouselPreferences" type="org.xcolab.view.widgets.logos.CarouselPreferences"-->
+
+    <div class="c-CarouselWrapper">
+        <c:if test="${_themeContext.authenticationVariables.isAdmin}">
+            <div class="text-right">
+                <a href="/widgets/logos/preferences?preferenceId=${carouselPreferences.preferenceId}"
+                   class="btn cb-btn-admin btn-sm">
+                    Edit carouselPreferences
+                </a>
+            </div>
+        </c:if>
+        <h2>${carouselPreferences.title}</h2>
+        <div class="c-CarouselBox">
+            <c:forEach var="logo" items="${carouselPreferences.logos}">
+                <div class="c-CarouselLogo">
+                    <c:choose>
+                        <c:when test="${logo.linkUrl != null and !logo.linkUrl.isEmpty()}">
+                            <a href="${logo.linkUrl}" target="_blank">
+                                <collab:image src="${logo.imageUrl}" alt="${logo.altText}" />
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <collab:image src="${logo.imageUrl}" alt="${logo.altText}" />
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</jsp:root>

@@ -1,0 +1,85 @@
+@import "../../variables/t-base";
+@import "bootstrap/variables";
+
+$dropdownText--open: white;
+$dropdownBackground--open: rgba(51, 51, 51, .9);
+
+.dropdown-toggle {
+  cursor: pointer;
+
+  &.cb-dropdown-toggle-no-caret:after {
+    content: none;
+  }
+}
+
+.dropdown-menu .dropdown-item {
+  background: none;
+  margin-left: 0;
+}
+
+.cb-dropdown-box {
+  padding: 15px 15px;
+}
+
+.cb-dropdown-inverse {
+
+  .dropdown-header {
+    color: $t-Color__gray--medium-500;
+  }
+
+  .dropdown-menu {
+    background-color: $dropdownBackground--open;
+    color: $dropdownText--open;
+    border: none;
+
+    a, label {
+      color: $dropdownText--open;
+      border-bottom: 1px solid transparent;
+
+      &:hover, &:focus {
+        color: $dropdownText--open;
+        background: none;
+        border-bottom: 1px dashed #fff;
+        cursor: pointer;
+      }
+
+    }
+
+    input[type=checkbox], input[type=radio] {
+      margin-right: 5px;
+    }
+
+    .dropdown-item {
+      a {
+        font-weight: 700;
+        display: inline-block;
+      }
+      &:hover {
+        background: none;
+      }
+    }
+
+    .dropdown-divider {
+      background-color: $dropdownText--open;
+    }
+  }
+}
+
+//adjustments for dropdowns in navbars
+.navbar {
+  .dropdown-menu {
+    margin-top: 0;
+
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .nav-item.dropdown.show .nav-link {
+    &, &:hover {
+      color: $dropdownText--open;
+      background-color: $dropdownBackground--open;
+      border-top-right-radius: $dropdown-border-radius;
+      border-top-left-radius: $dropdown-border-radius;
+    }
+  }
+}

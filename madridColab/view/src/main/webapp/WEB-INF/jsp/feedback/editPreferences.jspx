@@ -1,0 +1,34 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <!--@elvariable id="preferences" type="org.xcolab.view.pages.feedback.ContactPreferences"-->
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <xcolab:layout>
+
+        <xcolab:editPreferences preferences="${preferences}" hasTitle="false">
+            <div class="alert alert-info">
+                In messages you can use patterns like USER_NAME, USER_EMAIL, USER_MESSAGE
+                as placeholders for values entered by user.
+            </div>
+
+            <div class="form-group">
+                <label>Recipients (comma-separated)</label>
+                <form:input path="recipients" cssClass="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Message Format</label>
+                <form:textarea path="messageFormat" cssClass="form-control" cols="30" rows="10" />
+            </div>
+
+            <div class="form-group">
+                <label>Message Subject</label>
+                <form:input path="messageSubject" cssClass="form-control" />
+            </div>
+
+        </xcolab:editPreferences>
+
+    </xcolab:layout>
+</jsp:root>

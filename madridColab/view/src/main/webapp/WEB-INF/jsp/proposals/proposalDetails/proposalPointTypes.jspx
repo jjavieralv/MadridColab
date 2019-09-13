@@ -1,0 +1,292 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:collab="urn:jsptld:/WEB-INF/tlds/xcolab.tld"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <!--@elvariable id="pointType" type="org.xcolab.client.proposals.pojo.points.PointType"-->
+    <!--@elvariable id="percentageOfTotalPoints" type="java.lang.Double"-->
+    <!--@elvariable id="assignPointsBean" type="org.xcolab.view.pages.proposals.requests.AssignPointsBean"-->
+    <!--@elvariable id="pointsToDistribute" type="java.lang.Double"-->
+    <!--@elvariable id="recursionLevel" type="java.lang.Integer"-->
+    <!--@elvariable id="currentTabWrapped" type="org.xcolab.view.pages.proposals.tabs.ProposalTabWrapper"-->
+    <!--@elvariable id="contestType" type="org.xcolab.client.admin.pojo.ContestType"-->
+    <!--@elvariable id="subProposals" type="java.util.List<org.xcolab.client.proposals.pojo.Proposal>"-->
+
+        <fmt:setLocale value = "en_US"/>
+    <c:set var="childrenSize" value="${pointType.children.size()}" scope="request"/>
+    <c:set var="parentPercentageOfTotalPoints">
+    <c:out value="${percentageOfTotalPoints}"/></c:set>
+    <c:set var="parentPointsToDistribute"><c:out value="${pointsToDistribute}"/></c:set>
+    <c:set var="parentRecursionLevel"><c:out value="${recursionLevel}"/></c:set>
+    <!-- set column definitons -->
+    <c:remove var="smallColumnExists" />
+    <c:remove var="largeColumnExists" />
+    <c:set var="pointsContainerOffset" value="0"/>
+    <c:if test="${recursionLevel lt 1}">
+        <c:forEach var="child" varStatus="status" items="${pointType.children}">
+            <c:choose>
+                <c:when test="${pointType.children.size() == 2 and child.children.size() == 0}">
+                    <c:set var="smallColumnExists" value="true"/>
+                    <c:set var="pointsContainerOffset" value="${pointsContainerOffset + (status.count > childrenSize/2 ? 7.5 : -7.5)}"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="largeColumnExists" value="true"/>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </c:if>
+    <c:choose>
+        <c:when test="${childrenSize > 0}">
+            <div class="points-container" style="left:${pointsContainerOffset}%">
+                <p class="fill" style="height: ${parentPercentageOfTotalPoints * 100}%;top: ${(1-parentPercentageOfTotalPoints) * 100}%">
+
+                </p>
+                <p class="globe">
+
+                </p>
+            </div>
+            <table class="pointType">
+                <c:forEach var="child" varStatus="status" items="${pointType.children}">
+                    <col width="${fn:substringBefore((100 / childrenSize)/((recursionLevel lt 1 and largeColumnExists and child.children.size() == 0) ? 2 : 1), '.')}%" />
+                </c:forEach>
+                <tbody>
+                <tr>
+                    <c:forEach var="pointType" varStatus="status" items="${pointType.children}">
+                        <td class="${status.count > childrenSize/2 ? 'rightBranch' : 'leftBranch'} ${(smallColumnExists and largeColumnExists ? (pointType.children.size() == 0 ? 'small' : 'large') : '')}">
+                            <div class="content">
+                                <p class="percentage">
+                                    <fmt:formatNumber type="percent" value="${parentPercentageOfTotalPoints * pointType.percentageOfParent}" minFractionDigits="0" maxFractionDigits="2"/>
+                                </p>
+                                <!-- Recursion -->
+                                <c:set var="percentageOfTotalPoints" value="${parentPercentageOfTotalPoints * pointType.percentageOfParent}" scope="request"/>
+                                <c:set var="pointType" value="${pointType}" scope="request"/>
+                                <c:set var="pointsToDistribute" value="${parentPointsToDistribute * pointType.percentageOfParent}" scope="request"/>
+                                <c:set var="recursionLevel" value="${parentRecursionLevel +1}" scope="request"/>
+                                <jsp:include page="proposalPointTypes.jspx"/>
+                            </div>
+                        </td>
+                    </c:forEach>
+                </tr>
+                </tbody>
+            </table>
+        </c:when>
+        <c:otherwise>
+            <c:if test="${recursionLevel lt 2}">
+                <div class="points-container">
+                    <p class="fill" style="height: ${parentPercentageOfTotalPoints * 100}%;top: ${(1-parentPercentageOfTotalPoints) * 100}%">
+
+                    </p>
+                    <p class="globe">
+
+                    </p>
+                </div>
+                <p class="arrow-down">
+
+                </p>
+            </c:if>
+            <c:choose>
+                <c:when test="${pointType.receiverLimitationStrategy eq 'SUBPROPOSALS' and pointType.distributionStrategy eq 'EQUAL_DIVISION'}">
+                    <p class="info">
+                        <collab:message code="contests.proposal.points.equallydistributed" contestType="${contestType}" />
+                    </p>
+                    <c:choose>
+                        <c:when test="${subProposals.size() gt 0}">
+                            <ul class="subproposals">
+                                <c:forEach var="proposal" items="${subProposals}">
+                                    <li>
+                                        <label class="percentageInput">
+                                            <span class="highlighted">
+                                                <fmt:formatNumber type="percent" minFractionDigits="2" maxFractionDigits="2" value="${parentPercentageOfTotalPoints/subProposals.size()}"/>
+                                            </span>
+                                            <a href="${proposal.proposalUrl}" target="_blank">
+                                                <c:out value="${proposal.name}"/>
+                                            </a>
+                                        </label>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                            <p class="totalRow">
+                                <strong class="percentage smaller">
+                                    <fmt:formatNumber type="percent" minFractionDigits="2" maxFractionDigits="2" value="${parentPercentageOfTotalPoints}"/>
+                                </strong>
+                                <strong class="name"><spring:message code="contests.proposal.points.total" /></strong>
+                            </p>
+                        </c:when>
+                        <c:otherwise>
+                            <p style="margin-top: 15px">
+                                <em><collab:message code="contests.proposal.points.nonereferenced" contestType="${contestType}" /> </em>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:when test="${pointType.receiverLimitationStrategy eq 'REGIONAL_SUBPROPOSALS'}">
+                    <p class="info">
+                        <collab:message code="contests.proposal.points.distributedtoregional" contestType="${contestType}"/>
+                    </p>
+                    <c:choose>
+                        <c:when test="${regionalPercentages.size() gt 0}">
+                            <ul class="subproposals">
+                                <c:forEach var="pointsProposalWrapper" items="${regionalPercentages}">
+                                    <li>
+                                        <span class="highlighted">
+                                            <fmt:formatNumber type="percent" minFractionDigits="2" maxFractionDigits="2" value="${pointsProposalWrapper.percentage/100}"/>
+                                        </span>
+                                        <a href="${pointsProposalWrapper.proposal.proposalUrl}" target="_blank">
+                                            <c:out value="${pointsProposalWrapper.proposal.name}"/>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                            <p class="totalRow">
+                                <strong class="percentage smaller">
+                                    <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${parentPercentageOfTotalPoints*100}"/>%
+                                </strong>
+                                <strong class="name"><spring:message code="contests.proposal.points.total" /></strong>
+                            </p>
+                        </c:when>
+                        <c:otherwise>
+                            <p style="margin-top: 15px">
+                                <em><collab:message code="contests.proposal.points.nonereferenced" contestType="${contestType}" /> </em>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:when test="${pointType.receiverLimitationStrategy eq 'BASIC_SUBPROPOSALS'}">
+                    <p class="info">
+                        <collab:message code="contests.proposal.points.distributedtocrossregional" contestType="${contestType}" />
+                    </p>
+                    <c:choose>
+                        <c:when test="${basicPercentages.size() gt 0}">
+                            <ul class="subproposals">
+                                <c:forEach var="pointsProposalWrapper" items="${basicPercentages}">
+                                    <li>
+                                        <span class="highlighted">
+                                            <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${pointsProposalWrapper.percentage}"/>%
+                                        </span>
+                                        <a href="${pointsProposalWrapper.proposal.proposalUrl}" target="_blank">
+                                            <c:out value="${pointsProposalWrapper.proposal.name}"/>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                            <p class="totalRow">
+                                <strong class="percentage smaller">
+                                    <fmt:formatNumber type="percent" minFractionDigits="2" maxFractionDigits="2" value="${parentPercentageOfTotalPoints}"/>
+                                </strong>
+                                <strong class="name"><spring:message code="contests.proposal.points.total" /></strong>
+                            </p>
+                        </c:when>
+                        <c:otherwise>
+                            <p style="margin-top: 15px">
+                                <em><collab:message code="contests.proposal.points.nonereferenced" contestType="${contestType}" /> </em>
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:when test="${pointType.receiverLimitationStrategy eq 'SUBPROPOSALS' and pointType.distributionStrategy eq 'USER_DEFINED'}">
+                    <!--TODO COLAB-2582: check if we need to implement this -->
+                </c:when>
+                <c:when test="${pointType.receiverLimitationStrategy eq 'ANY_USER' or pointType.receiverLimitationStrategy eq 'ANY_NON_TEAM_MEMBER' or pointType.receiverLimitationStrategy eq 'ANY_TEAM_MEMBER'}">
+                    <c:choose>
+                        <c:when test="${pointType.receiverLimitationStrategy eq 'ANY_TEAM_MEMBER'}">
+                            <p class="info">
+                                <c:choose>
+                                    <c:when test="${currentTabWrapped.canEdit}">
+                                        <spring:message code="contests.proposal.points.distributesyourteammembers" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <collab:message code="contests.proposal.points.distributedteammembers" contestType="${contestType}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </p>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="info">
+                                <c:choose>
+                                    <c:when test="${pointType.receiverLimitationStrategy eq 'ANY_NON_TEAM_MEMBER'}">
+                                        <collab:message code="contests.proposal.points.distributedoutsideteam" contestType="${contestType}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <collab:message code="contests.proposal.points.distributedtoanymember" contestType="${contestType}" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </p>
+                            <c:if test="${currentTabWrapped.canEdit}">
+                                <label class="username-picker">
+                                    Username:<br />
+                                    <input id="userSelectorInput${pointType.id}" type="text" class="form-control messageRecipients${pointType.id}" />
+                                    <input type="hidden" class="messageRecipientsInput${pointType.id}" />
+                                </label>
+
+
+                                <div id="please_choose_from_list${pointType.id}" class="error" style="display: none;">Please choose a user from the list</div>
+                                <div id="unknownUsersContainer${pointType.id}" class="error" style="display: none;">Unknown user: <p><!-- --></p></div>
+                                <script>
+                                    jQuery(function() {
+                                        initUserAutocomplete(${pointType.id}, ${currentTabWrapped.canEdit});
+                                    });
+                                </script>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <fmt:formatNumber var="percentageToDistribute" type="number" maxFractionDigits="2" value="${parentPercentageOfTotalPoints*100}"/>
+                    <div id="userDistributionTable${pointType.id}" style="${assignPointsBean.getUserIds(pointType.id).size() lt 1 ? 'display:none' : ''}">
+                        <ul class="userDistributionInputs"
+                            data-percentage="${percentageToDistribute}"
+                            data-pointType="${pointType.id}"
+                            id="userDistributionInputs${pointType.id}">
+                            <li class="error"><!-- --></li>
+                            <li class="header">
+                                <strong class="percentage">%</strong>
+                                <strong class="name">Name</strong>
+                            </li>
+                            <c:forEach var="member" items="${assignPointsBean.getMembers(pointType.id)}">
+                                <li class="listItem${pointType.id}-${member.id}">
+                                    <label class="percentageInput">
+                                        <c:choose>
+                                            <c:when test="${currentTabWrapped.canEdit}">
+                                                <form:input data-changed-by-user="true"
+                                                        path="assignmentsByUserIdByPointTypeId[${pointType.id}][${member.id}]"
+                                                        class="form-control"
+                                                        value="${assignPointsBean.assignmentsByUserIdByPointTypeId[pointType.id][member.id]}"
+                                                    />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="input" data-value="${assignPointsBean.assignmentsByUserIdByPointTypeId[pointType.id][member.id]}">
+                                                    <fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${assignPointsBean.assignmentsByUserIdByPointTypeId[pointType.id][member.id]}"/>%
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <a href="/members/profile/${member.id}" target="_blank">
+                                            <span class="">${member.screenName}</span>
+                                        </a>
+                                        <c:if test="${currentTabWrapped.canEdit and pointType.receiverLimitationStrategy != 'ANY_TEAM_MEMBER'}">
+                                            <span class="deleteListItem" data-item-id="${pointType.id}-${member.id}">x</span>
+                                        </c:if>
+                                    </label>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                        <p class="totalRow">
+                            <strong id="userDistributionTotal${pointType.id}" class="percentage">
+                                0.00%
+                            </strong>
+                            <strong class="name">
+                                <spring:message code="contests.proposal.points.total" />
+                                <c:if test="${currentTabWrapped.canEdit}">
+                                    ${percentageToDistribute}
+                                    <fmt:formatNumber var="expectedTotal" type="number" minFractionDigits="2" maxFractionDigits="2" value=""/>
+                                    (<spring:message code="contests.proposal.points.shouldbe" arguments="expectedTotal" />)
+                                </c:if>
+                            </strong>
+                        </p>
+                    </div>
+                </c:when>
+            </c:choose>
+        </c:otherwise>
+    </c:choose>
+</jsp:root>

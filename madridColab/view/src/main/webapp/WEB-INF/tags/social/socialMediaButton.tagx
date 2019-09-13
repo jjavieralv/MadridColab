@@ -1,0 +1,101 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <jsp:directive.attribute name="socialEngine" type="java.lang.String" required="true"
+                             rtexprvalue="true" description="Available engines : facebook, twitter, google, linkedin, youtube, colab"/>
+    <jsp:directive.attribute name="type" type="java.lang.String" required="true"
+                             rtexprvalue="true" description="Types available: share, follow"/>
+    <jsp:directive.attribute name="size" type="java.lang.String" description="Available sizes: lg,sm, xm for regular leave blank" />
+    <jsp:directive.attribute name="followMeUrl" type="java.lang.String" description="The social link for the follow me function" />
+    <jsp:directive.attribute name="shareUrl" type="java.lang.String" description="Share url override, if not passed the current URL will be used" />
+    <jsp:directive.attribute name="hashString" type="java.lang.String" description="Optional hash string to append to the URL. Has to start with '#'" />
+    <jsp:directive.attribute name="title" required="false" type="java.lang.String" description="Optional title for some sharing platforms" />
+    <jsp:directive.attribute name="messageTitle" required="false" type="java.lang.String" description="Optional title for private messages (e.g. email or colab message)" />
+    <jsp:directive.attribute name="content" required="false" type="java.lang.String" description="Optional content for some sharing platforms" />
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <c:set var="finalShareUrl" value="${not empty shareUrl ? shareUrl : _themeContext.socialMediaVariables.shareRequestUri}${hashString}"/>
+
+    <c:if test="${not empty size}">
+        <c:set var="sizeClass" value="c-SocialButton--${size}"/>
+    </c:if>
+
+    <c:set var="socialEngineLogoUrl" value="/images/icons/social/${socialEngine}.svg" />
+
+    <c:choose>
+        <c:when test="${type.equals('follow')}">
+            <c:if test="${not empty followMeUrl}">
+                <a class="c-SocialButton c-SocialButton--hoverTranslate ${sizeClass}" href="${followMeUrl}" target="_blank">
+                    <collab:image src="${socialEngineLogoUrl}" alt="${socialEngine}" />
+                </a>
+            </c:if>
+        </c:when>
+        <c:when test="${type.equals('share')}">
+            <!-- Load share script exactly once -->
+            <c:if test="${empty __socialMediaButton__shareScriptLoaded}">
+                <c:set var="__socialMediaButton__shareScriptLoaded" value="true" scope="request"/>
+                <script>
+                    function shareThis(el) {
+                        var shareUrl = $(el).data("share-url").replace("socialMediaEngine", $(el).data("engine"));
+                        window.open($(el).data("engine-url") + encodeURIComponent(shareUrl), '_blank');
+                    }
+                </script>
+            </c:if>
+            <c:choose>
+                <c:when test="${socialEngine.equals('email')}">
+                    <a class="c-SocialButton c-SocialButton--hoverTranslate ${sizeClass}"
+                       href="mailto:?subject=${not empty messageTitle ? messageTitle : title}&amp;body=${content} ${finalShareUrl}">
+                        <collab:image src="${socialEngineLogoUrl}" alt="${socialEngine}" />
+                    </a>
+                </c:when>
+                <c:when test="${socialEngine.equals('colab')}">
+                    <xcolab:requireLibrary name="sendMessage"/>
+                    <a class="c-SocialButton c-SocialButton--hoverTranslate ${sizeClass} js-EnhancedLink"
+                       data-require-login="true" href="#sendMessageModal" data-toggle="modal"
+                       data-message-subject="${not empty messageTitle ? messageTitle : title}"
+                       data-message-content="${content} ${finalShareUrl}">
+                        <collab:image src="${socialEngineLogoUrl}" alt="${socialEngine}" />
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${socialEngine.equals('facebook')}">
+                            <c:url value="https://www.facebook.com/dialog/share" var="dataEngineUrl">
+                                <c:param name="app_id" value="${_themeContext.authenticationVariables.facebookId}" />
+                                <c:param name="display" value="popup" />
+                                <c:param name="href" value="" />
+                            </c:url>
+                        </c:when>
+                        <c:when test="${socialEngine.equals('twitter')}">
+                            <c:url value="https://twitter.com/intent/tweet" var="dataEngineUrl">
+                                <c:param name="text" value="${title}" />
+                                <c:param name="display" value="popup" />
+                                <c:param name="url" value="" />
+                            </c:url>
+                        </c:when>
+                        <c:when test="${socialEngine.equals('google')}">
+                            <c:url value="https://plus.google.com/share" var="dataEngineUrl">
+                                <c:param name="url" value="" />
+                            </c:url>
+                        </c:when>
+                        <c:when test="${socialEngine.equals('linkedin')}">
+                            <c:url value="https://www.linkedin.com/shareArticle" var="dataEngineUrl">
+                                <c:param name="mini" value="true" />
+                                <c:param name="title" value="${title}" />
+                                <c:param name="url" value="" />
+                            </c:url>
+                        </c:when>
+                    </c:choose>
+                    <a class="c-SocialButton c-SocialButton--hoverTranslate ${sizeClass}" data-engine-url="${dataEngineUrl}"
+                       data-engine="${socialEngine}" data-share-url="${finalShareUrl}" onclick="shareThis(this)">
+                        <collab:image src="${socialEngineLogoUrl}" alt="${socialEngine}" />
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </c:when>
+    </c:choose>
+</jsp:root>

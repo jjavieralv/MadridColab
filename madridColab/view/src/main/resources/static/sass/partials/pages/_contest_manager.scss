@@ -1,0 +1,303 @@
+.collectionCard-outline-left{
+  width:50%;
+  float: left;
+  padding-right: 60px;
+
+  .collectionCard-category {
+    padding: 10px;
+  }
+
+  .expand{
+    width: 100%;
+  }
+
+  .collectionCardListItem {
+    list-style: none;
+
+  }
+
+  .level-1 {
+    ul {
+      display: none;
+    }
+  }
+
+  .level-1 li.anything a.open {
+    background-color: $t-Color__primary--darkest;
+  }
+
+  .level-1 li a {
+    background: url(/images/contest-icon-plus.png) no-repeat 18px center;
+  }
+
+  .level-1 li.active > a {
+    color: white;
+    background-color: $t-Color__primary--darkest
+  }
+
+  .level-1 li a.open {
+    background-image: url(/images/contest-icon-minus-orange.png);
+  }
+
+  .level-1 li.active a.open {
+    background-image: url(/images/contest-icon-minus.png);
+  }
+
+  .level-1 li.active a.open.active .count {
+    color: white;
+  }
+
+  .level-1 li.no-child a, .level1 li.no-child a.open {
+    background-image: none;
+  }
+
+  .level-1 li.anything a {
+    background: white url(/images/pattern-6x6-lite.png) repeat top left;
+  }
+
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  ul li {
+    background: none;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  ul.level-1 li {
+    padding-left: 0;
+  }
+
+  ul.level-2 li {
+    padding-left: 32px;
+    font-size: 12px;
+  }
+
+  ul.level-3 li {
+    padding-left: 32px;
+  }
+
+  ul.level-4 li {
+    padding-left: 32px;
+  }
+
+  ul.level-1 li a {
+    padding: 10px 20px 10px 46px;
+    font-size: 14px;
+  }
+
+  ul.level-2 li a {
+    padding: 10px 20px 10px 40px;
+    font-size: 12px;
+  }
+
+  ul.level-3 li a {
+    padding: 10px 20px 10px 35px;
+  }
+
+   li a {
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+    color: black;
+  }
+
+}
+
+.ontologyPicker{
+
+  margin:auto;
+  padding: 50px;
+  display: block;
+  position: absolute;
+  top: 30px;
+  width: 50%;
+  z-index: 100;
+  background-color: $t-Color__tan;
+  border-radius: 10px;
+  box-shadow: 0 1px 40px $t-Color__tan;
+
+  .whatArea {
+    width: 90%;
+  }
+
+  .whereArea {
+    width: 90%;
+  }
+
+  .ontologyTermListItem {
+    list-style: none;
+  }
+
+  .level-1 {
+    ul {
+      display: none;
+    }
+  }
+
+  .level-1 li.anything a.open {
+    background-color: $t-Color__primary--darkest;
+  }
+
+  .level-1 li a {
+    background: url(/images/contest-icon-plus.png) no-repeat 18px center;
+  }
+
+  .level-1 li.active > a {
+    color: white;
+    background-color: $t-Color__primary--darkest
+  }
+
+  .level-1 li a.open {
+    background-image: url(/images/contest-icon-minus-orange.png);
+  }
+
+  .level-1 li.active a.open {
+    background-image: url(/images/contest-icon-minus.png);
+  }
+
+  .level-1 li.active a.open.active .count {
+    color: white;
+  }
+
+  .level-1 li.no-child a, .level1 li.no-child a.open {
+    background-image: none;
+  }
+
+  .level-1 li.anything a {
+    background: white url(/images/pattern-6x6-lite.png) repeat top left;
+  }
+
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  ul li {
+    background: none;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  ul.level-1 li {
+    padding-left: 0;
+  }
+
+  ul.level-2 li {
+    padding-left: 32px;
+    font-size: 12px;
+  }
+
+  ul.level-3 li {
+    padding-left: 32px;
+  }
+
+  ul.level-4 li {
+    padding-left: 32px;
+  }
+
+  ul.level-1 li a {
+    padding: 10px 20px 10px 46px;
+    font-size: 14px;
+  }
+
+  ul.level-2 li a {
+    padding: 10px 20px 10px 40px;
+    font-size: 12px;
+  }
+
+  ul.level-3 li a {
+    padding: 10px 20px 10px 35px;
+  }
+
+  li a {
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+    color: black;
+  }
+
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+.clearLeft {
+  clear: left;
+}
+
+.fileUploadFrame input {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+  z-index: 100000;
+}
+
+.rotate {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+  /* Should be unset in IE9+ I think. */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#massMessage input {
+  width: 100%;
+  font-size: medium;
+  line-height: 30px;
+}
+
+#massMessage textarea {
+  width: 100%;
+  font-size: medium;
+  min-height: 60px;
+}
+
+#selectedMassAction {
+  font-size: large;
+  line-height: 27px;
+}
+
+#contestsFilterSelect {
+  font-size: large;
+  line-height: 27px;
+}
+
+span.ontology-term-label {
+  margin-left: 15px;
+  font-style: italic;
+}
+
+.boxChanged:after {
+  content: '*';
+  color: #30a3fb;
+}
+#cvsContests input {
+  width:210px;
+}
+#cvsContests span.token {
+  font-size: 11px;
+  border-width: 1px;
+  border-color: gray;
+  border-style: solid;
+  margin-left: 5px;
+  padding: 2px;
+  line-height: 26px;
+}

@@ -1,0 +1,52 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+	<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+	<xcolab:layout meta1="${meta1}" meta2="${meta2}" title="Social Network Prize">
+		<div class="balloonContainer">
+
+            ${balloonText.textBeforeForm}
+
+            <c:if test="${not _themeContext.authenticationVariables.isLoggedIn}">
+                <p>
+                    (You don’t have to be a ${_themeContext.colabName} member to win the Social Network Prize,
+                    but if you are a member, <a href="#" class="js-EnhancedLink" data-require-login="true">log in</a> first
+                    so we can display your link on your profile page.)
+                </p>
+            </c:if>
+
+            <form:form modelAttribute="userEmailBean" id="sendUserEmailForm"
+                       action="/snp/socialnetworkprize" method="post">
+                <form:errors path="acceptTos" cssClass="alert alert-danger"/>
+                <div class="form-check">
+                    <form:checkbox path="acceptTos" class="form-check-input" id="acceptTos" />
+                    <label class="form-check-label" for="acceptTos">
+                        Yes, I have read and I agree to the terms of the <a href="" data-toggle="modal" data-target="#snpConsentFormModal">consent form</a>.
+                    </label>
+                </div>
+                <c:choose>
+                    <c:when test="${not _themeContext.authenticationVariables.isLoggedIn}">
+                        <form:input path="email" placeholder="Please enter your email address"
+                                    cssClass="form-control cb-form-control-inline cb-form-control-md" />
+                        <form:errors path="email" cssClass="invalid-feedback" />
+                    </c:when>
+                    <c:otherwise>
+                        <form:hidden path="email" />
+                    </c:otherwise>
+                </c:choose>
+
+                <button type="submit" class="btn btn-primary" href="#">
+                    Request your unique link
+                </button>
+
+            </form:form>
+
+		</div>
+        <jsp:include page="exampleModal.jspx" />
+        <jsp:include page="consentForm.jspx" />
+	</xcolab:layout>
+</jsp:root>

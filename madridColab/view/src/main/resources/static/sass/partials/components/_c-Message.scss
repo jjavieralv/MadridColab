@@ -1,0 +1,34 @@
+$c-Message__textColor: #666 !default;
+$c-Message__number__textColor: #0090FF !default;
+
+$c-Message__input__background: #F2F1E9 url(/images/sendMessage_textarea.gif) no-repeat !default;
+
+.c-Message__number { //span.num
+  font-size: 34px;
+}
+
+.c-Message { //#message-info
+  margin: 45px 0 20px 0;
+  font-size: 15px;
+  font-style: italic;
+  color: $c-Message__textColor;
+}
+
+.c-Message__input { //popuplogin_input
+  width: 390px;
+  height: 27px;
+  padding: 2px 0 0 8px;
+  background: $c-Message__input__background;
+  border: none;
+  font-size: 13px;
+  font-weight: $t-Typography__fontWeight;
+}
+
+.c-Message__titleWrap {
+  float: left;
+  width: 100%;
+}
+
+.c-Message__subject {
+  display:inline-block;
+}

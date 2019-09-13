@@ -1,0 +1,84 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:collab="urn:jsptld:/WEB-INF/tlds/xcolab.tld"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout title="Search">
+    <!--@elvariable id="searchBean" type="org.xcolab.view.pages.search.SearchBean"-->
+    <!--@elvariable id="pageNavigation" type="org.xcolab.view.util.pagination.PageNavigation"-->
+
+    <h1>
+        <c:if test="${not empty searchBean.searchPhrase}">
+            <spring:message code="search.title" arguments="${searchBean.searchPhrase}"/>
+        </c:if>
+        <c:if test="${empty searchBean.searchPhrase}">
+            <spring:message code="search.titleNoArg" />
+        </c:if>
+    </h1>
+
+    <form action="/search" method="get" class="form-inline">
+        <label class="sr-only" for="searchPhrase">Search phrase</label>
+        <input value="${searchBean.searchPhrase}" name="searchPhrase" id="searchPhrase"
+                class="form-control"/>
+        <c:if test="${not empty searchBean.searchLocation}">
+            <input type="hidden" name="searchLocation" value="${searchBean.searchLocation}"/>
+        </c:if>
+        <button type="submit" class="btn btn-primary ml-2">
+            <spring:message code="search.button"/>
+        </button>
+    </form>
+
+    <c:if test="${searchBean.showBlogReference and not empty searchBean.searchPhrase}">
+        <div class="searchBlogLink">
+            <span><spring:message code="search.didnotfind"/></span>&#160;
+            <a href="${searchBean.searchBlogURL}">
+                <collab:message code="search.colabnews" arguments="${searchBean.searchPhrase}"/>
+            </a>
+        </div>
+    </c:if>
+
+    <div class="clearfix">
+        <div id="main" class="searchresults">
+
+            <c:if test="${searchBean.dataPage.totalResults == 0 and not empty searchBean.searchPhrase}">
+                <p><spring:message code="search.noresults" /></p>
+            </c:if>
+            <div class="searchTable">
+                <c:forEach var="item" items="${searchBean.items}" varStatus="loopStatus">
+                    <div class="result ${loopStatus.index % 2 == 0 ? 'blu' : ''}">
+                        <div class="result_title">
+                            <a href="${item.url}">${item.title}</a>
+                        </div>
+                        <div class="result_locale">
+                            ${item.itemType.printName}
+                        </div>
+                        <div class="clear"><!-- --></div>
+                        <p>${item.content}</p>
+                    </div>
+
+                </c:forEach>
+            </div>
+        </div>
+
+        <div class="right_col">
+            <div class="comm_list">
+                <spring:message code="search.showresultsfor"/>
+                <ul>
+                    <li class="${searchBean.searchLocation == '' ? 'c' : ''}">
+                        <a href="/search?searchPhrase=${searchBean.searchPhrase}"><spring:message code="search.fullsite"/></a>
+                    </li>
+                    <c:forEach var="itemType" items="${searchBean.itemTypes}">
+                        <li class="${searchBean.selectedItemType == itemType ? 'c' : ''}">
+                            <a href="${itemType.getPageLink(searchBean).linkUrl}">${itemType.printName}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <xcolab:pagination pageNavigation="${pageNavigation}"/>
+</xcolab:layout>
+</jsp:root>

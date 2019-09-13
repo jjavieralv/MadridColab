@@ -1,0 +1,37 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+<!--@elvariable id="thread" type="org.xcolab.client.comment.pojo.CommentThread"-->
+
+<xcolab:layout title="${thread.title} - ${thread.category.name}">
+    <jsp:include page="init.jspx"/>
+    <!--@elvariable id="isSubscribed" type="java.lang.Boolean"-->
+    <div id="content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members"><spring:message code="colab.breadcrumbs.community"/></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/discussion"><spring:message code="colab.breadcrumbs.discussion"/></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="${thread.category.linkUrl}">${thread.category.name}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">${thread.title}</li>
+            </ol>
+        </nav>
+
+        <h1>${thread.title}</h1>
+
+        <script>
+            jQuery(function() {
+                enableDirtyCheck();
+            });
+        </script>
+        <xcolab:discussionComments threadId="${thread.id}"/>
+    </div>
+</xcolab:layout>
+</jsp:root>

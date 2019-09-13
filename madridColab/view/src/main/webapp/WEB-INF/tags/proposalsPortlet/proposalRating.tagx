@@ -1,0 +1,43 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        xmlns:form="http://www.springframework.org/tags/form">
+
+    <jsp:directive.attribute name="ratingTypes" type="java.util.Collection" required="true" rtexprvalue="true" description="List of ProposalRatingTypeWrapper" />
+    <jsp:directive.attribute name="ratingValuesPath" type="java.lang.String" required="true" rtexprvalue="true" description="Path to values" />
+
+    <!--@elvariable id="ratingTypes" type="java.util.Collection<org.xcolab.view.pages.proposals.wrappers.ProposalRatingTypeWrapper>"-->
+
+
+    <c:forEach var="type" items="${ratingTypes}">
+        <c:if test="${type.isActive}">
+            <div>
+                    <h5 class="js-Tooltip" title="${type.description}">
+                        <a>${type.label}</a>
+                    </h5>
+            </div>
+            <table class="judgingForm">
+                <c:forEach var="value" items="${type.ratingValues}">
+                    <col width="${fn:substringBefore(100 / type.ratingValues.size(), '.')}%" />
+                </c:forEach>
+                <tbody>
+                <tr>
+                    <c:forEach var="value" items="${type.ratingValues}">
+                        <td>
+                            <label for="rating${value.id}" class="${not empty value.description ? 'js-Tooltip' : ''}" title="${value.description}">
+                                ${value.name}
+                            </label>
+                        </td>
+
+                    </c:forEach>
+                </tr>
+                <tr>
+                    <c:forEach var="value" items="${type.ratingValues}">
+                        <td><form:radiobutton id="rating${value.id}" path="${ratingValuesPath}[${type.id}]" value="${value.id}"/></td>
+                    </c:forEach>
+                </tr>
+                </tbody>
+            </table>
+        </c:if>
+    </c:forEach>
+</jsp:root>

@@ -1,0 +1,181 @@
+@import "../../lib/functions";
+
+$c-TitleBar__backgroundColor: $t-Color__primary__gray--light !default;
+$c-TitleBar__borderBottom: 1px solid $t-Color__primary__gray !default;
+$c-TitleBar__contestSummary__backgroundColor--light: $t-Color__gray--light-100 !default;
+$c-TitleBar__textColor: $t-Color__gray--dark-800 !default;
+$c-TitleBar__element--active__capitalization: none !default;
+$c-TitleBar__element--disabled__textColor: $t-Color__gray--dark-600 !default;
+$c-TitleBar__element__fontWeight: $t-Typography__fontWeight !default;
+$c-TitleBar__a__textColor: $t-Color__primary !default;
+$c-TitleBar__a__textColor--hover: black !default;
+$c-TitleBar__a__fontWeight: 700 !default;
+$c-TitleBar__capitalization: none !default;
+
+$c-TitleBar__contestSummary__backgroundColor: $t-Color__primary__gray--light !default;
+
+$c-TitleBar__actionButton__backgroundColor: $primary !default;
+$c-TitleBar__actionButton__backgroundColor--hover: darken($c-TitleBar__actionButton__backgroundColor, 10%) !default;
+
+//TODO: theme
+$c-TitleBar__separator__color: #B9E3FF !default;
+
+//== Local vars
+$_c-TitleBar__height: 37px;
+$_c-TitleBar__borderWidth: 6px;
+
+//TODO: this should be the top level of the component (.c-TitleBar)
+.c-TitleBar__container {
+  height: $_c-TitleBar__height + $_c-TitleBar__borderWidth;
+}
+
+.c-TitleBar {
+  background: $c-TitleBar__backgroundColor;
+  border-bottom: $c-TitleBar__borderBottom;
+  color: $c-TitleBar__textColor;
+  text-transform: $c-TitleBar__capitalization;
+
+  a {
+    //Use default link color unless we need a light text color
+    @if yiq-is-light($c-TitleBar__textColor) {
+      color: $c-TitleBar__textColor;
+      &:hover {
+        color: hover-color($c-TitleBar__textColor);
+      }
+    }
+  }
+
+  &.contestSummary {
+    background: $c-TitleBar__contestSummary__backgroundColor;
+  }
+
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+  }
+}
+
+.c-TitleBar--light {
+  &.c-TitleBar {
+    background: $c-TitleBar__contestSummary__backgroundColor--light;
+    color: $b-Typography__textColor;
+  }
+}
+
+.c-TitleBar.c-TitleBar--warning {
+  background: $t-Color__primary__gray--light;
+  color: $t-Color__gray--dark-800;
+  border-bottom: $_c-TitleBar__borderWidth solid $t-Color__warning;
+
+  .c-TitleBar__actionButton {
+    color: yiq-contrasting-color($t-Color__warning);
+    background: $t-Color__warning;
+
+    &:hover {
+      $hover-background: hover-color($t-Color__warning);
+      color: yiq-contrasting-color($hover-background);
+      background: $hover-background;
+    }
+  }
+}
+
+.c-TitleBar.c-TitleBar--fixed {
+  position: fixed;
+  right: 0;
+  left: 0;
+  //Higher than bootstrap navbar (1030), lower than modal background (1040)
+  z-index: 1035;
+}
+
+.c-TitleBar__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.c-TitleBar__element_group {
+  text-wrap: none;
+}
+
+.c-TitleBar__element {
+  height: $_c-TitleBar__height;
+  line-height: $_c-TitleBar__height;
+  display: inline-block;
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  font-size: 14px;
+  font-weight: $c-TitleBar__element__fontWeight;
+
+  //states
+  &.disabled {
+    color: $c-TitleBar__element--disabled__textColor;
+    text-transform: none;
+  }
+
+  &.active {
+    font-weight: $t-Typography__fontWeight--bold;
+    text-transform: $c-TitleBar__element--active__capitalization;
+  }
+}
+
+.c-TitleBar__element--withSeparator {
+  @extend .c-TitleBar__element;
+
+  margin-right: 15px;
+
+  //arrow implementation:
+  &:after, &:before {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  //noinspection CssOptimizeSimilarProperties
+  &:after {
+    border-width: 12px;
+    border-left-color: $c-TitleBar__contestSummary__backgroundColor;
+    margin-top: -12px;
+  }
+  //noinspection CssOptimizeSimilarProperties
+  &:before {
+    border-width: 16px;
+    border-left-color: $c-TitleBar__separator__color;
+    margin-top: -16px;
+  }
+}
+
+.c-TitleBar__actionButton {
+  @extend .btn;
+
+  //The action button shouldn't grow or shrink
+  flex: 0 0 auto;
+
+  height: $_c-TitleBar__height;
+  line-height: $_c-TitleBar__height;
+  padding: 0 10px;
+
+  font-size: 0.875rem;
+
+  border-radius: 0;
+
+  color: yiq-contrasting-color($c-TitleBar__actionButton__backgroundColor, $t-Color__text--light, $t-Link__color);
+  background: $c-TitleBar__actionButton__backgroundColor;
+
+  &:hover {
+    color: yiq-contrasting-color($c-TitleBar__actionButton__backgroundColor--hover, $t-Color__text--light, $t-Link__color--hover);
+    background: $c-TitleBar__actionButton__backgroundColor--hover;
+  }
+
+  //inline icons
+  img {
+    height: 25px;
+    margin-right: 5px;
+  }
+}

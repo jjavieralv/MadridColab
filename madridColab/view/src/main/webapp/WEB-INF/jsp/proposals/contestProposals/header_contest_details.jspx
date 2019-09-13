@@ -1,0 +1,257 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:proposalsPortlet="urn:jsptagdir:/WEB-INF/tags/proposalsPortlet"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:judging="urn:jsptld:/WEB-INF/tlds/xcolab-judging.tld"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-social="urn:jsptagdir:/WEB-INF/tags/social">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <div class="p-ContestProposals__header">
+        <div class="p-ContestProposals__header__content">
+            <div class="p-ContestProposals__header__mainSection">
+                <div class="p-ContestProposals__header__title clearfix">
+                    <c:if test="${contest.sponsorLogoId > 0}">
+                        <c:choose>
+                            <c:when test="${contest.sponsorLinkAvailable}">
+                                <a href="${contest.sponsorLink}" target="_blank"
+                                   class="p-ContestProposals__header__sponsorLogo">
+                                    <collab:image src="${contest.sponsorLogoPath}" alt="Sponsor Logo"/>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="p-ContestProposals__header__sponsorLogo">
+                                    <collab:image src="${contest.sponsorLogoPath}" alt="Sponsor Logo"/>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+                    ${contest.question}
+                </div>
+                <div class="p-ContestProposals__header__description">
+                    <p>
+                        ${contest.description}
+                        <c:if test="${contest.resourceArticleId > 0 and contestType.showResourceLinks}">
+                            <a href="${contest.resourceArticleUrl}" id="readMoreLink" style="display: none"> Seguir leyendo</a>
+                        </c:if>
+                    </p>
+                    <c:if test="${contest.showSubContests}">
+                        <table>
+                            <tr>
+                                <td align="right" nowrap="nowrap" style="vertical-align: bottom;">
+                                    <div class="subcontests">
+                                        <span class="title">To create your plan, combine ${contestType.proposalNamePlural} from these sector workspaces:</span>
+                                        <ul>
+                                            <c:forEach items="${contest.subContests}" var="subContest">
+                                                <li>
+                                                <span>
+                                                    <xcolab:contestLink contest="${subContest}" />
+                                                </span>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </c:if>
+
+                    <c:if test="${contest.showParentContest}">
+                        <table>
+                            <tr>
+                                <td align="right" nowrap="nowrap" style="vertical-align: bottom;">
+                                    <div class="subcontests">
+                                        <span class="title">Parent contest: </span>
+                                        <xcolab:contestLink contest="${contest.parentContest}" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </c:if>
+                </div>
+            </div>
+            <div class="p-ContestProposals__header__metaSection">
+                <c:if test="${contest.hasFocusArea }">
+                    <div class="p-ContestProposals__header__ontology">
+                        <c:if test="${not empty contest.what}">
+                            <div class="p-ContestProposals__header__ontology__term">
+                                <div class="p-ContestProposals__header__ontology__term__title--what">
+                                    <spring:message code="contests.ontology.what" />:
+                                </div>
+
+                                <div class="p-ContestProposals__header__ontology__term__link">
+                                    <proposalsPortlet:ontologyTermLink ontologyTerms="${contest.what}"/>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty contest.where}">
+                            <div class="p-ContestProposals__header__ontology__term">
+                                <div class="p-ContestProposals__header__ontology__term__title--where">
+                                    <spring:message code="contests.ontology.where" />:
+                                </div>
+
+                                <div class="p-ContestProposals__header__ontology__term__link">
+                                    <proposalsPortlet:ontologyTermLink ontologyTerms="${contest.where}"/>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty contest.who}">
+                            <div class="p-ContestProposals__header__ontology__term">
+                                <div class="p-ContestProposals__header__ontology__term__title--who">
+                                    <spring:message code="contests.ontology.who" />:
+                                </div>
+
+                                <div class="p-ContestProposals__header__ontology__term__link">
+                                    <proposalsPortlet:ontologyTermLink ontologyTerms="${contest.who}"/>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty contest.how}">
+                            <div class="p-ContestProposals__header__ontology__term">
+                                <div class="p-ContestProposals__header__ontology__term__title--how">
+                                    <spring:message code="contests.ontology.how" />:
+                                </div>
+
+                                <div class="p-ContestProposals__header__ontology__term__link">
+                                    <proposalsPortlet:ontologyTermLink ontologyTerms="${contest.how}"/>
+                                </div>
+                            </div>
+                        </c:if>
+                    </div>
+                </c:if>
+
+                <div class="p-ContestProposals__header__team">
+                    <c:forEach var="teamRoleEntry" items="${contest.contestTeamMembersByRole.entrySet() }">
+                        <c:set var="teamRole" value="${teamRoleEntry.key}" />
+                        <c:set var="teamRoleMembers" value="${teamRoleEntry.value}" />
+                        <!--@elvariable id="teamRole" type="org.xcolab.client.contest.pojo.team.ContestTeamMemberRole"-->
+                        <!--@elvariable id="teamRoleMembers" type="java.util.List<org.xcolab.client.members.pojo.Member>"-->
+                        <div class="my-2">
+                            <c:choose>
+                                <c:when test="${fn:length(teamRoleMembers) eq 1}">
+                                    <div class="p-ContestProposals__header__team__roleName">
+                                        ${teamRole.role}
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="p-ContestProposals__header__team__roleName">
+                                        <c:if test="${teamRole.role eq 'Juez'}">
+                                                 Jueces
+                                         </c:if>
+                                        <c:if test="${teamRole.role eq 'Asesor'}">
+                                            ${teamRole.role}es
+                                        </c:if>
+                                        <c:if test="${teamRole.role eq 'Analista'}">
+                                        ${teamRole.role}s
+                                    </c:if>
+                                        <c:if test="${teamRole.role eq 'Impact Fellow'}">
+                                            ${teamRole.role}s
+                                        </c:if>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:forEach var="teamRoleMember" items="${teamRoleMembers}" varStatus="status">
+                                <div class="p-ContestProposals__header__team__member">
+                                    <xcolab:userPortrait portraitId="${teamRoleMember.portraitId}"
+                                                         userId="${teamRoleMember.id}"
+                                                         width="30" height="30"/>
+                                    <xcolab:userLinkSimple userId="${teamRoleMember.id}"
+                                                           text="${teamRoleMember.fullName}"/>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <div class="p-ContestProposals__header__buttons cb-btn-spacer">
+
+                    <c:if test="${showDownloadLink}">
+                        <c:set value="${contest.contestUrl}/downloadContestProposalsList" var="downloadContestProposalsList"/>
+                        <a class="btn cb-btn-outline-admin" href="${downloadContestProposalsList}">Export CSV</a>
+                    </c:if>
+
+                    <c:if test="${showEditLink}">
+                        <a href="/admin/contest/details/contestId/${contest.id}" class="btn cb-btn-outline-admin ">
+                            Edit Contest
+                        </a>
+                    </c:if>
+
+                    <c:if test="${contest.resourceArticleId > 0 and contestType.showResourceLinks}">
+                        <a href="${contest.resourceArticleUrl}" class="btn btn-outline-primary">
+                            <spring:message code="contests.details.details" />
+                        </a>
+                    </c:if>
+
+                    <c:if test="${contestType.hasDiscussion}">
+                        <a href="${contest.contestUrl}/discussion" class="btn btn-outline-primary">
+                           <span><spring:message code="contests.details.discussion" />&#160;</span>
+                            <c:if test="${contest.commentsCount > 0}">
+                                <span class="badge badge-pill badge-primary-darkest">
+                                    ${contest.commentsCount}
+                                </span>
+                            </c:if>
+                        </a>
+                    </c:if>
+                </div>
+
+                <c:if test="${proposalsPermissions.canFellowActions and contestPhase.isJudged}">
+                    <div class="p-ContestProposals__header__team">
+                        <h2>Fellow Information</h2>
+                        <div class="judgingForm">
+                            <p>Current proposal review status for each Judge. Click to filter proposals for a specific judge.</p>
+                            <div>
+                                <c:forEach var="judge" items="${contest.contestJudges}">
+                                    <div class="judge-review-status js-Tooltip tooltipstered" data-tooltip-content="#js-Tooltip__content__judgedata_${judge.id}">
+                                        <div class="review-status-container">
+                                            <xcolab:userPortrait portraitId="${judge.portraitId}"
+                                                                 userId="${judge.id}"
+                                                                 width="30" height="30"/>
+                                        </div>
+                                        <br/>
+                                        <judging:judgeAssignedProposalCount userId="${judge.id}" contestPhaseId="${contestPhase.id}">
+                                            <a href="${contest.contestUrl}/judgeFilter/${judge.id}">${judge.fullName}</a>
+                                            <br /><span>(${proposalAlreadyJudgedCount} of ${proposalCount})</span>
+                                            <div class="hidden">
+                                                <span id="js-Tooltip__content__judgedata_${judge.id}">
+                                                    ${judge.fullName} has evaluated ${proposalAlreadyJudgedCount} out of the ${proposalCount} proposals assigned to them.
+                                                </span>
+                                            </div>
+                                        </judging:judgeAssignedProposalCount>
+                                        <br/>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+
+            </div>
+
+            <c:if test="${_themeContext.socialMediaVariables.showShareButtons}">
+                <div class="p-ContestProposals__header__shareButtons">
+                    <xcolab-social:socialShareButtons title="${_themeContext.colabName.concat(' - ').concat(contest.title)}"/>
+                </div>
+            </c:if>
+
+        </div>
+    </div>
+
+    <!-- sponsor and action possible integrations-->
+
+    <script>
+
+        jQuery(function () {
+            var readMoreLink = document.querySelector("#readMoreLink");
+            if (readMoreLink) {
+                var lastParagraph = readMoreLink.previousElementSibling;
+                $(lastParagraph).append(readMoreLink);
+                $(readMoreLink).show();
+            }
+
+        });
+
+    </script>
+</jsp:root>

@@ -1,0 +1,66 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+    <!--@elvariable id="currentMessageBean" type="org.xcolab.view.pages.messaging.beans.MessageBean"-->
+    <!--@elvariable id="user" type="org.xcolab.client.members.pojo.Member"-->
+
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout title="${currentMessageBean.subject} - Messages">
+    <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
+    <div id="content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members"><spring:message code="colab.breadcrumbs.community"/></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/members"><spring:message code="colab.breadcrumbs.members"/></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <xcolab:userLinkSimple userId="${user.id}" text="${user.displayName}" />
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/messaging"><spring:message code="colab.breadcrumbs.messages"/></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">${currentMessageBean.subject}</li>
+            </ol>
+        </nav>
+
+        <div class="c-Message__titleWrap">
+        <h1 class="c-Message__subject">${currentMessageBean.subject}</h1>
+        <c:if test="${(user.id != currentMessageBean.from.id) and isLastMessage}">
+            <button type="button" class="btn btn-primary float-right" id="reply-button">
+                <spring:message code="message.reply.button"/>
+            </button>
+        </c:if>
+        </div>
+        <p>
+            <strong>
+                <spring:message code="message.from.message" arguments="${currentMessageBean.from.displayName},${currentMessageBean.to.get(0).displayName}" argumentSeparator=","/>
+
+                <c:if test="${currentMessageBean.to.size() > 1}">
+                    <spring:message code="message.from.messageandothers" arguments="${currentMessageBean.to.size() - 1}"/>
+                </c:if>
+            </strong>
+        </p>
+        <jsp:include page="Reply.jspx" />
+        <p>
+            <div id="messageContents">
+                ${currentMessageBean.content}
+                <c:set var = "i" scope = "request" value = "${0}"/>
+                <c:if test = "${messageBeanList.size() > 0}">
+                <xcolab:nestedMessages messageBeanList="${messageBeanList}"/>
+                </c:if>
+                <!--            ${messageBean.content} -->
+            </div>
+        </p>
+
+    </div>
+
+    <xcolab:requireLibrary name="messageThreads"/>
+
+</xcolab:layout>
+
+</jsp:root>

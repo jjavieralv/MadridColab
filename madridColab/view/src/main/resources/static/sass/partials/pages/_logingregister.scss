@@ -1,0 +1,95 @@
+.popupreg_message {
+  margin-top: 35px;
+}
+
+.is-required {
+  font-style: italic;
+  color: $t-Color__gray--dark-700;
+  margin-bottom: 20px;
+}
+
+.popupreg_head {
+  float: left;
+  width: 50%;
+}
+
+.popupreg_head h1 {
+  color: black;
+  font-size: 36px;
+}
+
+.popupreg_txt.req {
+  background: url(/images/reg-star.png) no-repeat 225px 4px;
+}
+
+.popupreg_txt {
+  float: left;
+  text-align: right;
+  font-weight: $t-Typography__fontWeight--bold;
+  width: 220px;
+  height: 27px;
+  padding: 6px 20px 0 0;
+  color: $t-Color__gray--dark-800;
+}
+
+.popupreg_form {
+  background: white;
+  width: 100%;
+  padding-bottom: 25px;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}
+
+
+.popupreg_terms {
+  margin-top: 30px;
+  color: #444;
+}
+
+.inputLimitContainer {
+  margin-top: 5px;
+  font-size: 12px;
+  text-align: right;
+}
+
+.inputLimitContainer.overflow {
+  color: #b00;
+  font-weight: $t-Typography__fontWeight--bold;
+}
+
+.required-field:after {
+  content: '*';
+  color: $t-Color__primary;
+}
+
+.p-LoginRegister__signup__infofield {
+  vertical-align: middle;
+  color: gray;
+  padding-left: 78px;
+}
+
+div.req {
+  background: url(../images/reg-star.png) no-repeat;
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+
+table.reg th {
+  padding-top: 25px;
+  width: 180px;
+}
+
+table.reg td {
+  padding-top: 15px;
+}
+
+th.second {
+  padding-left: 80px;
+  width: 60px;
+}
+
+.shortBioContent {
+  width: 100%;
+}

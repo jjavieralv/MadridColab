@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="activities-client" />
+        <module name="activities-service" />
+        <module name="admin-client" />
+        <module name="admin-service" />
+        <module name="ballons-client" />
+        <module name="comment-client" />
+        <module name="comment-service" />
+        <module name="content-service" />
+        <module name="contents-client" />
+        <module name="contest-service" />
+        <module name="contestproposal-client" />
+        <module name="emails-client" />
+        <module name="emails-service" />
+        <module name="entity-utils" />
+        <module name="eureka-server" />
+        <module name="files-client" />
+        <module name="flagging-client" />
+        <module name="members-client" />
+        <module name="members-service" />
+        <module name="modeling-client" />
+        <module name="modeling-service" />
+        <module name="moderation-service" />
+        <module name="search-client" />
+        <module name="search-service" />
+        <module name="service-proxy" />
+        <module name="service-utils" />
+        <module name="tracking-client" />
+        <module name="tracking-service" />
+        <module name="xcolab-commons" />
+        <module name="xcolab-utils" />
+        <module name="xcolab-view" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="activities-client" target="1.8" />
+      <module name="activities-service" target="1.8" />
+      <module name="admin-client" target="1.8" />
+      <module name="admin-service" target="1.8" />
+      <module name="ballons-client" target="1.8" />
+      <module name="comment-client" target="1.8" />
+      <module name="comment-service" target="1.8" />
+      <module name="content-service" target="1.8" />
+      <module name="contents-client" target="1.8" />
+      <module name="contest-service" target="1.8" />
+      <module name="contestproposal-client" target="1.8" />
+      <module name="emails-client" target="1.8" />
+      <module name="emails-service" target="1.8" />
+      <module name="entity-utils" target="1.8" />
+      <module name="eureka-server" target="1.8" />
+      <module name="files-client" target="1.8" />
+      <module name="flagging-client" target="1.8" />
+      <module name="members-client" target="1.8" />
+      <module name="members-service" target="1.8" />
+      <module name="microservice-clients" target="1.8" />
+      <module name="microservice-services" target="1.8" />
+      <module name="modeling-client" target="1.8" />
+      <module name="modeling-service" target="1.8" />
+      <module name="moderation-service" target="1.8" />
+      <module name="search-client" target="1.8" />
+      <module name="search-service" target="1.8" />
+      <module name="service-proxy" target="1.8" />
+      <module name="service-utils" target="1.8" />
+      <module name="tracking-client" target="1.8" />
+      <module name="tracking-service" target="1.8" />
+      <module name="util-parent" target="1.8" />
+      <module name="XCoLab" target="1.8" />
+      <module name="xcolab-cloud" target="1.8" />
+      <module name="xcolab-commons" target="1.8" />
+      <module name="xcolab-microservices" target="1.8" />
+      <module name="xcolab-utils" target="1.8" />
+      <module name="xcolab-view" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

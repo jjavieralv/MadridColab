@@ -1,0 +1,249 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:discussions="urn:jsptld:/WEB-INF/tlds/xcolab-discussions.tld"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-social="urn:jsptagdir:/WEB-INF/tags/social"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:form="http://www.springframework.org/tags/form">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <jsp:directive.attribute name="threadId" type="java.lang.Long" required="true" rtexprvalue="true" description="Thread id" />
+    <jsp:directive.attribute name="categoryGroupId" type="java.lang.Long" required="false" rtexprvalue="true" description="CategoryGroup id" />
+    <jsp:directive.attribute name="categoryId" type="java.lang.Long" required="false" rtexprvalue="true" description="Category id" />
+    <jsp:directive.attribute name="proposalId" type="java.lang.Long" required="false" rtexprvalue="true" description="Proposal id" />
+    <jsp:directive.attribute name="shareTitle" type="java.lang.String" required="false" rtexprvalue="true" description="The shareTitle for the discussion"  />
+
+    <c:set var="shareTitlePageScope" scope="page" value="${shareTitle}" />
+    <c:set var="categoryGroupId" value="${empty categoryGroupId ? 0 : categoryGroupId}" />
+    <c:set var="categoryId" value="${empty categoryId ? 0 : categoryId}" />
+    <c:set var="proposalId" value="${empty proposalId ? 0 : proposalId}" />
+
+
+	<discussions:loadThread threadId="${threadId}" categoryGroupId="${categoryGroupId }" categoryId="${categoryId}">
+        <!--@elvariable id="thread" type="org.xcolab.client.comment.pojo.CommentThread"-->
+        <!--@elvariable id="newMessage" type="org.xcolab.view.taglibs.xcolab.jspTags.discussion.wrappers.NewMessageWrapper"-->
+        <!--@elvariable id="discussionPermissions" type="org.xcolab.view.taglibs.xcolab.jspTags.discussion.DiscussionPermissions"-->
+        <!--@elvariable id="shareTitle" type="java.lang.String"-->
+        <!--@elvariable id="reportTargets" type="java.util.List<org.xcolab.client.flagging.pojo.ReportTarget>"-->
+        <!--@elvariable id="ontologySpaces" type="java.util.List<org.xcolab.client.contest.pojo.ontology.OntologySpace>"-->
+
+		<xcolab:requireLibrary name="CKEditor" />
+
+		<collab:script src="/js/proposals/discussionComments.js" />
+
+		<div class="row justify-content-between align-items-center">
+            <div class="col-12 col-md">
+                <div class="c-Count">
+                    <span class="c-Count__number">${thread.commentsCount}</span>
+                    <c:choose>
+                        <c:when test="${thread.commentsCount == 1 }">
+                            <spring:message code="discussion.commmentstag.count.singular.message"/>
+                        </c:when>
+                        <c:otherwise>
+                            <spring:message code="discussion.commmentstag.count.plural.message"/>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+
+            <c:if test="${discussionPermissions.canSeeAddCommentButton}">
+                <div class="col-12 col-md">
+                    <a href="#addCommentForm" class="btn btn-link js-EnhancedLink" data-require-login="true">
+                        <collab:image src="/images/icon-add-comment.png" width="24" height="22"
+                                      cssClass="cb-btn-image" ariaHidden="true"/>
+                        <span class="cb-btn-image-text">
+                            <spring:message code="discussion.commmentstag.jumptocomment"/>
+                        </span>
+                    </a>
+                </div>
+            </c:if>
+            <c:if test="${_themeContext.socialMediaVariables.showShareButtons}">
+                <div class="col-12 col-md">
+                    <spring:message code="discussion.commmentstag.share"/>:
+
+                    <xcolab-social:socialShareButtons title="${shareTitlePageScope}" size="sm"/>
+                </div>
+            </c:if>
+		</div>
+		<div class="clearfix"><!--  --></div>
+		<c:choose>
+			<c:when test="${thread.commentsCount == 0 }">
+				<div>
+                    <span>
+                        <spring:message code="discussion.commmentstag.nocomments"/>
+                    </span>
+					<c:if test="${discussionPermissions.canSeeAddCommentButton }">
+                        <span class="ml-1">
+                            <spring:message code="discussion.commmentstag.bethefirst"/>
+                        </span>
+					</c:if>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<table class="c-Comment__list" id="commentsTable" >
+					<c:forEach var="message" items="${thread.comments }" varStatus="status">
+                        <!-- TODO COLAB-1387: replace client calls -->
+						<discussions:getRoleCategory userId="${message.author.id}" proposalId="${proposalId}">
+                            <!--@elvariable id="roleCategory" type="org.xcolab.client.members.pojo.MemberCategory"-->
+							<tr class="${status.index mod 2 == 0 ? 'odd' : 'even'}">
+								<td class="c-Comment__commentor">
+									<a id="_message_${message.id}"><!-- empty --></a>
+									<xcolab:userPortrait portraitId="${message.author.portraitId}"
+                                                         userId="${message.author.id}"
+                                                         width="59" height="59" />
+									<br />
+									<xcolab:userLinkSimple text="${message.author.displayName}" userId="${message.author.id}" /> <br />
+									<br />
+									<xcolab:formatDateTime millis="${message.createdAt.time}" type="date" zoneDisplay="none" /><br />
+									<xcolab:formatDateTime millis="${message.createdAt.time}" type="time" /><br />
+
+									<br />
+									<div class="role-indicator">
+										<div style="width: 16px">
+                                            <collab:image src="/images/${roleCategory.imageName}.png"
+                                                          width="16" height="16" />
+										</div>
+										${roleCategory.displayName}
+									</div>
+
+									<br /><br />
+                                    <div style="display: inline">
+                                        <div style="float: left;padding-top:4px;padding-right: 4px;">
+                                            <a href="#_message_${message.id}">
+                                                <span class="com_num messageLink" rel="${message.id}">${status.index + 1} </span>
+                                            </a>
+                                            |
+                                        </div>
+
+                                        <c:if test="${_themeContext.socialMediaVariables.showShareButtons}">
+                                            <div style="float: left">
+                                                <xcolab-social:socialShareButtons title="${shareTitlePageScope}" hashString="#_message_${message.id}" size="xs"/>
+                                            </div>
+                                        </c:if>
+                                    </div>
+								</td>
+								<td class="c-Comment ${discussionPermissions.canAdminSpamReports and message.spamReportCount > 0 ? 'spam' : ''}">
+									<c:choose>
+										<c:when test="${authorUserId == message.author.id}">
+											<div class="thread-ribbon-container"><div>${contestType.proposalName} <br /> <spring:message code="discussion.commmentstag.proposal.creator"/></div></div>
+										</c:when>
+										<c:when test="${isContributing}">
+											<div class="thread-ribbon-container"><div>${contestType.proposalName} <br /> <spring:message code="discussion.commmentstag.proposal.contributor"/> </div></div>
+										</c:when>
+									</c:choose>
+									<div id="message_${message.id}" class="content c-UserContent">
+										${message.content }
+									</div>
+									<div class="c-Comment__actions">
+
+                                        <c:if test="${discussionPermissions.getCanReportMessage(message) }">
+                                            <xcolab:requireLibrary name="flagging"/>
+                                            <button type="button" class="btn btn-link" onclick="reportComment(${message.id})">
+                                                Report
+                                            </button>
+                                        </c:if>
+										<c:if test="${discussionPermissions.getCanViewAdminMessage(message) }">
+											<c:set var="editCommentURL" value="/discussions/editComment?commentId=${message.id}&amp;proposalId=${proposalId}" />
+
+                                            <spring:message code="discussion.commmentstag.caneditmsg" var="canEditMsg"/>
+											<button type="button" class="btn btn-link js-Tooltip ml-2" onclick="editComment(${message.createdAt.time}, ${message.id},'${editCommentURL}');"
+												 title="${canEditMsg}"><spring:message code="discussion.commmentstag.edit" />
+                                            </button>
+
+											<c:set var="deleteMessageURL" value="/discussions/deleteDiscussionMessageFlag?commentId=${message.id }&amp;proposalId=${proposalId}" />
+
+                                            <spring:message code="discussion.commmentstag.candeletemsg" var="canDeleteMsg"/>
+                                            <spring:message code="discussion.commmentstag.confirmdelete" var="confirmDelete"/>
+											<button type="button" class="btn btn-link js-Tooltip js-EnhancedLink ml-2"
+                                                    data-method="post" data-url="${deleteMessageURL }"
+                                                    data-confirm="${confirmDelete}" title="${canDeleteMsg}">
+												<spring:message code="discussion.commmentstag.delete.button"/>
+											</button>
+										</c:if>
+									</div>
+								</td>
+							</tr>
+						</discussions:getRoleCategory>
+					</c:forEach>
+				</table>
+
+			</c:otherwise>
+		</c:choose>
+		<c:if test="${discussionPermissions.canSeeAddCommentButton}">
+			<div class="row mt-3">
+				<div class="col-12 col-md-3">
+					<strong><spring:message code="discussion.commmentstag.addyourcomment"/></strong><br />
+					<c:choose>
+						<c:when test="${not empty currentTab and currentTab eq 'SCREENING'}">
+							<i><spring:message code="discussion.commmentstag.judgeonlycomment"/></i>
+						</c:when>
+						<c:when test="${not empty currentTab and currentTab eq 'EVALUATION'}">
+							<i><spring:message code="discussion.commmentstag.visibletopublic"/></i>
+						</c:when>
+						<c:when test="${!discussionPermissions.canAddComment}">
+                            <div class="alert alert-danger">
+                                <i><spring:message code="discussion.commmentstag.mustlogin"/></i>
+                            </div>
+						</c:when>
+					</c:choose>
+				</div>
+				<div class="col-12 col-md-9">
+					<c:set var="addCommentURL" value="/discussions/addDiscussionMessage?proposalId=${proposalId}" />
+					<form:form id="addCommentForm" action="${addCommentURL}" method="post">
+                        <input type="hidden" name="threadId" value="${thread.id}" />
+						<textarea id="js-Comment__content" name="description" required="required"
+                                  class="rte-editorPlaceholder c-Comment__box"><!-- --></textarea>
+                        <button type="submit" class="btn btn-primary mt-2 js-EnhancedLink"
+                                data-require-login="true" id="addCommentButton"
+                                onclick="saveCommentInCookie(); disableDirtyCheck();">
+                            <spring:message code="discussion.commmentstag.addcomment.button"/>
+                        </button>
+					</form:form>
+				</div>
+			</div>
+		</c:if>
+
+        <script>
+            jQuery(function() {
+
+
+                $(".c-Comment img").each(function(index, value){
+                    var width = $(value).css("width");
+                    if(width >= 650) {
+                        $(value).attr("style", "");
+                    }
+                    $(value).css('cursor', 'pointer');
+                });
+
+                $('.c-Comment img').click(function () {
+                    var viewer = ImageViewer();
+                    var imgSrc = this.src, highResolutionImage = $(this).attr('src');
+                    viewer.show(imgSrc, highResolutionImage);
+                });
+            });
+        </script>
+
+		<script>
+			jQuery(function() {
+                jQuery('#popup_flagging_form_targetType').attr('value', 'COMMENT');
+                <c:forEach items="${reportTargets}" var="reportTarget">
+                    <![CDATA[
+                    jQuery('#popup_flagging_reasons').append(jQuery('<option>', {
+                        value: '${reportTarget.reason}',
+                        text: '${reportTarget.reason}'
+                    }));
+                ]]>
+                </c:forEach>
+			});
+
+            function reportComment(commentId) {
+                jQuery('#popup_flagging_form_targetId').attr('value', commentId);
+                jQuery('#flaggingModal').modal();
+            }
+		</script>
+
+		</discussions:loadThread>
+
+</jsp:root>

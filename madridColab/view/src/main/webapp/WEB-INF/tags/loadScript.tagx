@@ -1,0 +1,19 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <jsp:directive.attribute name="src" type="java.lang.String" required="true" rtexprvalue="true" description="Path to script" />
+    <jsp:directive.attribute name="shouldLoad" type="java.lang.String" required="true" rtexprvalue="true" description="Flag to indicate whether the script should be loaded. Fill with loadLibaryX variable." />
+    <jsp:directive.attribute name="integrity" type="java.lang.String" required="false" rtexprvalue="true" description="Optional content hash." />
+
+    <c:if test="${shouldLoad}">
+        <c:choose>
+            <c:when test="${not empty integrity}">
+                <collab:script src="${src}" integrity="${integrity}"/>
+            </c:when>
+            <c:otherwise>
+                <collab:script src="${src}"/>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
+</jsp:root>

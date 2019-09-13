@@ -1,0 +1,13 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <xcolab:modal modalId="snpConsentFormModal"
+                  title="CONSENT TO PARTICIPATE IN CLIMATE COLAB SOCIAL NETWORK PRIZE STUDY">
+        <div class="modal-body">
+            ${consentFormText}
+        </div>
+        <div class="modal-footer">
+            <button type="close" class="btn btn-gray" data-dismiss="modal">Close</button>
+        </div>
+    </xcolab:modal>
+</jsp:root>

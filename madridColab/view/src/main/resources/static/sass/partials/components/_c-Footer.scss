@@ -1,0 +1,97 @@
+$c-Footer__background: $t-Color__tan !default;
+$c-Footer__menu__background: simple-gradient($t-Color__gray--dark-700) !default;
+
+$c-Footer__menu__li__a--hover__color: $t-Color__accent !default;
+$c-Footer__menu__li__textColor: white !default;
+$c-Footer__menu__boxShadow: none !default;
+
+$c-Footer__link__textColor--hover: $t-Color__accent !default;
+
+#c-Footer { //#footer
+  background: $c-Footer__background;
+}
+
+#c-Footer__menu { //#footmenu
+  padding: 8px 0;
+  background: $c-Footer__menu__background;
+
+  box-shadow: $c-Footer__menu__boxShadow;
+
+  .nav-link {
+    color: $c-Footer__menu__li__textColor;
+
+    &.active {
+        color: $c-Footer__menu__li__a--hover__color;
+    }
+
+    &:hover {
+      color: $c-Footer__menu__li__a--hover__color;
+      cursor: pointer;
+    }
+  }
+}
+
+//TODO COLAB-2561: remove once it's replaced in the footer
+#footleft {
+  float: left;
+  width: 420px;
+  padding-top: 21px;
+}
+
+//TODO COLAB-2561: remove once it's replaced in the footer
+#footright {
+  float: right;
+  width: 510px;
+  padding-top: 34px;
+
+  #cc {
+    padding-top: 6px;
+  }
+
+  #txt {
+    float: left;
+    width: 400px;
+    margin-right: 16px;
+    font-size: 13px;
+    color: $t-Color__gray--dark-700;
+    line-height: 20px;
+
+    a {
+      padding-bottom: 2px;
+      border-bottom: 1px solid $t-Color__gray--medium-500;
+      font-size: 12px;
+      font-weight: $t-Typography__fontWeight--bold;
+      color: black;
+
+      &:hover {
+        color: $c-Footer__link__textColor--hover;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.c-Footer__text {
+  font-size: .8125rem;
+  color: $t-Color__gray--dark-700;
+
+  a {
+    padding-bottom: 2px;
+    border-bottom: 1px solid $t-Color__gray--medium-500;
+    font-size: .75rem;
+    font-weight: $t-Typography__fontWeight--bold;
+    color: black;
+
+    &:hover {
+      color: $c-Footer__link__textColor--hover;
+      text-decoration: none;
+    }
+  }
+}
+
+.c-Footer__icon {
+  height:16px;
+  width: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}

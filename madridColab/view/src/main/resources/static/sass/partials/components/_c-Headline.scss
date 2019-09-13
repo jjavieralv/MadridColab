@@ -1,0 +1,15 @@
+.c-Headline {
+  @extend .clearfix;
+
+  display: flex;
+
+  margin-bottom: 1rem;
+
+  > img {
+    margin-right: .5rem;
+  }
+
+  h1 {
+    margin-right: 30px;
+  }
+}

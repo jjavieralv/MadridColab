@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.xcolab.entity.utils.LinkUtilsTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.329 s - in org.xcolab.entity.utils.LinkUtilsTest

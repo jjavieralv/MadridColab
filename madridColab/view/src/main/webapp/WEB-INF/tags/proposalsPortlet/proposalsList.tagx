@@ -1,0 +1,190 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:proposalsPortlet="urn:jsptagdir:/WEB-INF/tags/proposalsPortlet"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+    <!--@elvariable id="proposalsPermissions" type="org.xcolab.view.pages.proposals.permissions.ProposalsPermissions"-->
+    <!--@elvariable id="contest" type="org.xcolab.client.contest.pojo.Contest"-->
+    <!--@elvariable id="contestPhase" type="org.xcolab.client.contest.pojo.phases.ContestPhase"-->
+    <!--@elvariable id="contestType" type="org.xcolab.client.admin.pojo.ContestType"-->
+    <!--@elvariable id="proposalsDisplayPermissions" type="org.xcolab.view.pages.proposals.permissions.ProposalsDisplayPermissions"-->
+    <!--@elvariable id="judgeId" type="java.lang.Long"-->
+
+    <jsp:directive.attribute name="proposals" type="java.util.Collection" required="true" rtexprvalue="true" description="proposals" />
+
+    <c:set var="shouldHideRibbons" value="${contest.hideRibbons and not proposalsPermissions.canAdminAll}"/>
+
+    <c:forEach var="proposal" items="${proposals}" varStatus="status">
+        <!--@elvariable id="proposal" type="org.xcolab.client.proposals.pojo.Proposal"-->
+
+        <c:set var="additionalCSSClasses" scope="session" value="" />
+        <c:choose>
+            <c:when test="${proposalsPermissions.canAdminProposal and not empty judgeId and proposal.getIsUserAmongSelectedJudges(judgeId)}"><!-- Judge Filter View -->
+                <c:choose>
+                    <c:when test="${proposal.getIsReviewFinishedForJudge(judgeId)}">
+                        <c:set var="additionalCSSClasses" scope="session" value="propbox-green" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="additionalCSSClasses" scope="session" value="propbox-red" />
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:when test="${proposalsPermissions.canJudgeActions and not proposalsPermissions.canFellowActions}"><!-- Judges -->
+                <c:choose>
+                    <c:when test="${proposal.judgeReviewStatus.statusValue == 1}">
+                        <c:set var="additionalCSSClasses" scope="session" value="propbox-red" />
+                    </c:when>
+                    <c:when test="${proposal.judgeReviewStatus.statusValue == 2}">
+                        <c:set var="additionalCSSClasses" scope="session" value="propbox-green" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="additionalCSSClasses" scope="session" value="" />
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+        </c:choose>
+
+        <div class="c-TableGrid__row c-TableGrid__row--continued ${proposal.featured and not shouldHideRibbons ? 'c-TableGrid__row--active' : ''}
+                    ${contestPhase.completed ? 'completed' : ''}
+                    ${additionalCSSClasses}">
+            <div class="col-12 col-lg-5 col-xl-6 c-TableGrid__cell propname-authors">
+                <c:if test="${proposal.ribbonWrapper.ribbon > 0 and not shouldHideRibbons}">
+                    <collab:image src="/images/icon-prize${proposal.ribbonWrapper.ribbon}.png"
+                                  cssClass="float-left js-Tooltip mr-2" title="${proposal.ribbonWrapper.ribbonText}" />
+                </c:if>
+                <xcolab:proposalLink proposal="${proposal}" phase="${contestPhase}" escape="false" />
+                /
+                <c:choose>
+                    <c:when test="${not empty proposal.team}">
+                        <xcolab:proposalLink proposal="${proposal}" tab="TEAM" text="${proposal.team}" />
+                    </c:when>
+                    <c:when test="${proposal.members.size() > 1}">
+                        <xcolab:proposalLink proposal="${proposal}" tab="TEAM" text="${proposal.author.displayName} and ${proposal.members.size() - 1} ${proposal.members.size() > 2 ? 'others' : 'other'}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <xcolab:proposalLink proposal="${proposal}" tab="TEAM" text="${proposal.author.displayName}" />
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <c:if test="${contestPhase.canVote or (contestPhase.completed and not shouldHideRibbons)}">
+                <div class="col c-TableGrid__cell text-center votes">
+                    <div class="highlight">
+                        <collab:image src="/images/icon-proposal-vote-small.png" cssClass="c-Icon" />
+                        <xcolab:proposalLink proposal="${proposal}" text="${proposal.votesCountFromCache}" />
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${not contestPhase.canVote}">
+                <div class="col c-TableGrid__cell text-center supporters">
+                    <div class="highlight">
+                        <collab:image src="/images/icon-proposal-support.png" cssClass="c-Icon"/>
+                        <xcolab:proposalLink proposal="${proposal}" text="${proposal.supportersCountCached}" tab="TEAM"/>
+                    </div>
+                </div>
+            </c:if>
+            <div class="col c-TableGrid__cell text-center">
+                <div class="highlight">
+                    <collab:image src="/images/icon-proposal-comments.png" cssClass="c-Icon"/>
+
+                    <a href="${proposal.proposalDiscussionUrl}">
+                        ${proposal.commentsCount}
+                    </a>
+                </div>
+            </div>
+            <c:if test="${not contestPhase.completed}">
+                <div class="col c-TableGrid__cell text-center">
+                    <xcolab:formatDateTime millis="${proposal.lastupdatedAtForContestPhase.time}" type="date" />
+                </div>
+                <c:if test="${showContributorsColumn}">
+                    <div class="col c-TableGrid__cell text-center">
+                        <c:choose>
+                            <c:when test="${proposal.open}">
+                                Anyone
+                            </c:when>
+                            <c:otherwise>
+                                Team only
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </c:if>
+            </c:if>
+            <c:if test="${not contestPhase.completed and proposalsDisplayPermissions.canSeeReviewStatus}">
+                <div class="col-12 col-lg c-TableGrid__cell text-center" style="min-width: 200px">
+                    <c:if test="${proposalsPermissions.canFellowActions or proposalsPermissions.canIAFActions}">
+                        <c:choose>
+                            <c:when test="${proposal.screeningStatus.statusValue == 0}">
+                                <c:set var="fellowStatusTooltip"
+                                       value="Fellows have not decided yet if the ${contestType.proposalName} will be forwarded to judges." />
+                            </c:when>
+                            <c:when test="${proposal.screeningStatus.statusValue == 1}">
+                                <c:set var="fellowStatusTooltip"
+                                       value="Fellows decided that the ${contestType.proposalName} will not proceed to next round." />
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="fellowStatusTooltip"
+                                       value="Fellows decided that the ${contestType.proposalName} should be forwarded to judges." />
+                            </c:otherwise>
+                        </c:choose>
+                        <span class="js-Tooltip" title="${fellowStatusTooltip}">
+                            <proposalsPortlet:proposalJudgingIcon value="${proposal.screeningStatus.statusValue}" />
+                            </span>
+
+                        <c:choose>
+                            <c:when test="${proposal.impactAssessmentStatus == 'POSITIVE'}">
+                                <c:set var="iafStatusTooltip"
+                                       value="IA Fellows have completed the assessement of this ${contestType.proposalName}." />
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="iafStatusTooltip"
+                                       value="IA Fellows have not assessed this ${contestType.proposalName} yet." />
+                            </c:otherwise>
+                        </c:choose>
+                        <span class="js-Tooltip" title="${iafStatusTooltip}">
+                            <proposalsPortlet:proposalJudgingIcon value="${proposal.impactAssessmentStatus.statusValue}" />
+                            </span>
+                    </c:if>
+
+                    <div class="d-none d-lg-block"><!-- --></div>
+
+                    <c:choose>
+                        <c:when test="${proposal.judgeStatus.statusValue == 0}">
+                            <c:set var="judgeStatusTooltip" value="The judges have not rated this ${contestType.proposalName} yet." />
+                        </c:when>
+                        <c:when test="${proposal.judgeStatus.statusValue == 1}">
+                            <c:set var="judgeStatusTooltip" value="Fellows decided that the ${contestType.proposalName} will not proceed to next round." />
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="judgeStatusTooltip" value="All judges have completed the reviewing process." />
+                        </c:otherwise>
+                    </c:choose>
+                    <span class="js-Tooltip" title="${judgeStatusTooltip}">
+                        <proposalsPortlet:proposalJudgingIcon value="${proposal.judgeStatus.statusValue}" />
+                        </span>
+
+                    <c:choose>
+                        <c:when test="${proposal.overallStatus.statusValue == 0}">
+                            <c:set var="overallStatusTooltip" value="The ${contestType.proposalName} review has not been done yet." />
+                        </c:when>
+                        <c:when test="${proposal.overallStatus.statusValue == 1}">
+                            <c:set var="overallStatusTooltip" value="${contestType.proposalName} review has been prepared and ${contestType.proposalName} will not advance." />
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="overallStatusTooltip" value="${contestType.proposalName} review has been prepared and ${contestType.proposalName} will advance." />
+                        </c:otherwise>
+                    </c:choose>
+                    <span class="js-Tooltip" title="${overallStatusTooltip}">
+                        <proposalsPortlet:proposalJudgingIcon value="${proposal.overallStatus.statusValue}" />
+                    </span>
+                </div>
+            </c:if>
+        </div>
+        <div class="c-TableGrid__row ${proposal.featured and not shouldHideRibbons ? 'c-TableGrid__row--active' : ''}
+                    ${contestPhase.completed ? 'completed' : ''}
+                    ${additionalCSSClasses}">
+            <div class="col-12 c-TableGrid__cell">
+                ${proposal.pitch}
+            </div>
+        </div>
+    </c:forEach>
+</jsp:root>

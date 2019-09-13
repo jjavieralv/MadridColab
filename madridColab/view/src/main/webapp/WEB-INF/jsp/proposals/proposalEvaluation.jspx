@@ -1,0 +1,76 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:proposalsPortlet="urn:jsptagdir:/WEB-INF/tags/proposalsPortlet"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+
+    <jsp:directive.include file="./init_proposal_tab.jspx" />
+
+    <xcolab:layout title="${proposal.name} - Evaluation"
+                   description="Evaluation results for ${contestType.proposalName} '${proposal.name}' in ${contestType.contestName} '${contest.titleWithEndYear}'">
+    <!--@elvariable id="move" type="java.lang.Boolean"-->
+    <!--@elvariable id="showPublicRatingForm" type="java.lang.Boolean"-->
+    <!--@elvariable id="showEvaluation" type="java.lang.Boolean"-->
+    <!--@elvariable id="proposalRevisionPhaseActive" type="java.lang.Boolean"-->
+        <!--@elvariable id="averageRatingsPerPhase" type="java.util.List<org.xcolab.client.proposals.pojo.proposals.ProposalRatings>"-->
+
+        <jsp:directive.include file="./proposalDetails/header.jspx"/>
+
+        <!-- ProposalJudgesTabController -->
+        <jsp:useBean id="judgeProposalFeedbackBean" scope="request" class="org.xcolab.view.pages.proposals.requests.JudgeProposalFeedbackBean"/>
+
+        <div id="content">
+
+            <c:if test="${showPublicRatingForm}">
+                <h2>${contestType.proposalName} rating</h2>
+                <c:choose>
+                    <c:when test="${proposalsPermissions.canPublicRating}">
+                        <div class="c-Box c-Box--colorTan">
+                            <div class="c-Box__body">
+                                <jsp:directive.include file="./proposalDetails/proposalJudging.jspx"/>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        Please log in to tell us your opinion about this ${contestType.proposalName}. If you don't already have an account on
+                        our site, you can become a member for free <a href="web/guest/loginregister">here</a>.
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+
+            <c:choose>
+                <c:when test="${showEvaluation}">
+                    <p>
+                        <collab:message code="contests.proposal.evaluation.resultsbelow"
+                                        contestType="${contestType}"/>
+                    </p>
+                    <c:forEach var="ratingWrapper" items="${averageRatingsPerPhase}">
+                        <h2>${ratingWrapper.contestPhase}</h2>
+
+                        <div class="c-Box c-Box--colorTan">
+                            <div class="c-Box__body">
+                                <proposalsPortlet:proposalRatingEvaluation showShouldAdvance="false" showRating="true" showPhase="false"
+                                                                           showRatingDescription="false" wrapper="${ratingWrapper}"/>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <c:if test="${proposalsPermissions.canEdit and proposalRevisionPhaseActive}">
+                        <p>
+                            <collab:message code="contests.proposal.evaluation.pleasecomment"
+                                            contestType="${contestType}" />
+                        </p>
+                    </c:if>
+                    <xcolab:discussionComments threadId="${proposal.resultsDiscussionIdOrCreate}"  />
+                </c:when>
+                <c:otherwise>
+                    <h2><spring:message code="contests.proposal.evaluation.resultswillbevisible" /></h2>
+                </c:otherwise>
+            </c:choose>
+
+        </div>
+    </xcolab:layout>
+</jsp:root>

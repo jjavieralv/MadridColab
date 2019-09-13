@@ -1,0 +1,29 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <c:if test="${not empty communityTopContentArticleId}">
+        <xcolab:layout>
+            <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
+            <div id="content">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/members"><spring:message code="colab.breadcrumbs.community"/></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <spring:message code="colab.breadcrumbs.activities"/>
+                        </li>
+                    </ol>
+                </nav>
+
+                <jsp:directive.include file="activities_common.jspx"/>
+            </div>
+        </xcolab:layout>
+    </c:if>
+    <c:if test="${empty communityTopContentArticleId}">
+        <jsp:directive.include file="activities_common.jspx"/>
+    </c:if>
+</jsp:root>

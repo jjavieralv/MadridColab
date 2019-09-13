@@ -1,0 +1,20 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <h2>
+        ${not empty _themeContext.messageVariables.infoPage ? _themeContext.messageVariables.infoPage.title : 'Message'}
+    </h2>
+    <br />
+
+    <c:if test="${not empty _themeContext.messageVariables.infoPage}">
+        <div class="alert alert-info">
+            ${_themeContext.messageVariables.infoPage.message}
+        </div>
+    </c:if>
+</xcolab:layout>
+</jsp:root>

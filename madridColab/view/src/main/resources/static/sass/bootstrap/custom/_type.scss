@@ -1,0 +1,46 @@
+hr {
+  &.cb-hr-dashed {
+    border-style: dashed;
+  }
+
+  &.cb-hr-dotted {
+    border-style: dotted;
+  }
+
+  &.cb-hr-lg {
+    border-width: 3px;
+  }
+
+  &.cb-hr-xl {
+    border-width: 6px;
+  }
+
+  @each $color, $value in $theme-colors {
+    &.cb-hr-#{$color} {
+      border-color: $value;
+    }
+  }
+}
+
+//= Responsive font sizes
+
+@include media-breakpoint-down(sm) {
+  h1 {
+    font-size: ($t-Typography__fontSize__h1 + 1rem) / 2;
+  }
+  h2 {
+    font-size: ($t-Typography__fontSize__h2 + 1rem) / 2;
+  }
+  h3 {
+    font-size: ($t-Typography__fontSize__h3 + 1rem) / 2;
+  }
+  h4 {
+    font-size: ($t-Typography__fontSize__h4 + 1rem) / 2;
+  }
+  h5 {
+    font-size: ($t-Typography__fontSize__h5 + 1rem) / 2;
+  }
+  h6 {
+    font-size: ($t-Typography__fontSize__h6 + 1rem) / 2;
+  }
+}

@@ -1,0 +1,1748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f91998ed-3817-4042-8413-d576e2eb6bb4" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/AboutPage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/about.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/AboutSteps.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/MainPage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1071">
+              <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/UploadImagePage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1632">
+              <caret line="106" selection-start-line="102" selection-end-line="106" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/config/configuration.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="178">
+              <caret line="178" column="101" selection-start-line="178" selection-start-column="101" selection-end-line="178" selection-end-column="101" />
+              <folding>
+                <element signature="e#4081#4082#0" expanded="true" />
+                <element signature="e#4118#4119#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/Assert.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="51" selection-start-line="51" selection-end-line="51" />
+              <folding>
+                <element signature="e#1482#1483#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/contest.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/theme.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1071">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>contests2</find>
+      <find>Publicar</find>
+      <find>Launc</find>
+      <find>Publicar concurs</find>
+      <find>M</find>
+      <find>&quot;Error de autenticación, comprueba tu nom</find>
+      <find>@subscription</find>
+      <find>son Acerca</find>
+      <find>entre:</find>
+      <find>chrome</find>
+      <find>Eliminar</find>
+      <find>Example name Proposal Template</find>
+      <find>caracteres es</find>
+      <find>character</find>
+      <find>characters length</find>
+      <find>https://pruebas</find>
+      <find>@regressionchangelang</find>
+      <find>@comunityComments</find>
+      <find>/*</find>
+      <find>localho</find>
+      <find>getWebUrl</find>
+      <find>TODO</find>
+      <find>// TODO Auto-generated method stub</find>
+      <find>//</find>
+      <find>&quot;solmedo&quot; and password as &quot;odemlo13&quot;</find>
+      <find>contestPage.insertValidUserAndPassword(&quot;member&quot;, &quot;odemlo13&quot;)</find>
+      <find>insertValidUserAndPassword(&quot;member&quot;, &quot;odemlo13&quot;)</find>
+      <find>cmUtils.login(&quot;solmedo&quot;, &quot;odemlo13&quot;</find>
+      <find>odemlo13</find>
+      <find>odemlo135</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>colabupmtest</replace>
+      <replace>http://pruebas.colab.upm.es/</replace>
+      <replace>odemlo135</replace>
+      <replace>&quot;solmedo&quot; and password as &quot;odemlo135&quot;</replace>
+      <replace />
+      <replace>cmUtils.login(&quot;solmedo&quot;, &quot;odemlo135&quot;</replace>
+      <replace>odemlo13</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ProposalDetailsPage.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/semiFinalistSelection.feature" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestPage.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Acerca_de_Madrid_CoLab.html" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/AboutPage.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Origen.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Concursos_Y_Area_Trabajo.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Participa.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Personas.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Colaboradores.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Contacto.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Preguntas_frecuentes.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/terminos_de_uso.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/normas_concursos.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/politica_privacidad.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/filosofia.html" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/createuser.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/edituser.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/login.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/proposals.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/results.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/editSemiFinalistProposals.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/proposalstemplate.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/about.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/contest.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/theme.feature" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/features/comments.feature" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/RunCukeTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/SemiFinalistSelection.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestListPage.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ProposalTemplateSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/FinalistSelection.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ImageUploadSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/CreateUserSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ProposalsSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/CommentsSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/VotingSystem.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ResultsSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ContestSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/UploadImagePage.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/MainPage.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/EditUserSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/AboutSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/utils/ContestManagerUtils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/AbstractPageObject.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/ThemeSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/LoginSteps.java" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/steps/EditSemiFinalistProposals.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/colabupmtest/config/configuration.properties" />
+        <option value="$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="colabupmtest" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="colabupmtest" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="colabupmtest" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="12" />
+    <option name="y" value="9" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="pageobjects" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="selenium" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="steps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="drivers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="features" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="colabupmtest" type="462c0819:PsiDirectoryNode" />
+              <item name="pageshtmldefinition" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="colabupm" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="colabupm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558034408489" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.50574714" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Solmedo\workspace-git\colabupm\src\test" />
+      <recent name="C:\Users\Solmedo\workspace-git\colabupm\src\test\java" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="runner" type="JUnit" factoryName="JUnit">
+      <module name="colabupmtest" />
+      <option name="PACKAGE_NAME" value="colabupmtest.steps" />
+      <option name="MAIN_CLASS_NAME" value="colabupmtest.steps.RunCukeTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f91998ed-3817-4042-8413-d576e2eb6bb4" name="Default Changelist" comment="" />
+      <created>1553540987407</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1553540987407</updated>
+      <workItem from="1553540993383" duration="3415000" />
+      <workItem from="1553615569696" duration="9640000" />
+      <workItem from="1553703933839" duration="2471000" />
+      <workItem from="1553788632546" duration="2498000" />
+      <workItem from="1553794978505" duration="4068000" />
+      <workItem from="1553873464765" duration="1846000" />
+      <workItem from="1554022628660" duration="13388000" />
+      <workItem from="1554134302317" duration="11564000" />
+      <workItem from="1554221316300" duration="8268000" />
+      <workItem from="1554396412780" duration="4474000" />
+      <workItem from="1554627835259" duration="8421000" />
+      <workItem from="1554827346638" duration="5698000" />
+      <workItem from="1555236971631" duration="705000" />
+      <workItem from="1555353622643" duration="599000" />
+      <workItem from="1555517942337" duration="4534000" />
+      <workItem from="1555583842316" duration="3377000" />
+      <workItem from="1555757957876" duration="1832000" />
+      <workItem from="1555767311585" duration="1628000" />
+      <workItem from="1555840250938" duration="13810000" />
+      <workItem from="1555951654179" duration="5263000" />
+      <workItem from="1556038064484" duration="2186000" />
+      <workItem from="1556125728272" duration="1297000" />
+      <workItem from="1556556292414" duration="7644000" />
+      <workItem from="1556878298841" duration="599000" />
+      <workItem from="1556958534182" duration="11291000" />
+      <workItem from="1556995402247" duration="1356000" />
+      <workItem from="1557046281700" duration="11454000" />
+      <workItem from="1557075534530" duration="599000" />
+      <workItem from="1557160992849" duration="7291000" />
+      <workItem from="1557253356969" duration="5075000" />
+      <workItem from="1557333854829" duration="3196000" />
+      <workItem from="1557345923161" duration="1256000" />
+      <workItem from="1557422038432" duration="1297000" />
+      <workItem from="1557766875654" duration="4465000" />
+      <workItem from="1557935786841" duration="1717000" />
+      <workItem from="1558027014236" duration="2773000" />
+      <workItem from="1558038085243" duration="404000" />
+      <workItem from="1559387596057" duration="1283000" />
+      <workItem from="1559667456746" duration="433000" />
+      <workItem from="1560103619138" duration="759000" />
+      <workItem from="1560185090031" duration="46000" />
+      <workItem from="1560187001512" duration="674000" />
+      <workItem from="1560272645942" duration="3202000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="runner - 2019.05.15 at 18h 22m 15s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.05.15 at 18h 31m 27s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.05.16 at 19h 30m 49s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.05.16 at 19h 39m 18s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.05.16 at 20h 01m 10s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.06.01 at 13h 34m 11s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.06.09 at 20h 30m 25s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.06.10 at 19h 20m 31s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.06.10 at 19h 23m 07s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="runner - 2019.06.11 at 20h 08m 41s.xml">
+      <configuration name="runner" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="177796000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <layout>
+      <window_info id="Designer" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.29850745" />
+      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Terminal" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" order="4" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.44420367" />
+      <window_info anchor="bottom" id="Debug" order="8" weight="0.3997833" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32936078" />
+      <window_info anchor="right" id="Theme Preview" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+      <window_info anchor="right" id="Maven" order="3" visible="true" weight="0.03411514" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Palette" order="5" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.28837952" />
+      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Terminal" order="1" weight="0.32936078" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" order="4" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="7" visible="true" weight="0.34994584" />
+      <window_info anchor="bottom" id="Debug" order="8" weight="0.3997833" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32936078" />
+      <window_info anchor="right" id="Theme Preview" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+      <window_info anchor="right" id="Maven" order="3" visible="true" weight="0.1444563" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Palette" order="5" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>290</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>291</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>292</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>293</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>294</line>
+          <properties />
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>295</line>
+          <properties />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>297</line>
+          <properties />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>299</line>
+          <properties />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>298</line>
+          <properties />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>300</line>
+          <properties />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>301</line>
+          <properties />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>302</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java</url>
+          <line>303</line>
+          <properties />
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestPage.java</url>
+          <line>183</line>
+          <properties />
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestPage.java</url>
+          <line>128</line>
+          <properties />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ImageUploadSteps.java</url>
+          <line>78</line>
+          <properties />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/UserRegistrationPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="126" selection-start-line="126" selection-end-line="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/AbstractPageObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ProposalsSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#1269#1270#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/utils/ConfigFileReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="41" column="54" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestListPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+          <folding>
+            <element signature="e#1572#1573#0" expanded="true" />
+            <element signature="e#1604#1605#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1853">
+          <caret line="128" selection-start-line="128" selection-end-line="128" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/votingSystem.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/SubscriptionSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="838">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ResultsSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Acerca_de_Madrid_CoLab.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#175#181#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#302#308#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#424#430#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#1;n#!!top" expanded="true" />
+            <element signature="e#1192#1198#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#3;n#!!top" expanded="true" />
+            <element signature="e#1923#1929#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#5;n#!!top" expanded="true" />
+            <element signature="e#2056#2062#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#5;n#!!top" expanded="true" />
+            <element signature="e#2185#2191#0" expanded="true" />
+            <element signature="n#style#0;n#p#6;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#!!top" expanded="true" />
+            <element signature="e#2947#2953#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#7;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#8;n#!!top" expanded="true" />
+            <element signature="e#3350#3356#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Origen.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="347" selection-start-line="13" selection-start-column="347" selection-end-line="13" selection-end-column="347" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#h1#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#307#313#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#435#441#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#558#564#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="e#927#933#0" expanded="true" />
+            <element signature="e#1019#1025#0" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#p#0;n#!!top" expanded="true" />
+            <element signature="e#1119#1125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Concursos_Y_Area_Trabajo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#171#177#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#304#310#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#438#444#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
+            <element signature="e#605#611#0" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1461#1467#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1525#1531#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2233#2239#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2297#2303#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2927#2933#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2991#2997#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3595#3601#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3659#3665#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4126#4132#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4190#4196#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#9;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#9;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#9;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4488#4494#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#td#1;n#tr#9;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4556#4562#0" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#10;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4947#4953#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#10;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#5011#5017#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#11;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#0;n#tr#11;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#11;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#12;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#5514#5520#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#12;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#5564#5570#1" expanded="true" />
+            <element signature="e#5609#5615#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#5;n#!!top" expanded="true" />
+            <element signature="e#6235#6241#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#7;n#!!top" expanded="true" />
+            <element signature="e#6449#6455#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Participa.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#156#162#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#285#291#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#539#545#0" expanded="true" />
+            <element signature="e#926#932#1" expanded="true" />
+            <element signature="e#959#965#1" expanded="true" />
+            <element signature="e#992#998#1" expanded="true" />
+            <element signature="e#1025#1031#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Personas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="170" selection-start-line="22" selection-start-column="170" selection-end-line="22" selection-end-column="170" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#164#170#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#294#300#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#415#421#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#1;n#!!top" expanded="true" />
+            <element signature="e#703#709#0" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#p#1;n#!!top" expanded="true" />
+            <element signature="e#1091#1097#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#4;n#!!top" expanded="true" />
+            <element signature="e#1428#1434#0" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#p#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#5;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#strong#0;n#p#5;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#6;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#6;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#7;n#!!top" expanded="true" />
+            <element signature="e#3178#3184#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h3#3;n#!!top" expanded="true" />
+            <element signature="e#3233#3239#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#8;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Colaboradores.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="95" column="13" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#173#179#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#306#312#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#556#562#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#657#663#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#755#761#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#843#849#1" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#930#936#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1034#1040#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#td#1;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1228#1234#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#1;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1326#1332#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1430#1436#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#1;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#1753#1759#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#3;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#2;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2044#2050#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2135#2141#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2223#2229#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2297#2303#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2371#2377#1" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#3;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2445#2451#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2536#2542#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#td#1;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2733#2739#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#4;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2844#2850#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#2935#2941#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#1;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3240#3246#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#3;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#5;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3542#3548#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3633#3639#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3721#3727#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3795#3801#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3869#3875#1" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#6;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#3943#3949#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4034#4040#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#1;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4513#4519#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#3;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#4;n#tr#7;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4805#4811#1" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4896#4902#1" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#4984#4990#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#5058#5064#1" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#tr#8;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#5132#5138#1" expanded="true" />
+            <element signature="e#5154#5160#1" expanded="true" />
+            <element signature="e#5199#5205#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Contacto.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#123#129#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#244#250#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#355#361#1" expanded="true" />
+            <element signature="e#559#565#0" expanded="true" />
+            <element signature="e#593#599#0" expanded="true" />
+            <element signature="e#726#732#0" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#td#1;n#tr#0;n#tbody#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="e#888#894#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/filosofia.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="3014" selection-start-column="3014" selection-end-column="3014" />
+          <folding>
+            <element signature="e#419#425#1" expanded="true" />
+            <element signature="e#793#799#1" expanded="true" />
+            <element signature="e#1289#1295#1" expanded="true" />
+            <element signature="e#2200#2206#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/Preguntas_frecuentes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#197#202#0" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#798#804#1" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#931#937#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
+            <element signature="e#1910#1916#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#!!top" expanded="true" />
+            <element signature="e#2389#2395#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ol#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#5;n#!!top" expanded="true" />
+            <element signature="e#3456#3462#0" expanded="true" />
+            <element signature="e#3577#3583#0" expanded="true" />
+            <element signature="n#style#0;n#p#6;n#!!top" expanded="true" />
+            <element signature="e#3709#3715#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#5;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#!!top" expanded="true" />
+            <element signature="e#3963#3969#0" expanded="true" />
+            <element signature="n#style#0;n#p#8;n#!!top" expanded="true" />
+            <element signature="e#4010#4016#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#6;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#9;n#!!top" expanded="true" />
+            <element signature="e#4243#4249#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#9;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#10;n#!!top" expanded="true" />
+            <element signature="e#4623#4629#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#7;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#11;n#!!top" expanded="true" />
+            <element signature="e#4907#4913#1" expanded="true" />
+            <element signature="n#style#0;n#h3#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#8;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#13;n#!!top" expanded="true" />
+            <element signature="e#5351#5357#0" expanded="true" />
+            <element signature="e#5508#5514#0" expanded="true" />
+            <element signature="n#style#0;n#p#14;n#!!top" expanded="true" />
+            <element signature="e#5575#5581#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#9;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#15;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#15;n#!!top" expanded="true" />
+            <element signature="e#5859#5865#0" expanded="true" />
+            <element signature="e#5885#5891#0" expanded="true" />
+            <element signature="e#6048#6054#0" expanded="true" />
+            <element signature="e#6078#6084#0" expanded="true" />
+            <element signature="e#6231#6237#0" expanded="true" />
+            <element signature="n#style#0;n#p#16;n#!!top" expanded="true" />
+            <element signature="e#6305#6311#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#10;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#17;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ol#1;n#!!top" expanded="true" />
+            <element signature="e#6858#6864#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#12;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#18;n#!!top" expanded="true" />
+            <element signature="e#7079#7085#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#14;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#19;n#!!top" expanded="true" />
+            <element signature="e#7406#7412#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#16;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#20;n#!!top" expanded="true" />
+            <element signature="e#7829#7835#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#18;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#21;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#21;n#!!top" expanded="true" />
+            <element signature="e#8456#8462#0" expanded="true" />
+            <element signature="e#8519#8525#0" expanded="true" />
+            <element signature="e#8769#8775#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#20;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#22;n#!!top" expanded="true" />
+            <element signature="e#8974#8980#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#22;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#23;n#!!top" expanded="true" />
+            <element signature="e#9247#9253#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#23;n#!!top" expanded="true" />
+            <element signature="e#9701#9707#0" expanded="true" />
+            <element signature="e#9848#9854#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#24;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#24;n#!!top" expanded="true" />
+            <element signature="e#10124#10130#0" expanded="true" />
+            <element signature="e#10235#10241#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#26;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#25;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#26;n#!!top" expanded="true" />
+            <element signature="e#10623#10629#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#27;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#27;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#28;n#!!top" expanded="true" />
+            <element signature="e#10921#10927#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#28;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#29;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#30;n#!!top" expanded="true" />
+            <element signature="e#11265#11271#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#a#0;n#strong#0;n#h4#29;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#31;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="e#12324#12330#1" expanded="true" />
+            <element signature="n#style#0;n#h3#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#div#1;n#!!top" expanded="true" />
+            <element signature="e#13540#13546#1" expanded="true" />
+            <element signature="n#style#0;n#h3#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#30;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#33;n#!!top" expanded="true" />
+            <element signature="e#13957#13963#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#32;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#34;n#!!top" expanded="true" />
+            <element signature="e#14285#14291#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#34;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#35;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#36;n#!!top" expanded="true" />
+            <element signature="e#14619#14625#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#35;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#37;n#!!top" expanded="true" />
+            <element signature="e#15073#15079#1" expanded="true" />
+            <element signature="n#style#0;n#h3#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#h4#36;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#39;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/terminos_de_uso.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#4;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#5;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#6;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#7;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#a#0;n#span#0;n#p#7;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#8;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#9;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#3;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#a#0;n#span#0;n#li#3;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#5;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#6;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#7;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#8;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#10;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ol#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ol#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#11;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#u#0;n#b#0;n#a#0;n#p#11;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ol#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ol#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#12;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#13;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#u#0;n#b#0;n#a#0;n#p#13;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#14;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/normas_concursos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="177" selection-start-column="177" selection-end-column="177" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/pageshtmldefinition/politica_privacidad.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="29002" selection-start-column="29002" selection-end-column="29002" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#4;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#5;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#6;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#7;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#8;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#9;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#10;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#11;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#12;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#13;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#14;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#15;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#16;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#17;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#18;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#19;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#20;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#21;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#22;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#23;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#24;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#25;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#26;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#27;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#28;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#29;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#30;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#31;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#32;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#33;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#34;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#35;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#36;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#37;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#38;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#39;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#40;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#41;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#42;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#43;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#44;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#45;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#15367#15373#1" expanded="true" />
+            <element signature="n#style#0;n#h2#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#46;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#47;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#48;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#49;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#16752#16757#0" expanded="true" />
+            <element signature="n#style#0;n#p#50;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#1;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#3;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#4;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#5;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#5;n#ul#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#51;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#52;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#53;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#54;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#55;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#0;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#1;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#2;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#3;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#4;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#5;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#5;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#6;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#6;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#7;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#7;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#8;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#8;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#9;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#9;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#10;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#10;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#11;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#11;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#12;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#12;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#13;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#13;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#14;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#14;n#ul#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#56;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#57;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#58;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#59;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#60;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#61;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#62;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#63;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#64;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#65;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#66;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#0;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#1;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#27167#27171#0" expanded="true" />
+            <element signature="e#27171#27175#0" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#0;n#ul#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#1;n#ul#0;n#li#2;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#li#3;n#ol#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#67;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#68;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#69;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#70;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#28986#28992#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/edituser.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/login.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/proposals.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="110" column="13" selection-start-line="110" selection-start-column="13" selection-end-line="110" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ProposalTemplateSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="61" column="52" selection-start-line="61" selection-start-column="40" selection-end-line="61" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/editSemiFinalistProposals.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/proposalstemplate.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/imagesupload.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ImageUploadSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="37" column="29" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/results.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/createuser.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ContestSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6358">
+          <caret line="412" column="53" selection-start-line="412" selection-start-column="36" selection-end-line="412" selection-end-column="53" />
+          <folding>
+            <element signature="e#11480#11481#0" expanded="true" />
+            <element signature="e#11533#11534#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/LoginSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="84" column="16" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/ThemeSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+          <folding>
+            <element signature="e#892#893#0" expanded="true" />
+            <element signature="e#922#923#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/subscription.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="89" selection-start-line="24" selection-start-column="89" selection-end-line="24" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/SemiFinalistSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="37" column="73" selection-start-line="37" selection-start-column="73" selection-end-line="37" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/FinalistSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/CommentsSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="81" column="50" selection-start-line="81" selection-start-column="50" selection-end-line="81" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/CreateUserSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2142">
+          <caret line="145" selection-start-line="145" selection-end-line="145" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/RunCukeTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/comments.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2669">
+          <caret line="157" selection-start-line="157" selection-end-line="157" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/AboutPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/about.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/steps/AboutSteps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/MainPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/UploadImagePage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="106" selection-start-line="102" selection-end-line="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/contest.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/features/theme.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/colabupmtest/config/configuration.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="37" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/colabupmtest/pageobjects/ContestManagerPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="178" column="101" selection-start-line="178" selection-start-column="101" selection-end-line="178" selection-end-column="101" />
+          <folding>
+            <element signature="e#4081#4082#0" expanded="true" />
+            <element signature="e#4118#4119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/Assert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="e#1482#1483#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.50574714" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.50574714" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>colabupmtest</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.50574714" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: com.aventstack:extentreports:4.0.9</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.50574714" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="clean install" />
+  </component>
+</project>

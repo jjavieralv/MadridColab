@@ -1,0 +1,15 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+	  xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+
+    <jsp:directive.include file="header.jspx"/>
+
+	<!--TODO COLAB-2581: port this when porting modeling from proposals portlet -->
+	<!--<p>${model.description }</p>-->
+	<!--<div>-->
+		<!--<modeling:simulationEdit modelId="${model.id }" />-->
+	<!--</div>-->
+</xcolab:layout>
+</jsp:root>

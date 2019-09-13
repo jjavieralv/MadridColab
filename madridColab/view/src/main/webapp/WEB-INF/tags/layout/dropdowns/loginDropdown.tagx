@@ -1,0 +1,70 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:form="http://www.springframework.org/tags/form">
+
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <div class="dropdown-menu dropdown-menu-right cb-dropdown-box" style="min-width: 300px;">
+        <div class="row">
+            <div class="col-md-12">
+                <c:if test="${_themeContext.authenticationVariables.isFacebookSsoActive
+                                and _themeContext.authenticationVariables.isGoogleSsoActive
+                                and _themeContext.authenticationVariables.isClimateXSsoActive}">
+                    <c:set var="loginDropdownSsoTextExtraClasses" value="small"/>
+                </c:if>
+                <div class="d-flex justify-content-around">
+                    <c:if test="${_themeContext.authenticationVariables.isFacebookSsoActive}">
+                        <a href="/sso/facebook" class="c-SocialButton border-0" rel="nofollow">
+                            <collab:image src="/images/icons/social/facebook.svg" ariaHidden="true" />
+                            <span class="c-SocialButton__text ${loginDropdownSsoTextExtraClasses}">Facebook</span>
+                        </a>
+                    </c:if>
+                    <c:if test="${_themeContext.authenticationVariables.isGoogleSsoActive}">
+                        <a href="/sso/google" class="c-SocialButton border-0"  rel="nofollow">
+                            <collab:image src="/images/icons/social/google.svg" ariaHidden="true" />
+                            <span class="c-SocialButton__text ${loginDropdownSsoTextExtraClasses}">Google</span>
+                        </a>
+                    </c:if>
+                    <c:if test="${_themeContext.authenticationVariables.isClimateXSsoActive}">
+                        <a href="/sso/climatex" class="c-SocialButton border-0"  rel="nofollow">
+                            <collab:image src="/images/icons/social/climatex.svg" ariaHidden="true" />
+                            <span class="c-SocialButton__text ${loginDropdownSsoTextExtraClasses}">ClimateX</span>
+                        </a>
+                    </c:if>
+                </div>
+                <c:if test="${_themeContext.authenticationVariables.isAnySsoActive}">
+                    <div class="c-TextRule c-TextRule--inverse">
+                        OR
+                    </div>
+                </c:if>
+
+                <form:form class="form" role="form" id="signInFormPopup" method="post" action="/login" accept-charset="UTF-8" >
+                    <div class="form-group">
+                        <spring:message code="homepage.login.usernameoremail" var="usernameplaceholder"/>
+                        <input type="text" class="form-control" name="username"
+                               placeholder="${usernameplaceholder}" autocomplete="username" />
+                    </div>
+                    <div class="form-group">
+                        <spring:message code="homepage.login.password" var="passwordplaceholder"/>
+                        <input type="password" class="form-control" name="password"
+                               placeholder="${passwordplaceholder}" autocomplete="current-password"/>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="header__remember-me" type="checkbox" name="remember-me" checked="checked" />
+                        <label class="form-check-label" for="header__remember-me"><spring:message code="homepage.login.rememberme"/></label>
+                    </div>
+                    <div class="cb-d-flex-between-center">
+                        <a href="javascript:;" onclick="showForgotPasswordModal()">
+                            <em><spring:message code="homepage.login.forgotyourpassword"/></em>
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="loginPopupTopSubmit">
+                            <spring:message code="homepage.login.button"/>
+                        </button>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</jsp:root>

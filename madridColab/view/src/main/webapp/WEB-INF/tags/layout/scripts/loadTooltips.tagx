@@ -1,0 +1,21 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0">
+
+    <collab:stylesheet href="/vendor/tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <collab:script src="/vendor/tooltipster/dist/js/tooltipster.bundle.min.js" />
+    <script>
+        initializeTooltips(jQuery('.js-Tooltip'));
+
+        function initializeTooltips($tooltips) {
+            $tooltips.tooltipster({
+                interactive: true,
+                contentAsHtml: true
+            });
+        }
+
+        function findAndInitializeTooltips($html) {
+            initializeTooltips($html.find('.js-Tooltip'));
+        }
+    </script>
+</jsp:root>

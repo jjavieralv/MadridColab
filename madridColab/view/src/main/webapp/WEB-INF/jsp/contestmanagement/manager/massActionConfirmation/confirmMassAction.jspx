@@ -1,0 +1,100 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <xcolab:layout>
+        <!--@elvariable id="massActionConfirmationWrapper" type="org.xcolab.view.pages.contestmanagement.wrappers.MassActionConfirmationWrapper"-->
+
+        <jsp:directive.include file="../../init.jspx"/>
+
+        <c:set var="confirmDeleteContestURL" value="/admin/contest/manager/confirmMassAction" />
+
+        <div class="proposal-head">
+            <div class="c-Headline">
+                <div>
+                    <h1>Mass Action Confirmation</h1>
+                    <h3>
+                        Please confirm the contest(s) that you want to execute the mass action "${massActionConfirmationWrapper.selectedMassAction.action.displayName}" on!
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <form:form action="${confirmDeleteContestURL }" modelAttribute="massActionConfirmationWrapper"
+                   id="editForm" method="post">
+            <div class="c-ContentBox">
+                <div class="">
+                    <a class="btn btn-primary" href="#" id="submitButton">${massActionConfirmationWrapper.selectedMassAction.action.displayName}</a>
+                    <a class="btn btn-gray" href="/admin/contest/manager">DISCARD &amp; go back to overview</a>
+                </div>
+            </div>
+            <div class="c-ContentBox">
+                <table class="c-ContentBox__Table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllCheckbox"/></th>
+                        <th>Contest title</th>
+                        <th>Contest phases</th>
+                        <th># of Proposals</th>
+                    </tr>
+                    </thead>
+                    <tbody id="contestOverviewBody">
+                    <form:hidden path="selectedMassAction"/>
+                    <form:hidden path="itemCount"/>
+                    <c:forEach var="contestWrapper" items="${massActionConfirmationWrapper.contestWrappers}"
+                               varStatus="x">
+                        <tr id="${contestWrapper.id}">
+                            <form:hidden path="contestIds[${x.index}]"
+                                         data-form-name="contestId"/>
+                            <td>
+                                <form:checkbox path="selectedContest[${x.index}]" />
+                            </td>
+                            <td>
+                                <xcolab:contestLink contest="${contestWrapper}" />
+                            </td>
+                            <td>
+                                <c:forEach var="contestPhaseWrapper" items="${contestWrapper.phases}" varStatus="y">
+                                    ${contestPhaseWrapper.name}<br/>
+                                </c:forEach>
+                            </td>
+                            <td>${contestWrapper.proposalsCount} </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </form:form>
+
+        <script>
+            <![CDATA[
+
+            jQuery(function () {
+                bindSelectAllClick();
+                bindFormSubmits();
+            });
+
+            function bindSelectAllClick() {
+                var selectAllCheckboxElement = document.getElementById("selectAllCheckbox");
+                selectAllCheckboxElement.addEventListener("change", function (ev) {
+                    var selectAllChecked = selectAllCheckboxElement.checked;
+                    var contestsTableBody = document.getElementById('contestOverviewBody');
+                    [].forEach.call(contestsTableBody.getElementsByClassName("checkbox"), function (element) {
+                        var parentRow = getClosest(element, "tr");
+                        element.checked = !!selectAllChecked;
+                    });
+                });
+            }
+
+            function bindFormSubmits() {
+                var editFormElement = document.getElementById('editForm');
+                var submitButtonElement = document.getElementById("submitButton");
+                submitButtonElement.addEventListener("click", function () {
+                    editFormElement.submit();
+                })
+            }
+
+            ]]>
+        </script>
+    </xcolab:layout>
+</jsp:root>

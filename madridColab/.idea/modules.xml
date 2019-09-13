@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/XCoLab.iml" filepath="$PROJECT_DIR$/.idea/XCoLab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/activities-client/activities-client.iml" filepath="$PROJECT_DIR$/microservices/clients/activities-client/activities-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/activities-service/activities-service.iml" filepath="$PROJECT_DIR$/microservices/services/activities-service/activities-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/admin-client/admin-client.iml" filepath="$PROJECT_DIR$/microservices/clients/admin-client/admin-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/admin-service/admin-service.iml" filepath="$PROJECT_DIR$/microservices/services/admin-service/admin-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/ballons-client/ballons-client.iml" filepath="$PROJECT_DIR$/microservices/clients/ballons-client/ballons-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/comment-client/comment-client.iml" filepath="$PROJECT_DIR$/microservices/clients/comment-client/comment-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/comment-service/comment-service.iml" filepath="$PROJECT_DIR$/microservices/services/comment-service/comment-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/content-service/content-service.iml" filepath="$PROJECT_DIR$/microservices/services/content-service/content-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/contents-client/contents-client.iml" filepath="$PROJECT_DIR$/microservices/clients/contents-client/contents-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/contest-service/contest-service.iml" filepath="$PROJECT_DIR$/microservices/services/contest-service/contest-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/contestproposal-client/contestproposal-client.iml" filepath="$PROJECT_DIR$/microservices/clients/contestproposal-client/contestproposal-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/emails-client/emails-client.iml" filepath="$PROJECT_DIR$/microservices/clients/emails-client/emails-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/emails-service/emails-service.iml" filepath="$PROJECT_DIR$/microservices/services/emails-service/emails-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/entity-utils/entity-utils.iml" filepath="$PROJECT_DIR$/util/entity-utils/entity-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/cloud/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/microservices/cloud/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/files-client/files-client.iml" filepath="$PROJECT_DIR$/microservices/clients/files-client/files-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/flagging-client/flagging-client.iml" filepath="$PROJECT_DIR$/microservices/clients/flagging-client/flagging-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/members-client/members-client.iml" filepath="$PROJECT_DIR$/microservices/clients/members-client/members-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/members-service/members-service.iml" filepath="$PROJECT_DIR$/microservices/services/members-service/members-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/microservice-clients.iml" filepath="$PROJECT_DIR$/microservices/clients/microservice-clients.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/microservice-services.iml" filepath="$PROJECT_DIR$/microservices/services/microservice-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/modeling-client/modeling-client.iml" filepath="$PROJECT_DIR$/microservices/clients/modeling-client/modeling-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/modeling-service/modeling-service.iml" filepath="$PROJECT_DIR$/microservices/services/modeling-service/modeling-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/moderation-service/moderation-service.iml" filepath="$PROJECT_DIR$/microservices/services/moderation-service/moderation-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/search-client/search-client.iml" filepath="$PROJECT_DIR$/microservices/clients/search-client/search-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/search-service/search-service.iml" filepath="$PROJECT_DIR$/microservices/services/search-service/search-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/cloud/service-proxy/service-proxy.iml" filepath="$PROJECT_DIR$/microservices/cloud/service-proxy/service-proxy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/service-utils/service-utils.iml" filepath="$PROJECT_DIR$/util/service-utils/service-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/clients/tracking-client/tracking-client.iml" filepath="$PROJECT_DIR$/microservices/clients/tracking-client/tracking-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/services/tracking-service/tracking-service.iml" filepath="$PROJECT_DIR$/microservices/services/tracking-service/tracking-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/util-parent.iml" filepath="$PROJECT_DIR$/util/util-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/cloud/xcolab-cloud.iml" filepath="$PROJECT_DIR$/microservices/cloud/xcolab-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/xcolab-commons/xcolab-commons.iml" filepath="$PROJECT_DIR$/util/xcolab-commons/xcolab-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microservices/xcolab-microservices.iml" filepath="$PROJECT_DIR$/microservices/xcolab-microservices.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/xcolab-utils/xcolab-utils.iml" filepath="$PROJECT_DIR$/util/xcolab-utils/xcolab-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/view/xcolab-view.iml" filepath="$PROJECT_DIR$/view/xcolab-view.iml" />
+    </modules>
+  </component>
+</project>

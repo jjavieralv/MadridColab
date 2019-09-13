@@ -1,0 +1,160 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:collab="http://climatecolab.org/tags/xcolab_1.0"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+    <!--@elvariable id="currentCategory" type="org.xcolab.client.comment.pojo.Category"-->
+    <!--@elvariable id="categories" type="java.util.List<org.xcolab.client.comment.pojo.Category>"-->
+    <!--@elvariable id="threads" type="java.util.List<org.xcolab.client.comment.pojo.CommentThread>"-->
+    <!--@elvariable id="sortAscending" type="java.lang.Boolean"-->
+    <!--@elvariable id="sortColumn" type="java.lang.String"-->
+    <!--@elvariable id="isSubscribed" type="java.lang.Boolean"-->
+    <!--@elvariable id="discussionPermissions" type="org.xcolab.view.taglibs.xcolab.jspTags.discussion.DiscussionPermissions"-->
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <xcolab:layout title="${currentCategory.name}">
+
+        <script>
+            var hash = window.location.hash;
+            if (hash.slice(1, 11) == "discussion") {
+                //found old discussion url -> redirect to new url
+                var newUrl = hash.replace("#discussion%3DpageType%3ACATEGORY%2CcategoryId%3A", "category/");
+                newUrl = newUrl.replace("#discussion%3DpageType%3ATHREAD%2CthreadId%3A", "thread/");
+                window.location = '/discussion/' + newUrl;
+            }
+        </script>
+
+        <xcolab:content articleId="${communityTopContentArticleId}" loadWidgetLibrary="false"/>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members"><spring:message code="colab.breadcrumbs.community"/></a>
+                </li>
+                <c:choose>
+                    <c:when test="${not empty currentCategory}">
+                        <li class="breadcrumb-item">
+                            <a href="/discussion">
+                                <spring:message code="colab.breadcrumbs.discussion"/>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">${currentCategory.name}</li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <spring:message code="colab.breadcrumbs.discussion"/>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ol>
+        </nav>
+
+        <spring:message code="discussion.categorypage.alldiscussions" var="allDiscussions"/>
+        <h2>${empty currentCategory ? allDiscussions : currentCategory.name}</h2>
+
+        <div class="l-Content">
+
+            <div class="l-Content__main">
+                <div class="row">
+                    <div class="col-12 col-md-6 my-2">
+
+                        <span class="c-Count">
+                            <span class="c-Count__number">${threads.size()}</span>
+                            <spring:message code="discussion.categorypage.count"/>
+                        </span>
+                    </div>
+                    <c:if test="${discussionPermissions.canSeeAddThreadButton}">
+                        <div class="col-12 col-md-6 my-2 text-right">
+                            <a class="btn btn-link js-EnhancedLink" data-require-login="true"
+                               href="/discussion/threads/create" rel="nofollow" >
+                                <collab:image height="30" src="/images/icon_new-topic.png" cssClass="cb-btn-image"/>
+                                <span class="cb-btn-image-text">
+                                    <spring:message code="discussion.categorypage.newdiscussion"/>
+                                </span>
+                            </a>
+                        </div>
+                    </c:if>
+                </div>
+                <c:if test="${not empty currentCategory}">
+                    <hr class="my-2"/>
+                    <div class="my-3">
+                        ${currentCategory.description}
+                    </div>
+                </c:if>
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <c:set value="${not empty currentCategory ? currentCategory.linkUrl : '/discussion'}"
+                               var="baseUrl"/>
+                        <th>
+                            <c:set var="sortURL" value="${baseUrl}?sortColumn=TITLE&amp;sortAscending=${sortColumn == 'TITLE' ? not sortAscending : false }" />
+
+                            <a class="js-Tooltip" title="click to sort by title" href="${sortURL }">
+                                <spring:message code="discussion.categorypage.table.title"/>
+                                <xcolab:sortArrow sortAscending="${sortAscending}" sortColumn="${sortColumn}" currentColumn="TITLE" />
+                            </a>
+
+                        </th>
+
+                        <th>
+                            <c:set var="sortURL" value="${baseUrl}?sortColumn=REPLIES&amp;sortAscending=${sortColumn == 'REPLIES' ? not sortAscending : false }" />
+
+                            <a class="js-Tooltip" title="click to sort by replies" href="${sortURL }">
+                                <spring:message code="discussion.categorypage.table.replies"/>
+                                <xcolab:sortArrow sortAscending="${sortAscending}" sortColumn="${sortColumn}" currentColumn="REPLIES" />
+                            </a>
+                        </th>
+
+                        <th>
+                            <c:set var="sortURL" value="${baseUrl}?sortColumn=LAST_COMMENTER&amp;sortAscending=${sortColumn == 'LAST_COMMENTER' ? not sortAscending : false }" />
+
+                            <a class="js-Tooltip" title="click to sort by last commenter" href="${sortURL }">
+                                <spring:message code="discussion.categorypage.table.lastcommenter"/>
+                                <xcolab:sortArrow sortAscending="${sortAscending}" sortColumn="${sortColumn}" currentColumn="LAST_COMMENTER" />
+                            </a>
+                        </th>
+
+                        <th>
+                            <c:set var="sortURL" value="${baseUrl}?sortColumn=DATE&amp;sortAscending=${sortColumn == 'DATE' ? not sortAscending : false }" />
+
+                            <a class="js-Tooltip" title="click to sort by date" href="${sortURL }">
+                                <spring:message code="discussion.categorypage.table.date" />
+                                <xcolab:sortArrow sortAscending="${sortAscending}" sortColumn="${sortColumn}" currentColumn="DATE" />
+                            </a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <c:forEach var="thread" items="${threads}">
+                        <tr>
+                            <td><a href="${thread.linkUrl}">${thread.title}</a></td>
+                            <td>${thread.commentsCount}</td>
+                            <td><xcolab:userLinkSimple userId="${thread.lastActivityAuthor.id}" text="${thread.lastActivityAuthor.displayName}"/></td>
+                            <td>${thread.lastActivityDateFormatted}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+            <div class="l-Content__sidebar l-Content__sidebar--right l-Content__sidebar--small">
+                <c:set var="subscribeUrl" value="/discussion/subscribeCategory?categoryId=${not empty currentCategory ? currentCategory.id : '0'}"/>
+                <c:set var="unsubscribeUrl" value="/discussion/unsubscribeCategory?categoryId=${not empty currentCategory ? currentCategory.id : '0'}"/>
+                <a class="btn btn-link js-EnhancedLink" data-require-login="true"
+                   href="${isSubscribed ? unsubscribeUrl : subscribeUrl}" rel="nofollow">
+                    <collab:image src="/images/subscribe_small_2.png" cssClass="cb-btn-image" />
+                    <span class="cb-btn-image-text">${isSubscribed ? 'Unsubscribe' : 'Subscribe'}</span>
+                </a>
+                <div class="card comm_list">
+                    <div class="card-body c-SideMenu c-SideMenu--compact">
+                        <h2><spring:message code="discussion.categorypage.categories"/> </h2>
+                        <ul class="discussionCategories">
+                            <li><a href="/discussion"><spring:message code="discussion.categorypage.alldiscussions"/></a></li>
+                            <c:forEach var="category" items="${categories}">
+                                <li><a href="${category.linkUrl}">${category.name}</a></li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </xcolab:layout>
+
+</jsp:root>

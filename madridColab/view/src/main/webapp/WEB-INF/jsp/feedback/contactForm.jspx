@@ -1,0 +1,85 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags">
+
+	<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout title="Contact">
+    <!--@elvariable id="_themeContext" type="org.xcolab.view.theme.ThemeContext"-->
+
+    <!--@elvariable id="feedbackPage" type="org.xcolab.client.contents.pojo.ContentPage"-->
+    <!--@elvariable id="hasError" type="java.lang.Boolean"-->
+
+    <div class="l-Content">
+		<div class="l-Content__sidebar l-Content__sidebar--small c-SideMenu c-SideMenu--styled">
+			<xcolab:content articleId="${feedbackPage.menuArticleId}" />
+            <script>
+                (function(href) {
+                    var pageIndex = href.lastIndexOf("/") + 1;
+                    var page = href.substring(pageIndex);
+                    jQuery("#" + page).addClass("c-SideMenu__link--active");
+                })(window.location.href);
+            </script>
+		</div>
+
+		<div class="l-Content__main">
+            <xcolab:content articleId="${feedbackPage.contentArticleId}" />
+
+			<script src='https://www.google.com/recaptcha/api.js'><!-- --></script>
+			<c:if test="${_themeContext.authenticationVariables.isAdmin}">
+				<a href="/feedback/preferences" class="btn cb-btn-admin btn-sm float-right">Edit preferences</a><br/>
+			</c:if>
+			<div id="contactForm" style="${not hasError ? 'display:none;' : ''};">
+
+				<form:form action="/feedback" method="post" commandName="contactBean" id="contactFormForm">
+					<form:errors cssClass="alert alert-danger" element="div" />
+
+					<table class="reg">
+						<tr>
+							<th class="required" nowrap="nowrap"><spring:message code="contact.form.fields.yourname" /></th>
+							<td>
+                                <form:input id="name" path="name"
+                                            cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                                <form:errors cssClass="invalid-feedback" path="name" />
+							</td>
+						</tr>
+						<tr>
+							<th class="required" nowrap="nowrap"><spring:message code="contact.form.fields.email" /></th>
+							<td>
+                                <form:input id="email" path="email"
+                                            cssClass="form-control" cssErrorClass="form-control is-invalid" />
+                                <form:errors cssClass="invalid-feedback" path="email" />
+                            </td>
+						</tr>
+
+						<tr>
+							<th class="required" nowrap="nowrap"><spring:message code="contact.form.fields.message" /></th>
+							<td>
+                                <form:textarea cssClass="form-control" path="message" style="width: 100%; height: 150px;" />
+                                <form:errors cssClass="invalid-feedback" path="message" />
+                            </td>
+						</tr>
+
+						<tr>
+							<th class="required" nowrap="nowrap"><spring:message code="contact.form.fields.clickthebox" /></th>
+							<td colspan="3">
+
+								<div class="g-recaptcha" data-sitekey="${recaptchaDataSiteKey}"><!-- --></div>
+
+							</td>
+						</tr>
+
+						<tr>
+							<th></th>
+							<td colspan="3">
+								<a class="btn btn-primary" href="javascript:;" onclick="$('#contactFormForm').submit()"><spring:message code="contact.form.buttons"/></a>
+							</td>
+						</tr>
+					</table>
+				</form:form>
+			</div>
+		</div>
+    </div>
+</xcolab:layout>
+</jsp:root>

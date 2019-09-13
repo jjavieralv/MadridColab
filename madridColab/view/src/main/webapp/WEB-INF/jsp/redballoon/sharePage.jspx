@@ -1,0 +1,31 @@
+<jsp:root version="2.1" xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:xcolab-social="urn:jsptagdir:/WEB-INF/tags/social"
+>
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+    <!--@elvariable id="balloonText" type="org.xcolab.client.balloons.pojo.BalloonText"-->
+    <xcolab:layout title="Social Network Prize - Share">
+
+	${balloonText.textBeforeShareButtons }
+
+	<div class="balloonContainer">
+        <label for="linkToCopy" class="sr-only">Personal share link</label>
+        <input id="linkToCopy" type="text" value="${shareLink}" readonly="readonly"
+               class="form-control mb-2"/>
+        <button class="btn btn-primary mr-2" id="copyButton" data-clipboard-target="#linkToCopy">
+            Copy link
+        </button>
+        <xcolab-social:socialShareButtons title="${balloonText.shareTitle}" url="${shareLink}"/>
+	</div>
+
+    <xcolab:requireLibrary name="clipboard.js" />
+
+    <script>
+        jQuery(function() {
+            new Clipboard('#copyButton');
+        });
+    </script>
+    <jsp:include page="exampleModal.jspx" />
+</xcolab:layout>
+</jsp:root>

@@ -1,0 +1,79 @@
+<jsp:root version="2.1" xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:xcolab="urn:jsptagdir:/WEB-INF/tags"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:form="http://www.springframework.org/tags/form">
+
+<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"/>
+<xcolab:layout>
+    <jsp:directive.include file="init.jspx"/>
+
+    <!--@elvariable id="categories" type="java.util.List<org.xcolab.client.comment.pojo.Category>"-->
+
+    <div id="content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/members"><spring:message code="colab.breadcrumbs.community"/></a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/discussion"><spring:message code="colab.breadcrumbs.discussion"/></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <spring:message code="colab.breadcrumbs.createthread" />
+                </li>
+            </ol>
+        </nav>
+
+        <h1><spring:message code="discussion.threadadd.title" /></h1>
+        <div class="addthread">
+            <div class="c-Comment__new">
+                <c:set var="addThreadUrl" value="/discussion/thread/create" />
+                <form:form id="addThreadForm" action="${addThreadUrl }" method="post">
+                    <div class="form-group">
+                        <label for="threadCategoryId"><spring:message code="discussion.threadadd.table.category" /></label>
+                        <select id="threadCategoryId" name="categoryId" class="form-control">
+                            <c:forEach var="category" items="${categories}">
+                                <option value="${category.id}">${category.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="threadTitle"><spring:message code="discussion.threadadd.table.title" /></label>
+                        <input id="threadTitle" class="form-control" name="title" maxlength="255" type="text" value="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="threadBody"><spring:message code="discussion.threadadd.table.message"/></label>
+                        <textarea id="threadBody" class="rte-editorPlaceholder form-control" name="body" rows="10"><!-- --></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <a class="btn btn-primary" id="addThreadButton" href="#"><spring:message code="discussion.threadadd.buttons.add"/></a>
+                        <a class="btn btn-gray" id="cancelAddThreadButton" href="/discussion"><spring:message code="discussion.threadadd.buttons.cancel" /></a>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+    <script>
+        jQuery(function() {
+            initializeDropDowns();
+            enableDirtyCheck();
+
+            jQuery("#addThreadButton").click(function () {
+                disableDirtyCheck();
+                jQuery("#addThreadForm").submit();
+            });
+
+            jQuery("#cancelAddThreadButton").click(function () {
+                disableDirtyCheck();
+                window.location.replace("/discussion");
+            });
+        });
+    </script>
+
+    <xcolab:requireLibrary name="CKEditor" />
+</xcolab:layout>
+</jsp:root>

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ${xcolab.namespace:xcolab}-comment-service
+  jmx:
+    default-domain: ${spring.application.name}

@@ -1,0 +1,42 @@
+$p-Homepage__homespot__background: $t-Color__tan !default;
+
+.p-Homepage {
+
+  // Reset the container's spacing so the background can span the whole page's width
+  #content {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    max-width: initial;
+  }
+
+  h1 {
+    font-size: 2.1875rem;
+
+    @include media-breakpoint-down(sm) {
+      font-size: 1.6875rem;
+    }
+  }
+
+  h2 span {
+    font-size: 1rem;
+    margin-left: .5rem;
+  }
+}
+
+.p-Homepage__homespot { //.homespot
+  margin-bottom: 1.5rem;
+  background: $p-Homepage__homespot__background;
+}
+
+// Background can optionally start at various breakpoints
+// this class is not used in code, but can be used in the homespot content article
+@each $breakpoint in map-keys($grid-breakpoints) {
+  $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+  .p-Homepage__homespot__background#{$infix} {
+    @include media-breakpoint-up($breakpoint) {
+      background: url(/images/homespot/background.png) right top no-repeat;
+    }
+  }
+}
