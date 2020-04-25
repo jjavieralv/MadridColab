@@ -32,11 +32,13 @@
                         <xcolab-icon:grid-view cssClass="cb-btn-image d-none d-sm-inline-block"/>
                         <span class="cb-btn-image-text"><spring:message code="contests.views.grid"/></span>
                     </a>
+                    <!--
                     <a class="btn btn-outline-primary ${viewType == 'OUTLINE' ? 'cb-btn-group-active-btn' : ''}"
                        href="${changeToOutlineViewTypeURL}">
                         <xcolab-icon:outline-view cssClass="cb-btn-image d-none d-sm-inline-block"/>
                         <span class="cb-btn-image-text"><spring:message code="contests.views.outline" /></span>
                     </a>
+                    -->
                     <a class="btn btn-outline-primary ${viewType == 'LIST' ? 'cb-btn-group-active-btn' : ''}"
                        href="${changeToListViewTypeURL}">
                         <xcolab-icon:list-view cssClass="cb-btn-image d-none d-sm-inline-block"/>
