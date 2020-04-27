@@ -39,8 +39,8 @@
 
         <div class="cb-d-flex-between-center flex-column flex-sm-row">
             <div class="c-Count">
-                <spring:message var="memberText" code="contests.proposal.team.member"/>
-                <spring:message var="membersText" code="contests.proposal.team.members"/>
+                <spring:message var="memberText" code="contests.proposal.team.contributor"/>
+                <spring:message var="membersText" code="contests.proposal.team.contributors"/>
                 <span class="c-Count__number">${fn:length(proposal.members)}</span>
                 ${fn:length(proposal.members) == 1 ? memberText : membersText}
             </div>
