@@ -40,7 +40,7 @@ public enum ProposalTab {
             ProposalTabAccess.NEVER,
             ProposalTabActivityCountAlgorithm.alwaysZero),
     EVALUATION("Evaluation Results", "contests.proposal.tabs.evaluation",
-            Type.NORMAL, new EvaluationAccessAlgorithm(),
+            Type.NORMAL, ProposalTabAccess.PROPOSAL_ADMIN,//new EvaluationAccessAlgorithm(),
             ProposalTabAccess.NEVER,
             ProposalTabActivityCountAlgorithm.evaluationCommentsCount),
     ADMIN("Admin", "contests.proposal.tabs.admin",
