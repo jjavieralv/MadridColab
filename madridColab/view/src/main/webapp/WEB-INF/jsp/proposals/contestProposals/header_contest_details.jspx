@@ -139,16 +139,22 @@
                                 <c:otherwise>
                                     <div class="p-ContestProposals__header__team__roleName">
                                         <c:if test="${teamRole.role eq 'Juez'}">
-                                                 Jueces
-                                         </c:if>
+                                            Jueces
+                                        </c:if>
                                         <c:if test="${teamRole.role eq 'Asesor'}">
                                             ${teamRole.role}es
                                         </c:if>
                                         <c:if test="${teamRole.role eq 'Analista'}">
-                                        ${teamRole.role}s
-                                    </c:if>
+                                            ${teamRole.role}s
+                                        </c:if>
                                         <c:if test="${teamRole.role eq 'Impact Fellow'}">
                                             ${teamRole.role}s
+                                        </c:if>
+                                        <c:if test="${teamRole.role ne 'Impact Fellow' and
+                                        teamRole.role ne 'Juez' and
+                                        teamRole.role ne 'Asesor' and
+                                        teamRole.role ne 'Analista'}">
+                                            ${teamRole.role}
                                         </c:if>
                                     </div>
                                 </c:otherwise>
@@ -187,7 +193,7 @@
 
                     <c:if test="${contestType.hasDiscussion}">
                         <a href="${contest.contestUrl}/discussion" class="btn btn-outline-primary">
-                           <span><spring:message code="contests.details.discussion" />&#160;</span>
+                            <span><spring:message code="contests.details.discussion" />&#160;</span>
                             <c:if test="${contest.commentsCount > 0}">
                                 <span class="badge badge-pill badge-primary-darkest">
                                     ${contest.commentsCount}
