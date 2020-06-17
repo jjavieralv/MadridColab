@@ -1,10 +1,12 @@
 package org.xcolab.view.pages.home;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
+import org.xcolab.client.members.MembersClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,9 @@ public class LandingPageController {
     }
 
     @RequestMapping("/")
-    public String hello(HttpServletRequest request, HttpServletResponse response) {
+    public String hello(HttpServletRequest request, HttpServletResponse response, Model model) {
+        int totalUsers = MembersClient.countMembers(null, null);
+        model.addAttribute("totalUsers", totalUsers);
         return "home/home";
     }
 }

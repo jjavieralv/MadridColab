@@ -26,6 +26,7 @@
 
     <div class="cb-navbar-background ${isWhiteBackgound ? 'cb-navbar-background-white' : ''}">
         <div class="container">
+
             <nav class="navbar navbar-expand-lg navbar-light" aria-label="site wide">
                 <a class="navbar-brand" href="/">
                     <c:url var="encodedLogoPath" value="${logoPath}"/>
@@ -169,4 +170,18 @@
             </nav>
         </div>
     </div>
+    <c:if test="${totalUsers != null}">
+        <div class="cb-navbar-background ${isWhiteBackgound ? 'cb-navbar-background-white' : ''}">
+            <div class="container">
+                    <div class="col-s12 text-right align-middle">
+                            <div class="c-Count">
+                                <span class="c-Count__number">
+                                    ${totalUsers}
+                                </span>
+                                <spring:message code="community.page.members.count"/>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </c:if>
 </jsp:root>
