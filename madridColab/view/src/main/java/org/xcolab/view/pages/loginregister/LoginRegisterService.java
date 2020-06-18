@@ -13,9 +13,11 @@ import org.xcolab.client.balloons.BalloonsClient;
 import org.xcolab.client.balloons.exceptions.BalloonUserTrackingNotFoundException;
 import org.xcolab.client.balloons.pojo.BalloonUserTracking;
 import org.xcolab.client.members.MembersClient;
+import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.pojo.LoginToken;
 import org.xcolab.client.members.pojo.Member;
+import org.xcolab.client.members.pojo.MessagingUserPreference;
 import org.xcolab.commons.html.HtmlUtil;
 import org.xcolab.entity.utils.LinkUtils;
 import org.xcolab.entity.utils.notifications.member.MemberBatchRegistrationNotification;
@@ -170,6 +172,14 @@ public class LoginRegisterService {
             member.setPortraitFileEntryId(0L);
         }
         member = MembersClient.register(member);
+
+        final MessagingUserPreference preferences =
+                MessagingClient.getMessagingPreferencesForMember(member.getId());
+        preferences.setEmailActivityDailyDigest(false);
+        preferences.setEmailOnActivity(false);
+        preferences.setEmailOnReceipt(false);
+        preferences.setEmailOnSend(false);
+        MessagingClient.updateMessagingPreferences(preferences);
 
         if (generateLoginUrl) {
             final LoginToken loginToken = MembersClient.createLoginToken(member.getId());
