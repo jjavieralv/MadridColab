@@ -18,7 +18,22 @@
     <jsp:directive.attribute name="allowSelfRegistration" type="java.lang.Boolean" required="true" rtexprvalue="true" description="Whether self-registration is allowed or not"/>
 
     <div id="c-Footer">
+        <c:if test="${totalUsers != null}">
+            <div class="cb-navbar-background ${isWhiteBackgound ? 'cb-navbar-background-white' : ''}">
+                <div class="container">
+                    <div class="col-s12 text-right align-middle">
+                        <div class="c-Count">
+                            <span class="c-Count__number">
+                                ${totalUsers}
+                            </span>
+                            <spring:message code="community.page.members.count"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
         <div id="c-Footer__menu">
+
             <div class="container cb-d-flex-between-center flex-column flex-sm-row">
                 <nav>
                     <ul class="nav">
