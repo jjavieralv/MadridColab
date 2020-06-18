@@ -48,3 +48,4 @@ madridColab/util/service-utils/target/surefire-reports/org.xcolab.service.utils.
 madridColab/util/service-utils/target/surefire-reports/org.xcolab.service.utils.db.jooq.generator.XColabGeneratorStrategyTest.txt
 madridColab/util/service-utils/target/surefire-reports/TEST-org.xcolab.service.utils.db.jooq.fulltext.FulltextConditionTest.xml
 madridColab/util/service-utils/target/surefire-reports/TEST-org.xcolab.service.utils.db.jooq.generator.XColabGeneratorStrategyTest.xml
+*.jar
