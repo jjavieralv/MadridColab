@@ -202,6 +202,19 @@ public final class ConfigurationAttributeKey {
             ConfigurationAttributes.newLongAttribute("DAILY_DIGEST_TRIGGER_HOUR")
                     .defaultValue(1L)
                     .build();
+    /// attributes for weekly digest
+    public static final AttributeGetter<Boolean> MESSAGING_WEEKLY_DIGEST_DEFAULT=
+            ConfigurationAttributes.newBooleanAttribute("MESSAGING_WEEKLY_DIGEST_DEFAULT")
+                    .defaultValue(true)
+                    .build();
+    public static final AttributeGetter<Long> WEEKLY_DIGEST_TRIGGER_HOUR =
+            ConfigurationAttributes.newLongAttribute("WEEKLY_DIGEST_TRIGGER_HOUR")
+                    .defaultValue(1L)
+                    .build();
+    public static final AttributeGetter<String> WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION =
+            ConfigurationAttributes.newStringAttribute("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION")
+                    .defaultValue("")
+                    .build();
 
     //lastEmailNotification
     public static final AttributeGetter<String> DAILY_DIGEST_LAST_EMAIL_NOTIFICATION =
