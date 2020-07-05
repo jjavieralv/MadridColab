@@ -10,8 +10,11 @@ import org.springframework.stereotype.Component;
 import org.xcolab.client.activities.ActivitiesClientUtil;
 import org.xcolab.client.activities.pojo.ActivityEntry;
 import org.xcolab.client.activities.pojo.ActivitySubscription;
+import org.xcolab.client.admin.AdminClient;
 import org.xcolab.client.admin.attributes.configuration.ConfigurationAttributeKey;
 import org.xcolab.client.admin.attributes.platform.PlatformAttributeKey;
+import org.xcolab.client.admin.exceptions.ConfigurationAttributeNotFoundException;
+import org.xcolab.client.admin.pojo.ConfigurationAttribute;
 import org.xcolab.client.comment.exceptions.CommentNotFoundException;
 import org.xcolab.client.comment.pojo.Comment;
 import org.xcolab.client.comment.util.CommentClientUtil;
@@ -27,6 +30,7 @@ import org.xcolab.commons.html.HtmlUtil;
 import org.xcolab.view.activityentry.ActivityEntryHelper;
 import org.xcolab.view.util.entity.NotificationUnregisterUtils;
 import org.xcolab.view.util.entity.subscriptions.ActivitySubscriptionConstraint;
+import org.xcolab.client.admin.pojo.ConfigurationAttribute;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
@@ -55,6 +59,7 @@ public class ActivitySubscriptionEmailHelper {
 
     private static Instant lastEmailNotification = Instant.now();
     private static Instant lastDailyEmailNotification = Instant.now();
+    private Instant lastWeeklyEmailNotification = Instant.now();
 
     private static final String FAQ_DIGEST_URL_PATH = "/faqs#digest";
 
@@ -93,6 +98,12 @@ public class ActivitySubscriptionEmailHelper {
 
     private static final String DAILY_DIGEST_ENTRY_TEXT = "<colab-name/> Digest for DATE";
 
+    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE =
+            "<colab-name/> Activities – Daily Digest DATE";
+    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER = "DATE";
+
+    private static final String WEEKLY_DIGEST_ENTRY_TEXT = "<colab-name/> Digest for DATE";
+
     private static final String UNSUBSCRIBE_DAILY_DIGEST_NOTIFICATION_TEXT =
             "You are receiving this message because you subscribed to receiving a daily digest of"
                     + " activities on the <colab-name/>.  "
@@ -101,6 +112,8 @@ public class ActivitySubscriptionEmailHelper {
 
     private final ActivityEntryHelper activityEntryHelper;
 
+    private static ConfigurationAttribute weeklyConfigurationAttribute;
+
     @Autowired
     public ActivitySubscriptionEmailHelper(ActivityEntryHelper activityEntryHelper) {
         this.activityEntryHelper = activityEntryHelper;
@@ -108,11 +121,15 @@ public class ActivitySubscriptionEmailHelper {
 
     public void sendEmailNotifications() {
 
+
         // INSERT INTO `xcolab_ConfigurationAttribute` (`name`, `additionalId`, `numericValue`, `stringValue`, `realValue`) VALUES ('DAILY_DIGEST_LAST_EMAIL_NOTIFICATION', '0', '0', '2017-01-03 00:00:00', '0');
         String DAILY_DIGEST_LAST_EMAIL_NOTIFICATION =
                 ConfigurationAttributeKey.DAILY_DIGEST_LAST_EMAIL_NOTIFICATION.get();
+
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         if (!DAILY_DIGEST_LAST_EMAIL_NOTIFICATION.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
             try {
                 lastEmailNotification = sdf.parse(DAILY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant();
                 lastDailyEmailNotification =
@@ -121,10 +138,34 @@ public class ActivitySubscriptionEmailHelper {
                 lastEmailNotification = Instant.now();
             }
         }
+        String WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION;
+        try {
+            weeklyConfigurationAttribute= AdminClient.getConfigurationAttribute("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION", "");
+            WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION=weeklyConfigurationAttribute.getStringValue();
+        }catch (ConfigurationAttributeNotFoundException exception){
+            _log.error("Can't found configuration attribute");
+            weeklyConfigurationAttribute= new ConfigurationAttribute();
+            weeklyConfigurationAttribute.setName("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION");
+            Instant now= Instant.now();
+            Date actualDate = Date.from(now);
+            WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION= sdf.format(actualDate);
+            weeklyConfigurationAttribute.setStringValue(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION);
+        }
+        AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
+
+        if(!WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION.isEmpty()){
+            try {
+                lastWeeklyEmailNotification =
+                        sdf.parse(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant();
+            } catch (ParseException e) {
+                lastWeeklyEmailNotification = Instant.now();
+            }
+        }
 
         synchronized (mutex) {
             sendInstantNotifications();
             sendDailyNotifications();
+            sendWeeklyNotifications();
         }
     }
 
@@ -155,6 +196,26 @@ public class ActivitySubscriptionEmailHelper {
             List<ActivityEntry> res = getActivitiesAfter(lastDailyEmailNotification);
             sendDailyDigestNotifications(res);
             lastDailyEmailNotification = now;
+
+        }
+    }
+
+    private void sendWeeklyNotifications(){
+        Instant now= Instant.now();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        final Long weeklyDigestTriggerHour=
+                ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
+        Instant dateToSend=lastWeeklyEmailNotification.plus(7, ChronoUnit.DAYS);
+
+        if (now.minus(1, ChronoUnit.HOURS).isAfter(dateToSend)
+                && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
+            List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
+            sendWeeklyDigestNotifications(res);
+            lastWeeklyEmailNotification = now;
+            Date sentDate= Date.from(lastWeeklyEmailNotification);
+            weeklyConfigurationAttribute.setStringValue(sdf.format(sentDate));
+            AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
         }
     }
 
@@ -171,6 +232,7 @@ public class ActivitySubscriptionEmailHelper {
                 final Member recipient = MembersClient.getMember(entry.getKey());
                 final List<ActivityEntry> userDigestActivities = entry.getValue();
                 String body = getDigestMessageBody(userDigestActivities);
+
                 String unsubscribeFooter = getUnsubscribeDailyDigestFooter(
                         NotificationUnregisterUtils.getActivityUnregisterLink(recipient));
 
@@ -183,6 +245,31 @@ public class ActivitySubscriptionEmailHelper {
                         ignored.getMessage());
             }
         }
+    }
+
+    public void sendWeeklyDigestNotifications(List<ActivityEntry> activityEntries){
+        Map<Long, List<ActivityEntry>> userActivitiesDigestMap =
+                getUserToActivityWeeklyDigestMap(activityEntries);
+        String subject = StringUtils.replace(WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE,
+                WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER,
+                instantToFormattedString(lastWeeklyEmailNotification));
+        // Send the digest to each user which is included in the set of subscriptions
+        for (Map.Entry<Long, List<ActivityEntry>> entry : userActivitiesDigestMap.entrySet()) {
+            try {
+                final Member recipient = MembersClient.getMember(entry.getKey());
+                final List<ActivityEntry> userDigestActivities = entry.getValue();
+                String body = getDigestMessageBody(userDigestActivities);
+                String unsubscribeFooter = getUnsubscribeDailyDigestFooter(
+                        NotificationUnregisterUtils.getActivityUnregisterLink(recipient));
+                sendEmailMessage(recipient, subject, body, unsubscribeFooter,
+                        PlatformAttributeKey.COLAB_URL
+                                .get(), recipient.getId());
+            } catch (MemberNotFoundException ignored) {
+                _log.error("sendWeeklyDigestNotifications: MemberNotFound : {}",
+                        ignored.getMessage());
+            }
+        }
+
     }
 
     private String getUnsubscribeDailyDigestFooter(String unsubscribeUrl) {
@@ -246,10 +333,10 @@ public class ActivitySubscriptionEmailHelper {
         return body.toString();
     }
 
+
     private Map<Long, List<ActivityEntry>> getUserToActivityDigestMap(
             List<ActivityEntry> activities) {
         Map<Long, List<ActivityEntry>> userDigestActivitiesMap = new HashMap<>();
-
 
         for (ActivityEntry activity : activities) {
             // Aggregate all activities for all users
@@ -266,6 +353,33 @@ public class ActivitySubscriptionEmailHelper {
                 if (messagingPreferences.getEmailOnActivity() && messagingPreferences
                         .getEmailActivityDailyDigest()) {
 
+                    List<ActivityEntry> userDigestActivities = userDigestActivitiesMap
+                            .computeIfAbsent(recipientId, k -> new ArrayList<>());
+                    userDigestActivities.add(activity);
+                }
+            }
+        }
+
+        return userDigestActivitiesMap;
+    }
+
+    private Map<Long, List<ActivityEntry>> getUserToActivityWeeklyDigestMap(
+            List<ActivityEntry> activities) {
+        Map<Long, List<ActivityEntry>> userDigestActivitiesMap = new HashMap<>();
+
+        for (ActivityEntry activity : activities) {
+            // Aggregate all activities for all users
+            for (ActivitySubscription subscriptionObj : getActivitySubscribers(activity)) {
+
+                Long recipientId = subscriptionObj.getReceiverUserId();
+
+                if (subscriptionObj.getReceiverUserId() == activity.getUserId().longValue()) {
+                    continue;
+                }
+                final MessagingUserPreference messagingPreferences =
+                        MessagingClient.getMessagingPreferencesForMember(recipientId);
+                if (messagingPreferences.getEmailOnActivity() && messagingPreferences
+                        .getEmailActivityWeeklyDigest()) {
                     List<ActivityEntry> userDigestActivities = userDigestActivitiesMap
                             .computeIfAbsent(recipientId, k -> new ArrayList<>());
                     userDigestActivities.add(activity);
