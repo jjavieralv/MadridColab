@@ -138,7 +138,8 @@ public class ActivitySubscriptionEmailHelper {
         }
         String WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION;
         try {
-            weeklyConfigurationAttribute= AdminClient.getConfigurationAttribute("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION", "");
+            weeklyConfigurationAttribute= AdminClient
+                    .getConfigurationAttribute("WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION", "");
             WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION=weeklyConfigurationAttribute.getStringValue();
         }catch (ConfigurationAttributeNotFoundException exception){
             _log.error("Can't found configuration attribute");
@@ -149,14 +150,16 @@ public class ActivitySubscriptionEmailHelper {
             WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION= sdf.format(actualDate);
             weeklyConfigurationAttribute.setStringValue(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION);
         }
+
         AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
 
         if(!WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION.isEmpty()){
             try {
                 lastWeeklyEmailNotification =
-                        sdf.parse(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant();
+                        sdf.parse(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant()
+                                .truncatedTo(ChronoUnit.DAYS);
             } catch (ParseException e) {
-                lastWeeklyEmailNotification = Instant.now();
+                lastWeeklyEmailNotification = Instant.now().truncatedTo(ChronoUnit.DAYS);
             }
         }
 
@@ -201,18 +204,9 @@ public class ActivitySubscriptionEmailHelper {
     private void sendWeeklyNotifications(){
         Instant now= Instant.now();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        /*String n="2020-07-14 14:00:00";
-        String last="2020-07-05 14:00:00";
-        try {
-            now = sdf.parse(n).toInstant();
-            lastWeeklyEmailNotification=sdf.parse(last).toInstant();
-        }catch (ParseException e){
-            now=now;
-        }*/
         final Long weeklyDigestTriggerHour=
                 ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
         Instant dateToSend=lastWeeklyEmailNotification.plus(1, ChronoUnit.DAYS);
-
         if (now.plus(1, ChronoUnit.HOURS).isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
