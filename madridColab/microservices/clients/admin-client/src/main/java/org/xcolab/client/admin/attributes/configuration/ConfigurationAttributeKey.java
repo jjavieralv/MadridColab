@@ -205,7 +205,7 @@ public final class ConfigurationAttributeKey {
     /// attributes for weekly digest
     public static final AttributeGetter<Boolean> MESSAGING_WEEKLY_DIGEST_DEFAULT=
             ConfigurationAttributes.newBooleanAttribute("MESSAGING_WEEKLY_DIGEST_DEFAULT")
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .build();
     public static final AttributeGetter<Long> WEEKLY_DIGEST_TRIGGER_HOUR =
             ConfigurationAttributes.newLongAttribute("WEEKLY_DIGEST_TRIGGER_HOUR")
