@@ -213,7 +213,7 @@ public class ActivitySubscriptionEmailHelper {
                 ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
         Instant dateToSend=lastWeeklyEmailNotification.plus(1, ChronoUnit.DAYS);
 
-        if (now.minus(1, ChronoUnit.HOURS).isAfter(dateToSend)
+        if (now.plus(1, ChronoUnit.HOURS).isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
             lastWeeklyEmailNotification = now;
