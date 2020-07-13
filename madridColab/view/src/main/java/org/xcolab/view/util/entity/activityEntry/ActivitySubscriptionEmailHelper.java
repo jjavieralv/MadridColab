@@ -207,14 +207,13 @@ public class ActivitySubscriptionEmailHelper {
         final Long weeklyDigestTriggerHour=
                 ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
         Instant dateToSend=lastWeeklyEmailNotification.plus(1, ChronoUnit.DAYS);
-        if (now.plus(1, ChronoUnit.HOURS).isAfter(dateToSend)
+        if (now.minus(10, ChronoUnit.MINUTES).isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
-            lastWeeklyEmailNotification = now;
-            Date sentDate= Date.from(lastWeeklyEmailNotification);
+            sendWeeklyDigestNotifications(res);
+            Date sentDate= Date.from(Instant.now());
             weeklyConfigurationAttribute.setStringValue(sdf.format(sentDate));
             AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
-            sendWeeklyDigestNotifications(res);
         }
     }
 
@@ -392,7 +391,7 @@ public class ActivitySubscriptionEmailHelper {
 
     private List<ActivityEntry> getActivitiesAfter(Instant minDate) {
 
-        List<ActivityEntry> activityObjects =
+       List<ActivityEntry> activityObjects =
                 ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
 
         // clean list of activities first in order not to send out activities concerning the same
