@@ -2,6 +2,7 @@ package org.xcolab.view.util.entity.activityEntry;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.apache.commons.lang3.StringUtils;
+import org.jooq.util.derby.sys.Sys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -156,10 +161,10 @@ public class ActivitySubscriptionEmailHelper {
         if(!WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION.isEmpty()){
             try {
                 lastWeeklyEmailNotification =
-                        sdf.parse(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant()
-                                .truncatedTo(ChronoUnit.DAYS);
+                        sdf.parse(WEEKLY_DIGEST_LAST_EMAIL_NOTIFICATION).toInstant();
+
             } catch (ParseException e) {
-                lastWeeklyEmailNotification = Instant.now().truncatedTo(ChronoUnit.DAYS);
+                lastWeeklyEmailNotification = Instant.now();
             }
         }
 
@@ -202,12 +207,24 @@ public class ActivitySubscriptionEmailHelper {
     }
 
     private void sendWeeklyNotifications(){
-        Instant now= Instant.now();
+        //Instant now= Instant.now();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Instant now=Instant.now();
+        LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
         final Long weeklyDigestTriggerHour=
                 ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
+
         Instant dateToSend=lastWeeklyEmailNotification.plus(1, ChronoUnit.DAYS);
-        if (now.minus(10, ChronoUnit.MINUTES).isAfter(dateToSend)
+        int hourToSendUTC=dateToSend.atZone(ZoneOffset.UTC).getHour();
+        int minToSendUTC=dateToSend.atZone(ZoneOffset.UTC).getMinute();
+        int actualHourUTC=now.atZone(ZoneOffset.UTC).getHour();
+        int hourDifference=ldt.getHour()-actualHourUTC;
+        long hourAdjust=(weeklyDigestTriggerHour-hourDifference)-hourToSendUTC;
+        dateToSend=dateToSend.plus(hourAdjust, ChronoUnit.HOURS);
+        dateToSend=dateToSend.minus(minToSendUTC, ChronoUnit.MINUTES);
+
+
+        if (now.isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
             sendWeeklyDigestNotifications(res);
@@ -390,7 +407,7 @@ public class ActivitySubscriptionEmailHelper {
     }
 
     private List<ActivityEntry> getActivitiesAfter(Instant minDate) {
-
+       
        List<ActivityEntry> activityObjects =
                 ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
 
