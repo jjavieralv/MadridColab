@@ -407,7 +407,7 @@ public class ActivitySubscriptionEmailHelper {
     }
 
     private List<ActivityEntry> getActivitiesAfter(Instant minDate) {
-       
+
        List<ActivityEntry> activityObjects =
                 ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
 
