@@ -19,20 +19,25 @@ import org.xcolab.client.admin.pojo.ConfigurationAttribute;
 import org.xcolab.client.comment.exceptions.CommentNotFoundException;
 import org.xcolab.client.comment.pojo.Comment;
 import org.xcolab.client.comment.util.CommentClientUtil;
+import org.xcolab.client.contest.ContestClientUtil;
+import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.emails.EmailClient;
 import org.xcolab.client.members.MembersClient;
 import org.xcolab.client.members.MessagingClient;
 import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.members.pojo.MessagingUserPreference;
+import org.xcolab.client.proposals.ProposalClientUtil;
+import org.xcolab.client.proposals.exceptions.ProposalNotFoundException;
+import org.xcolab.client.proposals.pojo.Proposal;
 import org.xcolab.entity.utils.TemplateReplacementUtil;
 import org.xcolab.util.activities.enums.ActivityCategory;
 import org.xcolab.commons.html.HtmlUtil;
+import org.xcolab.util.activities.enums.ContestActivityType;
+import org.xcolab.util.activities.enums.ProposalActivityType;
 import org.xcolab.view.activityentry.ActivityEntryHelper;
 import org.xcolab.view.util.entity.NotificationUnregisterUtils;
 import org.xcolab.view.util.entity.subscriptions.ActivitySubscriptionConstraint;
-import org.xcolab.client.admin.pojo.ConfigurationAttribute;
-
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +45,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,17 +107,51 @@ public class ActivitySubscriptionEmailHelper {
 
     private static final String DAILY_DIGEST_ENTRY_TEXT = "<colab-name/> Digest for DATE";
 
-    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE =
-            "<colab-name/> Activities – Weekly Digest DATE";
-    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER = "DATE";
-
-    private static final String WEEKLY_DIGEST_ENTRY_TEXT = "<colab-name/> Digest for DATE";
-
     private static final String UNSUBSCRIBE_DAILY_DIGEST_NOTIFICATION_TEXT =
             "You are receiving this message because you subscribed to receiving a daily digest of"
                     + " activities on the <colab-name/>.  "
                     + "To stop receiving these notifications, please click "
                     + "<a href='UNSUBSCRIBE_SUBSCRIPTION_LINK_PLACEHOLDER'>here</a>.";
+
+    private static final String PROTOTYPING_SPACE_CREATED=
+            "<li>USER ha abierto el espacio de protipado PROTOTYPING_SPACE</li>";
+
+    private static final String CONVERSATION_THREAD_CREATED=
+            "<li>USER ha abierto el hilo de conversación CONVERSATION_THREAD</li>";
+
+    private static final String COMMENT_ADDED_CONVERSATION_THREAD=
+            "<li>USER ha publicado un comentario en el hilo de conversación CONVERSATION_THREAD</li>";
+
+    private static final String COMMENT_ADDED_PROTOTYPING_SPACE=
+            "<li>USER ha publicado un comentario en el espacio de prototipado PROTOTYPING_SPACE</li>";
+
+    private static final String COMMENT_ADDED_PROPOSAL_PROTOTYPING_SPACE=
+            "<li>USER ha publicado un comentario sobre la propuesta PROPOSAL del espacio de "
+                    + "prototipado PROTOTYPING_SPACE</li>";
+
+    private static final String PROPOSAL_CREATED_PROTOTYPING_SPACE=
+            "<li>USER ha publicado la propuesta PROPOSAL en el espacio de prototipado "
+                    + "PROTOTYPING_SPACE</li>";
+
+    private static final String USER_EDIT_LINK="USER_EDIT_LINK";
+
+    private static final String UNSUBSCRIBE_WEEKLY_DIGEST_NOTIFICATION_TEXT =
+            "Gracias por ser parte de la comunidad <colab-name/>, \n<br />"
+                    + "Si quiere dejar de recibir este resumen de actividad semanal, acceda a la "
+                    + "configuración de <a href=\"USER_EDIT_LINK\"> notificaciones"
+                    + " </a> y desactive las notificaciones semanales.\n<br><br />"
+                    + "Atentamente, \n<br />"
+                    + "El equipo de <colab-name/>.";
+
+    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE =
+            "<colab-name/> Resumen semanal de actividad para el DATE";
+
+    private static final String WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER = "DATE";
+
+    private static final String WEEKLY_DIGEST_ENTRY_TEXT = "Querido usuario <colab-name/>, \n "
+            + "Esto es lo que ha ocurrido en <colab-name/> durante la última semana:";
+
+
 
     private final ActivityEntryHelper activityEntryHelper;
 
@@ -167,7 +205,6 @@ public class ActivitySubscriptionEmailHelper {
                 lastWeeklyEmailNotification = Instant.now();
             }
         }
-
         synchronized (mutex) {
             sendInstantNotifications();
             sendDailyNotifications();
@@ -226,8 +263,10 @@ public class ActivitySubscriptionEmailHelper {
 
         if (now.isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
-            List<ActivityEntry> res = getActivitiesAfter(lastWeeklyEmailNotification);
-            sendWeeklyDigestNotifications(res);
+            List<ActivityEntry> activityEntries = getAllActivitiesAfter(lastWeeklyEmailNotification);
+            List<Member> members=getUsersForWeeklyDigest();
+            List<Contest> contestList= getContestsAfter(lastWeeklyEmailNotification);
+            sendWeeklyDigestNotifications(activityEntries, contestList, members);
             Date sentDate= Date.from(Instant.now());
             weeklyConfigurationAttribute.setStringValue(sdf.format(sentDate));
             AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
@@ -253,7 +292,7 @@ public class ActivitySubscriptionEmailHelper {
 
                 sendEmailMessage(recipient, subject, body, unsubscribeFooter,
                         PlatformAttributeKey.COLAB_URL
-                                .get(), recipient.getId());
+                                .get(), recipient.getId(), true);
             } catch (MemberNotFoundException ignored) {
                 _log.error("sendDailyDigestNotifications: MemberNotFound : {}",
                         ignored.getMessage());
@@ -261,27 +300,23 @@ public class ActivitySubscriptionEmailHelper {
         }
     }
 
-    public void sendWeeklyDigestNotifications(List<ActivityEntry> activityEntries){
-        Map<Long, List<ActivityEntry>> userActivitiesDigestMap =
-                getUserToActivityWeeklyDigestMap(activityEntries);
+    public void sendWeeklyDigestNotifications(List<ActivityEntry> activityEntries, List<Contest>
+            contests, List<Member> members){
+
         String subject = StringUtils.replace(WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE,
                 WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER,
                 instantToFormattedString(lastWeeklyEmailNotification));
-        // Send the digest to each user which is included in the set of subscriptions
-        for (Map.Entry<Long, List<ActivityEntry>> entry : userActivitiesDigestMap.entrySet()) {
+        // Send weekly report to each user subscribed
+        String body = getWeeklyMessageBody(activityEntries, contests);
+        for (Member member: members) {
             try {
-                final Member recipient = MembersClient.getMember(entry.getKey());
-                final List<ActivityEntry> userDigestActivities = entry.getValue();
-                String body = getDigestMessageBody(userDigestActivities,
-                        WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER,
-                        lastWeeklyEmailNotification);
-                String unsubscribeFooter = getUnsubscribeDailyDigestFooter(
-                        NotificationUnregisterUtils.getActivityUnregisterLink(recipient));
+                final Member recipient = MembersClient.getMember(member.getId());
+                String unsubscribeFooter = getNotificationConfigurationWeeklyFooter(member);
                 sendEmailMessage(recipient, subject, body, unsubscribeFooter,
                         PlatformAttributeKey.COLAB_URL
-                                .get(), recipient.getId());
+                                .get(), recipient.getId(), false);
             } catch (MemberNotFoundException ignored) {
-                _log.error("sendWeeklyDigestNotifications: MemberNotFound : {}",
+                _log.error("sendDailyDigestNotifications: MemberNotFound : {}",
                         ignored.getMessage());
             }
         }
@@ -291,6 +326,174 @@ public class ActivitySubscriptionEmailHelper {
     private String getUnsubscribeDailyDigestFooter(String unsubscribeUrl) {
         return StringUtils.replace(UNSUBSCRIBE_DAILY_DIGEST_NOTIFICATION_TEXT,
                 UNSUBSCRIBE_SUBSCRIPTION_LINK_PLACEHOLDER, unsubscribeUrl);
+    }
+
+    private String getNotificationConfigurationWeeklyFooter(Member member){
+     return StringUtils.replace(UNSUBSCRIBE_WEEKLY_DIGEST_NOTIFICATION_TEXT, USER_EDIT_LINK
+     , PlatformAttributeKey.COLAB_URL.get()+member.getProfileEditUrl());
+    }
+
+    private String getWeeklyMessageBody(List<ActivityEntry> activities, List<Contest> contestList){
+        Comparator<ActivityEntry> activityCategoryComparator =
+                Comparator.comparing(ActivityEntry::getActivityCategory);
+        Comparator<ActivityEntry> activityTypeComparator=
+                Comparator.comparing(ActivityEntry::getActivityType);
+        Comparator<ActivityEntry> socialActivityCreatedAtComparator =
+                (o1, o2) -> (int) (o1.getCreatedAt().getTime() - o2.getCreatedAt().getTime());
+        ComparatorChain comparatorChain = new ComparatorChain();
+        comparatorChain.addComparator(activityCategoryComparator);
+        comparatorChain.addComparator(activityTypeComparator);
+        comparatorChain.addComparator(socialActivityCreatedAtComparator);
+        StringBuilder body = new StringBuilder();
+        body.append(WEEKLY_DIGEST_ENTRY_TEXT);
+        body.append("<br/><br/><div><ul>");
+
+        for (Contest contest: contestList){
+          String title=contest.getTitle();
+          String subTittle=title.substring(0, 4);
+          Member user;
+          if(subTittle.compareToIgnoreCase("E.P.")==0){
+              try {
+                  user = MembersClient.getMember(contest.getAuthorUserId());
+              } catch (MemberNotFoundException e) {
+                  user = null;
+              }
+              String prototypingSpaceCreated=
+                      StringUtils.replace(PROTOTYPING_SPACE_CREATED, "USER",
+                              getUserLink(user));
+              prototypingSpaceCreated=StringUtils.replace(prototypingSpaceCreated,
+                      "PROTOTYPING_SPACE", getContestLink(contest));
+              body.append(prototypingSpaceCreated);
+          }
+        }
+        try {
+            activities.sort(comparatorChain);
+            Contest contest;
+            Proposal proposal;
+            Member user;
+            for(ActivityEntry activityEntry: activities){
+                try {
+                    user = MembersClient.getMember(activityEntry.getUserId());
+                } catch (MemberNotFoundException e) {
+                    user = null;
+                }
+                if(activityEntry.getActivityCategoryEnum()==ActivityCategory.CONTEST){
+                    if(activityEntry.getActivityTypeEnum()==ContestActivityType.PROPOSAL_CREATED){
+                        try {
+                            proposal = ProposalClientUtil.getProposal(activityEntry.getAdditionalId(), true);
+                        } catch (ProposalNotFoundException e) {
+                            proposal=null;
+                        }
+                        contest=proposal.getContest();
+                        if(isPrototypingSpace(contest)){
+                            String proposalCreatedPE=StringUtils.replace(
+                                    PROPOSAL_CREATED_PROTOTYPING_SPACE, "USER",
+                                    getUserLink(user));
+                            proposalCreatedPE=StringUtils.replace(proposalCreatedPE,
+                                    "PROPOSAL", getProposalLink(proposal));
+                            proposalCreatedPE=StringUtils.replace(proposalCreatedPE,
+                                    "PROTOTYPING_SPACE", getContestLink(contest));
+                            body.append(proposalCreatedPE);
+                        }
+                        if(isConversationThread(proposal)){
+                            String conversationTread=StringUtils.replace(CONVERSATION_THREAD_CREATED,
+                                    "USER", getUserLink(user));
+                            conversationTread=StringUtils.replace(conversationTread,
+                                    "CONVERSATION_THREAD", getProposalLink(proposal));
+                            body.append(conversationTread);
+                        }
+
+                    }
+                    if(activityEntry.getActivityTypeEnum()==ContestActivityType.COMMENT_ADDED){
+                        try {
+                            contest = ContestClientUtil.getContest(activityEntry.getCategoryId());
+                        } catch (ProposalNotFoundException e) {
+                            contest = null;
+                        }
+                        if(isPrototypingSpace(contest)){
+                            String commentPrototypingSpace= StringUtils.replace(
+                                    COMMENT_ADDED_PROTOTYPING_SPACE, "USER",
+                                    getUserLink(user));
+                            commentPrototypingSpace= StringUtils.replace(commentPrototypingSpace,
+                                    "PROTOTYPING_SPACE", getContestLink(contest));
+                            body.append(commentPrototypingSpace);
+                        }
+                    }
+
+                }
+                if(activityEntry.getActivityCategoryEnum()==ActivityCategory.PROPOSAL){
+                    if(activityEntry.getActivityTypeEnum()==ProposalActivityType.COMMENT_ADDED){
+                        try {
+                            proposal = ProposalClientUtil.getProposal(activityEntry.getCategoryId(), true);
+                        } catch (ProposalNotFoundException e) {
+                            proposal=null;
+                        }
+                        contest=proposal.getContest();
+                        if(isPrototypingSpace(contest)){
+                            String commentProposalPE= StringUtils.replace(
+                                    COMMENT_ADDED_PROPOSAL_PROTOTYPING_SPACE, "USER",
+                                    getContestLink(contest));
+                            commentProposalPE= StringUtils.replace(commentProposalPE,
+                                    "PROPOSAL", getProposalLink(proposal));
+                            commentProposalPE= StringUtils.replace(commentProposalPE,
+                                    "PROTOTYPING_SPACE", getContestLink(contest));
+                            body.append(commentProposalPE);
+                        }
+                        if(isConversationThread(proposal)){
+                            String commentCT=StringUtils.replace(COMMENT_ADDED_CONVERSATION_THREAD,
+                                    "USER", getUserLink(user));
+                            commentCT= StringUtils.replace(commentCT, "CONVERSATION_THREAD",
+                                    getProposalLink(proposal));
+                            body.append(commentCT);
+                        }
+                    }
+                }
+
+            }
+
+        }catch (IllegalArgumentException comparatorFailed) {
+            _log.debug("Comparator failed {}", comparatorFailed.getLocalizedMessage());
+        }
+        body.append("</ul></div><br></br>");
+        return body.toString();
+    }
+
+    private String getUserLink(Member member){
+        return "<a href='" + member.getProfileLinkUrl()+ "'>" + member.getDisplayName()+ "</a>";
+    }
+
+    private String getContestLink(Contest contest){
+        return "<a href='" + contest.getContestLinkUrl()+ "'>" + contest.getTitle()+ "</a>";
+    }
+
+    private String getProposalLink(Proposal proposal){
+        return  "<a href='" + proposal.getProposalUrl() + "'>" + proposal.getName() + "</a>";
+    }
+
+    private boolean isConversationThread(Proposal proposal){
+       if(proposal!=null) {
+           String subProposal = proposal.getName().substring(0, 4);
+           if (subProposal.compareToIgnoreCase("H.C.") == 0) {
+               return true;
+           } else {
+               return false;
+           }
+       }else{
+           return false;
+       }
+    }
+
+    private boolean isPrototypingSpace(Contest contest){
+        if(contest!=null) {
+            String subContest = contest.getTitle().substring(0, 4);
+            if (subContest.compareToIgnoreCase("E.P.") == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
     private String getDigestMessageBody(List<ActivityEntry> userDigestActivities,
@@ -336,7 +539,6 @@ public class ActivitySubscriptionEmailHelper {
                         body.append("<div style='margin-left: 10px'>").append(activityEntry)
                                 .append("</div><br/><br/>");
                     }
-
                 } else {
                     body.append("<div style='margin-left: 10px'>")
                             .append(activityEntryHelper.getActivityBody(activityEntry))
@@ -380,36 +582,31 @@ public class ActivitySubscriptionEmailHelper {
         return userDigestActivitiesMap;
     }
 
-    private Map<Long, List<ActivityEntry>> getUserToActivityWeeklyDigestMap(
-            List<ActivityEntry> activities) {
-        Map<Long, List<ActivityEntry>> userDigestActivitiesMap = new HashMap<>();
 
-        for (ActivityEntry activity : activities) {
-            // Aggregate all activities for all users
-            for (ActivitySubscription subscriptionObj : getActivitySubscribers(activity)) {
+    private List<Member> getUsersForWeeklyDigest(){
+     List<Member> subscribedMembers= new ArrayList<>();
+     List<Member> allMembers=MembersClient.listAllMembers();
+     for(Member member: allMembers){
+         final MessagingUserPreference messagingUserPreference=
+                 MessagingClient.getMessagingPreferencesForMember(member.getId());
+         if(messagingUserPreference.getEmailActivityWeeklyDigest()){
+             subscribedMembers.add(member);
+         }
+     }
+        return subscribedMembers;
+    }
 
-                Long recipientId = subscriptionObj.getReceiverUserId();
-
-                if (subscriptionObj.getReceiverUserId() == activity.getUserId().longValue()) {
-                    continue;
-                }
-                final MessagingUserPreference messagingPreferences =
-                        MessagingClient.getMessagingPreferencesForMember(recipientId);
-                if (messagingPreferences.getEmailActivityWeeklyDigest()) {
-                    List<ActivityEntry> userDigestActivities = userDigestActivitiesMap
-                            .computeIfAbsent(recipientId, k -> new ArrayList<>());
-                    userDigestActivities.add(activity);
-                }
-            }
-        }
-
-        return userDigestActivitiesMap;
+    private List<ActivityEntry> getAllActivitiesAfter(Instant minDate){
+        List<ActivityEntry> activityObjects =
+                ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
+        return activityObjects;
     }
 
     private List<ActivityEntry> getActivitiesAfter(Instant minDate) {
 
        List<ActivityEntry> activityObjects =
                 ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
+       // ContestClientUtil
 
         // clean list of activities first in order not to send out activities concerning the same
         // proposal multiple times
@@ -417,6 +614,11 @@ public class ActivitySubscriptionEmailHelper {
                 ActivityCategory.PROPOSAL);
 
         return h.process(activityObjects);
+    }
+
+    private List<Contest> getContestsAfter(Instant minDate){
+        List<Contest> contests= ContestClientUtil.getContestAfter(Date.from(minDate));
+        return contests;
     }
 
     private void sendInstantNotifications(ActivityEntry activity) {
@@ -456,7 +658,7 @@ public class ActivitySubscriptionEmailHelper {
                                 .getUnregisterLink(
                                         subscriptionsPerUser.get(recipient.getId())));
                 sendEmailMessage(recipient, subject, messageTemplate, unsubscribeFooter,
-                        PlatformAttributeKey.COLAB_URL.get(), activity.getId());
+                        PlatformAttributeKey.COLAB_URL.get(), activity.getId(), true);
             }
         }
     }
@@ -469,14 +671,14 @@ public class ActivitySubscriptionEmailHelper {
     }
 
     private void sendEmailMessage(Member recipient, String subject, String body,
-            String unregisterFooter, String portalBaseUrl, Long referenceId) {
+            String unregisterFooter, String portalBaseUrl, Long referenceId, boolean defaultFooter) {
 
         try {
             InternetAddress fromEmail = TemplateReplacementUtil.getAdminFromEmailAddress();
             InternetAddress toEmail =
                     new InternetAddress(recipient.getEmailAddress(), recipient.getFullName());
 
-            body += MESSAGE_FOOTER_TEMPLATE;
+            if(defaultFooter){body += MESSAGE_FOOTER_TEMPLATE;}
 
             body = HtmlUtil.makeRelativeLinksAbsolute(body, portalBaseUrl);
             body = body.replaceAll("\n", "\n<br />");
