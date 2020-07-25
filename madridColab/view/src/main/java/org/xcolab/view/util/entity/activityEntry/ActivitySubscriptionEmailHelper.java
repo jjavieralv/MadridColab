@@ -264,6 +264,7 @@ public class ActivitySubscriptionEmailHelper {
         if (now.isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> activityEntries = getAllActivitiesAfter(lastWeeklyEmailNotification);
+            List<Member> subsMembers=getUsersForWeeklyDigest();
             List<Contest> contestList= getContestsAfter(lastWeeklyEmailNotification);
             sendWeeklyDigestNotifications(activityEntries, contestList, subsMembers);
             Date sentDate= Date.from(Instant.now());
