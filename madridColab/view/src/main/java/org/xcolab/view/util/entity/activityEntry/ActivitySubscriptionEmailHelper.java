@@ -264,9 +264,8 @@ public class ActivitySubscriptionEmailHelper {
         if (now.isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> activityEntries = getAllActivitiesAfter(lastWeeklyEmailNotification);
-            List<Member> members=getUsersForWeeklyDigest();
             List<Contest> contestList= getContestsAfter(lastWeeklyEmailNotification);
-            sendWeeklyDigestNotifications(activityEntries, contestList, members);
+            sendWeeklyDigestNotifications(activityEntries, contestList, subsMembers);
             Date sentDate= Date.from(Instant.now());
             weeklyConfigurationAttribute.setStringValue(sdf.format(sentDate));
             AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
@@ -586,11 +585,11 @@ public class ActivitySubscriptionEmailHelper {
     private List<Member> getUsersForWeeklyDigest(){
      List<Member> subscribedMembers= new ArrayList<>();
      List<Member> allMembers=MembersClient.listAllMembers();
-     for(Member member: allMembers){
+     for(Member m: allMembers){
          final MessagingUserPreference messagingUserPreference=
-                 MessagingClient.getMessagingPreferencesForMember(member.getId());
-         if(messagingUserPreference.getEmailActivityWeeklyDigest()){
-             subscribedMembers.add(member);
+                 MessagingClient.getMessagingPreferencesForMember(m.getId());
+         if(messagingUserPreference.getEmailActivityWeeklyDigest()==true){
+             subscribedMembers.add(m);
          }
      }
         return subscribedMembers;
