@@ -589,6 +589,7 @@ public class ActivitySubscriptionEmailHelper {
      for(Member m: allMembers){
          final MessagingUserPreference messagingUserPreference=
                  MessagingClient.getMessagingPreferencesForMember(m.getId());
+         
          if(messagingUserPreference.getEmailActivityWeeklyDigest()==true){
              subscribedMembers.add(m);
          }
