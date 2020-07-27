@@ -183,11 +183,11 @@ public final class ConfigurationAttributeKey {
                     .build();
     public static final AttributeGetter<Boolean> MESSAGING_EMAIL_ON_ACTIVITY_DEFAULT =
             ConfigurationAttributes.newBooleanAttribute("MESSAGING_EMAIL_ON_ACTIVITY_DEFAULT")
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .build();
     public static final AttributeGetter<Boolean> MESSAGING_DAILY_DIGEST_DEFAULT =
             ConfigurationAttributes.newBooleanAttribute("MESSAGING_DAILY_DIGEST_DEFAULT")
-                    .defaultValue(true)
+                    .defaultValue(false)
                     .build();
     public static final AttributeGetter<List<String>> MESSAGING_SPAM_ALERT_EMAILS =
             ConfigurationAttributes.newListAttribute("MESSAGING_SPAM_ALERT_EMAILS", s -> s)
