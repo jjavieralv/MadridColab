@@ -250,8 +250,7 @@ public class ActivitySubscriptionEmailHelper {
         LocalDateTime ldt = LocalDateTime.ofInstant(now, ZoneId.systemDefault());
         final Long weeklyDigestTriggerHour=
                 ConfigurationAttributeKey.WEEKLY_DIGEST_TRIGGER_HOUR.get();
-
-        Instant dateToSend=lastWeeklyEmailNotification.plus(1, ChronoUnit.DAYS);
+        Instant dateToSend=lastWeeklyEmailNotification.plus(7, ChronoUnit.DAYS);
         int hourToSendUTC=dateToSend.atZone(ZoneOffset.UTC).getHour();
         int minToSendUTC=dateToSend.atZone(ZoneOffset.UTC).getMinute();
         int actualHourUTC=now.atZone(ZoneOffset.UTC).getHour();
@@ -259,15 +258,17 @@ public class ActivitySubscriptionEmailHelper {
         long hourAdjust=(weeklyDigestTriggerHour-hourDifference)-hourToSendUTC;
         dateToSend=dateToSend.plus(hourAdjust, ChronoUnit.HOURS);
         dateToSend=dateToSend.minus(minToSendUTC, ChronoUnit.MINUTES);
-
-
         if (now.isAfter(dateToSend)
                 && Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == weeklyDigestTriggerHour) {
             List<ActivityEntry> activityEntries = getAllActivitiesAfter(lastWeeklyEmailNotification);
-            List<Member> subsMembers=getUsersForWeeklyDigest();
             List<Contest> contestList= getContestsAfter(lastWeeklyEmailNotification);
-            sendWeeklyDigestNotifications(activityEntries, contestList, subsMembers);
-            Date sentDate= Date.from(Instant.now());
+            List<Member> subsMembers=getUsersForWeeklyDigest();
+            int totalActivities=activityEntries.size()+contestList.size();
+            lastWeeklyEmailNotification=Instant.now();
+            if(totalActivities>0) {
+                sendWeeklyDigestNotifications(activityEntries, contestList, subsMembers);
+            }
+            Date sentDate= Date.from(lastWeeklyEmailNotification);
             weeklyConfigurationAttribute.setStringValue(sdf.format(sentDate));
             AdminClient.updateConfigurationAttribute(weeklyConfigurationAttribute);
         }
@@ -301,14 +302,14 @@ public class ActivitySubscriptionEmailHelper {
     }
 
     public void sendWeeklyDigestNotifications(List<ActivityEntry> activityEntries, List<Contest>
-            contests, List<Member> members){
+            contests, List<Member> subsMembers){
 
         String subject = StringUtils.replace(WEEKLY_DIGEST_NOTIFICATION_SUBJECT_TEMPLATE,
                 WEEKLY_DIGEST_NOTIFICATION_SUBJECT_DATE_PLACEHOLDER,
                 instantToFormattedString(lastWeeklyEmailNotification));
         // Send weekly report to each user subscribed
         String body = getWeeklyMessageBody(activityEntries, contests);
-        for (Member member: members) {
+        for (Member member: subsMembers) {
             try {
                 final Member recipient = MembersClient.getMember(member.getId());
                 String unsubscribeFooter = getNotificationConfigurationWeeklyFooter(member);
@@ -322,7 +323,6 @@ public class ActivitySubscriptionEmailHelper {
         }
 
     }
-
     private String getUnsubscribeDailyDigestFooter(String unsubscribeUrl) {
         return StringUtils.replace(UNSUBSCRIBE_DAILY_DIGEST_NOTIFICATION_TEXT,
                 UNSUBSCRIBE_SUBSCRIPTION_LINK_PLACEHOLDER, unsubscribeUrl);
@@ -589,8 +589,8 @@ public class ActivitySubscriptionEmailHelper {
      for(Member m: allMembers){
          final MessagingUserPreference messagingUserPreference=
                  MessagingClient.getMessagingPreferencesForMember(m.getId());
-         
-         if(messagingUserPreference.getEmailActivityWeeklyDigest()==true){
+         if(messagingUserPreference.getId()!=null&&
+                 messagingUserPreference.getEmailActivityWeeklyDigest()==true){
              subscribedMembers.add(m);
          }
      }
@@ -600,7 +600,14 @@ public class ActivitySubscriptionEmailHelper {
     private List<ActivityEntry> getAllActivitiesAfter(Instant minDate){
         List<ActivityEntry> activityObjects =
                 ActivitiesClientUtil.getActivityEntriesAfter(Date.from(minDate));
-        return activityObjects;
+        List<ActivityEntry> activityEntries= new ArrayList<>();
+        for(ActivityEntry activityEntry: activityObjects){
+            if(activityEntry.getActivityCategoryEnum()==ActivityCategory.CONTEST||
+            activityEntry.getActivityCategoryEnum()==ActivityCategory.PROPOSAL){
+                activityEntries.add(activityEntry);
+            }
+        }
+        return activityEntries;
     }
 
     private List<ActivityEntry> getActivitiesAfter(Instant minDate) {
