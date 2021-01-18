@@ -19,6 +19,10 @@ public enum ProposalResource implements ResourceEnum {
     PROPOSAL_RATING_VALUE("proposalRatingValues"),
     PROPOSAL_RATING_TYPE("proposalRatingTypes"),
 
+
+    PROPOSAL_FUSION_REQUEST("proposalFusionRequest"),
+
+
     SUPPORTED_PROPOSALS("supportedProposals"),
 
     GROUP("groups"),
@@ -26,6 +30,7 @@ public enum ProposalResource implements ResourceEnum {
 
     //TODO COLAB-2594: rethink these endpoints
     PROPOSAL_ID("proposalIds"),
+
     PROPOSAL_THREAD_ID("proposalThreadIds");
 
     private final String resourceName;

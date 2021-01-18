@@ -14,6 +14,7 @@ import org.xcolab.client.contest.pojo.ContestCollectionCardDto;
 import org.xcolab.client.contest.pojo.ContestDiscussion;
 import org.xcolab.client.contest.pojo.ContestDiscussionDto;
 import org.xcolab.client.contest.pojo.ContestDto;
+import org.xcolab.client.contest.pojo.ContestFusion;
 import org.xcolab.client.contest.pojo.ContestSchedule;
 import org.xcolab.client.contest.pojo.ContestScheduleDto;
 import org.xcolab.client.contest.pojo.ContestTranslation;
@@ -73,6 +74,8 @@ public class ContestClient {
     private final RestResource1<ContestCollectionCardDto, Long> contestCollectionCardRestResource;
     private final RestResource<Long, Long> contestYearResource;
 
+    private final RestResource1<ContestFusion, Long> contestFusionResource;
+
     private ContestClient(ServiceNamespace serviceNamespace) {
         this.serviceNamespace = serviceNamespace;
         contestPhaseRibbonTypeResource = new RestResource1<>(ContestResource.CONTEST_PHASE_RIBBON_TYPE, ContestPhaseRibbonTypeDto.TYPES, serviceNamespace);
@@ -93,6 +96,9 @@ public class ContestClient {
                 "translations", ContestTranslationDto.TYPES);
         proposalThreadsInPhaseResource = contestPhasesResource
                 .nestedResource("proposalDiscussionThreads", TypeProvider.LONG);
+
+        contestFusionResource =
+                new RestResource1<>(ContestResource.CONTEST_FUSION, ContestFusion.TYPES);
     }
 
     public static ContestClient fromNamespace(ServiceNamespace serviceNamespace) {
@@ -751,4 +757,34 @@ public class ContestClient {
     public String toString() {
         return "ContestClient[" + serviceNamespace + "]";
     }
+
+    public ContestFusion createContestFusion(ContestFusion data) {
+        return contestFusionResource.create(data).execute();
+    }
+
+    public Long getContestFusion(Long id_1, Long id_2) {
+        List<ContestFusion> lq = contestFusionResource.list()
+                .optionalQueryParam("contest_id_1", id_1)
+                .optionalQueryParam("contest_id_2", id_2).execute();
+
+        if(lq == null || lq.isEmpty()) {
+            lq = contestFusionResource.list()
+                    .optionalQueryParam("contest_id_1", id_2)
+                    .optionalQueryParam("contest_id_2", id_1).execute();
+        }
+
+        return (lq == null || lq.isEmpty())? null : lq.get(0).getIdFusion();
+    }
+
+    public List<Contest> getIntercommunityContests() {
+        List<ContestFusion> lq = contestFusionResource.list().execute();
+
+        List<Contest> intercommunityContests = new ArrayList<>();
+        for(ContestFusion cf: lq) {
+            intercommunityContests.add(getContest(cf.getIdFusion()));
+        }
+
+        return intercommunityContests;
+    }
+
 }

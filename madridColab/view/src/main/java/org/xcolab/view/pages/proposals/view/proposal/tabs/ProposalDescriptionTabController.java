@@ -1,6 +1,7 @@
 package org.xcolab.view.pages.proposals.view.proposal.tabs;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +19,10 @@ import org.xcolab.client.contest.pojo.Contest;
 import org.xcolab.client.contest.pojo.phases.ContestPhase;
 import org.xcolab.client.contest.pojo.templates.ProposalTemplateSectionDefinition;
 import org.xcolab.client.flagging.FlaggingClient;
+import org.xcolab.client.fusion.FusionClient;
+import org.xcolab.client.fusion.beans.FusionBean;
 import org.xcolab.client.members.PlatformTeamsClient;
+import org.xcolab.client.members.exceptions.MemberNotFoundException;
 import org.xcolab.client.members.pojo.Member;
 import org.xcolab.client.proposals.ProposalClient;
 import org.xcolab.client.proposals.ProposalMoveClient;
@@ -30,7 +34,10 @@ import org.xcolab.util.enums.contest.ContestPhaseTypeValue;
 import org.xcolab.util.enums.flagging.TargetType;
 import org.xcolab.util.enums.proposal.MoveType;
 import org.xcolab.util.enums.proposal.ProposalTemplateSectionType;
+import org.xcolab.view.activityentry.ActivityEntryHelper;
 import org.xcolab.view.errors.AccessDeniedPage;
+import org.xcolab.view.pages.fusion.beans.FusionRequestBean;
+import org.xcolab.view.pages.profile.wrappers.UserProfileWrapper;
 import org.xcolab.view.pages.proposals.discussion.ProposalDiscussionPermissions;
 import org.xcolab.view.pages.proposals.exceptions.ProposalsAuthorizationException;
 import org.xcolab.view.pages.proposals.permissions.ProposalsPermissions;
@@ -45,10 +52,14 @@ import org.xcolab.view.taglibs.xcolab.jspTags.discussion.DiscussionPermissions;
 import org.xcolab.view.util.entity.EntityGroupingUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,6 +74,15 @@ import javax.validation.Valid;
 @RequestMapping("/contests/{contestYear}/{contestUrlName}")
 public class ProposalDescriptionTabController extends BaseProposalTabController {
 
+    @Autowired
+    private final ActivityEntryHelper activityEntryHelper;
+
+    public ProposalDescriptionTabController(
+            ActivityEntryHelper activityEntryHelper) {
+        this.activityEntryHelper = activityEntryHelper;
+    }
+
+
     @GetMapping("c/{proposalUrlString}/{proposalId}")
     public String showProposalDetails(HttpServletRequest request, HttpServletResponse response,
             Model model, ProposalContext proposalContext, Member currentMember,
@@ -75,17 +95,84 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
             @Valid JudgeProposalFeedbackBean judgeProposalFeedbackBean,
             BindingResult bindingResult) {
         return showProposalDetails(request, response, model, proposalContext, currentMember, false,
-                edit, moveFromContestPhaseId, moveType);
+                edit, moveFromContestPhaseId, moveType, proposalId);
     }
 
     public String showProposalDetails(HttpServletRequest request, HttpServletResponse response,
             Model model, ProposalContext proposalContext, Member currentMember,
-            boolean voted, boolean edit, Long moveFromContestPhaseId, String moveType) {
+            boolean voted, boolean edit, Long moveFromContestPhaseId, String moveType, Long proposalId) {
 
         final ProposalsPermissions permissions = proposalContext.getPermissions();
         if (!permissions.getCanView()) {
             return new AccessDeniedPage(currentMember).toViewName(response);
         }
+
+        if(currentMember!=null){
+            UserProfileWrapper currentUserProfile = null;
+            try {
+                currentUserProfile=new UserProfileWrapper(currentMember.getId(),
+                        currentMember, activityEntryHelper);
+            } catch (MemberNotFoundException e) {
+                e.printStackTrace();
+            }
+            Collection<ContestTypeProposal> collectionProposal
+                    =currentUserProfile.getContestTypeProposalWrappersByContestTypeId();
+            Iterator<ContestTypeProposal> it=collectionProposal.iterator();
+            List<Proposal> proposals=null;
+            while (it.hasNext()){
+                ContestTypeProposal contestTypeProposal=it.next();
+                proposals=contestTypeProposal.getProposals();
+            }
+
+            ///check if some proposal is a merge
+            List<Proposal> myProposals=new ArrayList<>();
+            ArrayList<FusionBean> merged=FusionClient.listByFromUserID(currentMember.getId());
+            for (int i=0; i< proposals.size(); i++){
+                boolean exists=false;
+                Proposal proposal= proposals.get(i);
+                for (int j=0; j<merged.size(); j++){
+                        FusionBean fusionBean= merged.get(j);
+                        if(fusionBean.getProposal()!=null&&fusionBean.getProposal().getId()!=null){
+                            if(fusionBean.getProposal().getId()==proposal.getId()){
+                                exists=true;
+                            }
+                        }
+                }
+                if(exists==false){
+                    myProposals.add(proposal);
+                }
+            }
+            boolean mergeable=true;
+            List<Contest> allContests = ContestClientUtil.getIntercommunityContests();
+            for(int i=0; i<allContests.size(); i++){
+                Contest contestFusion= allContests.get(i);
+                Contest contest=proposalContext.getProposal().getContest();
+                if(contestFusion.getId()==contest.getId()){
+                    mergeable=false;
+                }
+            }
+
+            ///check if it is already a merge
+            ArrayList<FusionBean> fusionBeans=FusionClient.listALlFusions();
+            for(FusionBean fusionBean: fusionBeans){
+             if(fusionBean.getProposal()!=null&&fusionBean.getProposal().getId()!=null){
+                 if(fusionBean.getProposal().getId()==proposalId){
+                     mergeable=false;
+                 }
+             }
+            }
+            Member member=proposalContext.getProposal().getAuthor();
+            if(member.getId()==currentMember.getId()){
+                mergeable=false;
+            }
+            model.addAttribute("myProposals", myProposals);
+            model.addAttribute("mergeable",mergeable);
+            FusionRequestBean fusionRequestBean= new FusionRequestBean();
+            model.addAttribute("fusionRequestBean", fusionRequestBean);
+
+        }
+
+
 
         setCommonModelAndPageAttributes(request, model, proposalContext, ProposalTab.DESCRIPTION);
 
@@ -99,6 +186,8 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
         model.addAttribute("reportTargets", FlaggingClient.listReportTargets(TargetType.PROPOSAL));
         model.addAttribute("showOpennessStatus",
             ConfigurationAttributeKey.CONTESTS_ALLOW_OPEN_PROPOSALS.get());
+        model.addAttribute("member", currentMember);
+
 
         // make sure it's in the right contest,
         // which might not be the proposal's contests (e.g. when moving)
@@ -314,7 +403,7 @@ public class ProposalDescriptionTabController extends BaseProposalTabController 
                     "Changes NOT saved. Please fix the errors before saving.")
                     .flash(request);
             return showProposalDetails(request, response, model, proposalContext, currentMember,
-                    false, true, null, null);
+                    false, true, null, null, null);
         }
 
         return AddUpdateProposalControllerUtil
