@@ -32,6 +32,7 @@ mysql -u root -p -e 'CREATE DATABASE xcolab CHARACTER SET utf8mb4 COLLATE utf8mb
 
 # Populate database
 cat sql/starter/xcolab-data.sql | mysql -u root -p xcolab
+cat sql/starter/xcolab-new-fields.sql | mysql -u root -p xcolab
 
 # Run the xCoLab:
 ./RUN.sh
