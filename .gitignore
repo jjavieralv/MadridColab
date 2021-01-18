@@ -161,3 +161,4 @@ madridColab/util/xcolab-utils/target/test-classes/org/xcolab/util/http/exception
 madridColab/util/xcolab-utils/target/test-classes/org/xcolab/util/http/exceptions/translation/service/ServiceExceptionTranslatorTest$ServiceResponseHeaders.class
 madridColab/util/xcolab-utils/target/test-classes/org/xcolab/util/http/exceptions/translation/service/ServiceExceptionTranslatorTest.class
 madridColab/util/xcolab-utils/target/xcolab-utils-1.0-SNAPSHOT.jar
+"application.properties" 
