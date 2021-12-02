@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `members_Member` (
+/*CREATE TABLE IF NOT EXISTS `members_Member` (
   `id_` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `screenName` varchar(42) DEFAULT NULL,
   `emailAddress` varchar(75) DEFAULT NULL,
@@ -39,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `members_Member` (
   INDEX `IX_XCOLAB_MEMBERS_GOOGLE_ID` (`googleId`),
   INDEX `IX_XCOLAB_MEMBERS_COLAB_SSO_ID` (`colabSsoId`),
   INDEX `IX_XCOLAB_MEMBERS_CLIMTE_X_ID` (`climateXId`)
-  /*, FULLTEXT INDEX `members_Member_names_bio` (`firstName`,`lastName`,`shortBio`,`screenName`)*/
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Role_` (
@@ -192,5 +191,252 @@ CREATE TABLE IF NOT EXISTS `xcolab_AnalyticsUserEvent` (
   `value` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`userId`,`idString`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;*/
+
+
+--
+-- Table structure for table `user__platform_team`
+--
+
+DROP TABLE IF EXISTS `user__platform_team`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__platform_team` (
+                                       `id` bigint NOT NULL AUTO_INCREMENT,
+                                       `name` varchar(256) DEFAULT NULL,
+                                       PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__platform_team_member`
+--
+
+DROP TABLE IF EXISTS `user__platform_team_member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__platform_team_member` (
+                                              `user_id` bigint NOT NULL,
+                                              `team_id` bigint NOT NULL,
+                                              PRIMARY KEY (`user_id`,`team_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__role`
+--
+
+DROP TABLE IF EXISTS `user__role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__role` (
+                              `id` bigint NOT NULL,
+                              `name` varchar(75) DEFAULT NULL,
+                              `title` longtext,
+                              `description` longtext,
+                              `created_at` datetime DEFAULT NULL,
+                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__role_group`
+--
+
+DROP TABLE IF EXISTS `user__role_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__role_group` (
+                                    `id` bigint NOT NULL AUTO_INCREMENT,
+                                    `name` varchar(255) DEFAULT NULL,
+                                    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__role_group_role`
+--
+
+DROP TABLE IF EXISTS `user__role_group_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__role_group_role` (
+                                         `role_group_id` bigint NOT NULL,
+                                         `role_id` bigint NOT NULL,
+                                         PRIMARY KEY (`role_group_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__sso_client_details`
+--
+
+DROP TABLE IF EXISTS `user__sso_client_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__sso_client_details` (
+                                            `id` varchar(50) NOT NULL,
+                                            `secret` varchar(50) DEFAULT NULL,
+                                            `scope` varchar(50) DEFAULT NULL,
+                                            `registeredRedirectUri` varchar(191) DEFAULT NULL,
+                                            PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user__staff_member`
+--
+
+DROP TABLE IF EXISTS `user__staff_member`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__staff_member` (
+                                      `id` bigint NOT NULL AUTO_INCREMENT,
+                                      `user_id` bigint DEFAULT NULL,
+                                      `category_id` bigint DEFAULT NULL,
+                                      `first_names` varchar(75) DEFAULT NULL,
+                                      `last_name` varchar(75) DEFAULT NULL,
+                                      `url` varchar(255) DEFAULT NULL,
+                                      `photo_url` varchar(255) DEFAULT NULL,
+                                      `role` varchar(75) DEFAULT NULL,
+                                      `organization` varchar(75) DEFAULT NULL,
+                                      `sort_order` int DEFAULT NULL,
+                                      PRIMARY KEY (`id`),
+                                      KEY `IX_9C5CE364` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+-- Table structure for table `user__user_role`
+--
+
+DROP TABLE IF EXISTS `user__user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__user_role` (
+                                   `user_id` bigint NOT NULL,
+                                   `role_id` bigint NOT NULL,
+                                   PRIMARY KEY (`user_id`,`role_id`),
+                                   KEY `IX_C19E5F31` (`role_id`),
+                                   KEY `IX_C1A01806` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users_groups`
+--
+
+DROP TABLE IF EXISTS `users_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users_groups` (
+                                `userId` bigint NOT NULL,
+                                `groupId` bigint NOT NULL,
+                                PRIMARY KEY (`userId`,`groupId`),
+                                KEY `IX_C4F9E699` (`groupId`),
+                                KEY `IX_F10B6C6B` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Table structure for table `user__analytics_user_event`
+--
+
+                                DROP TABLE IF EXISTS `user__analytics_user_event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__analytics_user_event` (
+                                              `user_id` bigint NOT NULL,
+                                              `id_string` varchar(75) NOT NULL,
+                                              `category` varchar(75) DEFAULT NULL,
+                                              `action` varchar(75) DEFAULT NULL,
+                                              `label` varchar(75) DEFAULT NULL,
+                                              `value` int DEFAULT NULL,
+                                              `created_at` datetime DEFAULT NULL,
+                                              PRIMARY KEY (`user_id`,`id_string`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `user__login_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__login_log` (
+                                   `id` bigint NOT NULL AUTO_INCREMENT,
+                                   `user_id` bigint DEFAULT NULL,
+                                   `created_at` datetime DEFAULT NULL,
+                                   `ip_address` varchar(75) DEFAULT NULL,
+                                   `city` varchar(75) DEFAULT NULL,
+                                   `country` varchar(75) DEFAULT NULL,
+                                   `entry_url` varchar(255) DEFAULT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `user__member_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__member_category` (
+                                         `role_id` bigint NOT NULL,
+                                         `display_name` varchar(75) DEFAULT NULL,
+                                         `category_name` varchar(75) DEFAULT NULL,
+                                         `sort_order` bigint DEFAULT NULL,
+                                         `show_in_list` tinyint DEFAULT NULL,
+                                         `image_name` varchar(75) DEFAULT NULL,
+                                         `description` varchar(2048) DEFAULT NULL,
+                                         PRIMARY KEY (`role_id`),
+                                         KEY `IX_B3858EE9` (`display_name`),
+                                         KEY `IX_8336AE28` (`show_in_list`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `user__message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__message` (
+                                 `id` bigint NOT NULL AUTO_INCREMENT,
+                                 `from_id` bigint DEFAULT NULL,
+                                 `replies_to` bigint DEFAULT NULL,
+                                 `created_at` datetime DEFAULT NULL,
+                                 `subject` varchar(2048) DEFAULT NULL,
+                                 `content` longtext,
+                                 PRIMARY KEY (`id`),
+                                 KEY `IX_9DF5C6F0` (`from_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `user__message_recipient_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__message_recipient_status` (
+                                                  `id` bigint NOT NULL AUTO_INCREMENT,
+                                                  `message_id` bigint DEFAULT NULL,
+                                                  `user_id` bigint DEFAULT NULL,
+                                                  `thread_id` varchar(75) DEFAULT NULL,
+                                                  `opened` tinyint DEFAULT NULL,
+                                                  `archived` tinyint DEFAULT NULL,
+                                                  PRIMARY KEY (`id`),
+                                                  KEY `IX_E4B60412` (`message_id`),
+                                                  KEY `IX_76FF2A4C` (`message_id`,`user_id`),
+                                                  KEY `IX_74DCC2DA` (`user_id`),
+                                                  KEY `IX_88CD5CB0` (`user_id`,`archived`),
+                                                  KEY `xcolab_MessageRecipientStatus_threadId_index` (`thread_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `user__messaging_user_preference`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user__messaging_user_preference` (
+                                                   `id` bigint NOT NULL AUTO_INCREMENT,
+                                                   `user_id` bigint DEFAULT NULL,
+                                                   `email_on_send` tinyint DEFAULT NULL,
+                                                   `email_on_receipt` tinyint DEFAULT NULL,
+                                                   `email_on_activity` tinyint DEFAULT NULL,
+                                                   `email_activity_daily_digest` tinyint DEFAULT NULL,
+                                                   `daily_message_limit` int DEFAULT NULL,
+                                                   `email_activity_weekly_digest` tinyint DEFAULT NULL,
+                                                   PRIMARY KEY (`id`),
+                                                   KEY `IX_F504493F` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 

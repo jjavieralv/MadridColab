@@ -1,4 +1,4 @@
-DROP INDEX IX_A88E424E on Role_;
+/*DROP INDEX IX_A88E424E on Role_;
 DROP INDEX IX_EBC931B8 on Role_;
 DROP INDEX IX_449A10B9 on Role_;
 DROP INDEX IX_CBE204   on Role_;
@@ -21,4 +21,4 @@ ALTER TABLE Role_ DROP modifiedDate;
 
 -- Delete unused roles
 delete from Role_ where roleId in (10120, 10123 ,10124 ,10125, 10126, 10127, 10128, 26021, 1015916,
-    1015917, 1015918, 1411593);
+    1015917, 1015918, 1411593);*/

@@ -1,4 +1,4 @@
-alter table members_Member change id_                           id                           bigint auto_increment;
+/*alter table members_Member change id_                           id                           bigint auto_increment;
 alter table members_Member change screenName                    screen_name                    varchar(42)              null;
 alter table members_Member change emailAddress                  email_address                  varchar(75)              null;
 alter table members_Member change isEmailConfirmed              is_email_confirmed              tinyint default '0'      not null;
@@ -98,4 +98,4 @@ alter table xcolab_StaffMember change firstNames   first_names   varchar(75)  nu
 alter table xcolab_StaffMember change lastName     last_name     varchar(75)  null;
 alter table xcolab_StaffMember change photoUrl     photo_url     varchar(255) null;
 alter table xcolab_StaffMember change sort         sort_order         int          null;
-rename table xcolab_StaffMember to user__staff_member;
+rename table xcolab_StaffMember to user__staff_member;*/
