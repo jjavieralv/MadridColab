@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  mysql:
+    image: ${DB_IMAGE}:${DB_IMAGE_TAG}
+    container_name: ${DB_DOCKER_NAME}
+    restart: ${DB_DOCKER_RESTART_POLICY}
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE_NAME}
+      MYSQL_USER: ${DB_USER_NAME}
+      MYSQL_PASSWORD_FILE: ${DB_USER_PASSWORD_ROUTE}
+      MYSQL_ROOT_PASSWORD_FILE: ${DB_ROOT_PASSWORD_ROUTE}
+    ports:
+      - ${DB_PORT_EXPOSED}:${DB_PORT_INTERNAL}
+    expose:
+      - ${DB_PORT_EXPOSED}
+    secrets:
+            - DB_ROOT_PASSWORD
+            - DB_USER_PASSWORD
+    volumes:
+      #Volume that contains DB
+      - type: volume
+        source: mysql_db
+        target: ${DB_VOLUME_MOUNTPOINT}
+      #Mount folder where are the initial sql
+      - type: bind
+        source: ${DB_SCRIPT_START_ROUTE_LOCAL}
+        target: ${DB_SCRIPT_START_ROUTE}
+    healthcheck:
+            test: ["CMD-SHELL",'mysqladmin ping -h localhost -P 3306 -u user --password=$$(cat /run/secrets/DB_USER_PASSWORD) || exit 1']
+            interval: 2m
+            timeout: 30s
+            retries: 3
+            start_period: 10m
+secrets:
+        DB_ROOT_PASSWORD:
+                file: ${DB_ROOT_PASSWORD_ROUTE_LOCAL}
+        DB_USER_PASSWORD:
+                file: ${DB_USER_PASSWORD_ROUTE_LOCAL}
+volumes:
+        mysql_db:
+                name: ${DB_VOLUME_NAME}
+

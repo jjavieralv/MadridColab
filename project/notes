@@ -1,0 +1,4 @@
+ add to java container
+
+depends_on:
+	-db
