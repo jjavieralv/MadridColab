@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 MAINTAINER jjavieralv <github jjavieralv>
 
 RUN apt-get update && \
-	apt-get install -y openjdk-8-jdk ant ca-certificates-java mysql-client && \
+	apt-get install -y openjdk-8-jdk ant ca-certificates-java mysql-client netcat && \
 	apt-get clean && \
         update-ca-certificates -f && \
         rm -rf /var/lib/apt/lists/* && \ 
