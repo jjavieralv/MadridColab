@@ -84,12 +84,46 @@ SQL_VERSION_MINIMUN=5.6
       else
         red_messages "failed db creation"
         cat temp_resul
-        exit
+        exit 1
       fi
     fi
 
   }
+  function sql_check_connectivity(){
+    blue_messages "sql check connectivity"
+    parameters_pass_db
+    nc -z -w1 "$MYSQL_IP" "$MYSQL_PORT"
+    if [[ $? -eq 0 ]];then
+      green_messages "able to connect to mysql"
+      return 0
+    else
+      red_messages "not able to connect to mysql"
+      return 1
+    fi
 
+  }
+  function sql_prestatus() {
+    blue_messages "checho if sql accomplish the requirements"
+    sql_check_connectivity
+    if [[ $? -eq 0 ]];then
+      SQL_VERSION=$(mysql --host "$MYSQL_IP" --port 3306 --user root -p"$P_DB_ROOT_PASS" -e 'STATUS;'|awk -F '\t' '$1 == "Server version:" { print $3 }'|cut -f 1 -d ' ')
+      if [[ $? -eq 0 ]];then 
+        echo "sql version is $SQL_VERSION"
+        version_ge $SQL_VERSION $SQL_VERSION_MINIMUN
+        if [[ $? -eq 0 ]];then
+          green_messages "sql version is >= $SQL_VERSION_MINIMUN"
+        else
+          red_messages "sql version is < $SQL_VERSION_MINIMUN"
+          exit 1
+        fi
+      else
+        red_messages "unable to access to sql"
+        exit 1
+      fi
+    else
+      exit 1
+    fi
+  }
 #### java ####
   function java_prestatus(){
     # Check Java Version and check if Java is in Path
@@ -117,38 +151,6 @@ SQL_VERSION_MINIMUN=5.6
     fi
   } 
 
-#### sql ####
-  function sql_check_connectivity(){
-    blue_messages "sql check connectivity"
-    parameters_pass_db
-    nc -z -w1 "$MYSQL_IP" "$P_DB_ROOT_PASS"
-    if [[ $? -eq 0 ]];then
-      green_messages "able to connect to mysql"
-      return 0
-    else
-      red_messages "not able to connect to mysql"
-      return 1
-    fi
-
-  }
-  function sql_prestatus() {
-    blue_messages "checho if sql accomplish the requirements"
-    sql_check_connectivity
-    if [[ $? -eq 0 ]];then
-      SQL_VERSION=$(mysql --host "$MYSQL_IP" --port 3306 --user root -p"$P_DB_ROOT_PASS" -e 'STATUS;'|awk -F '\t' '$1 == "Server version:" { print $3 }'|cut -f 1 -d ' ')
-      if [[ $? -eq 0 ]];then 
-        echo "sql version is $SQL_VERSION"
-        version_ge $SQL_VERSION $SQL_VERSION_MINIMUN
-        if [[ $? -eq 0 ]];then
-          green_messages "sql version is >= $SQL_VERSION_MINIMUN"
-        else
-          red_messages "sql version is < $SQL_VERSION_MINIMUN"
-        fi
-      else
-        red_messages "unable to access to sql"
-      fi
-    fi
-  }
 
 ######## AGGREGATED FUNCTIONS ########
 function check_prerequisites() {
@@ -163,8 +165,11 @@ function main(){
 }
 
 ######## MAIN ########
-while getopts 'vh' OPTION; do
+while getopts 'vhp' OPTION; do
   case "$OPTION" in
+    p)  check_prerequisites
+        exit 0
+        ;;
     v)  show_version
         exit 0
         ;;
