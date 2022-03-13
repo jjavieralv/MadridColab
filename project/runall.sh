@@ -39,11 +39,11 @@ SQL_VERSION_MINIMUN=5.6
   }
   function blue_messages() {
     #function executing
-    echo -e "\033[36m$1\e[0m"
+    echo -e "\n\033[36m$1\e[0m"
   }
   function magenta_messages(){
     #what part which is executting
-    echo -e "\e[45m$1\e[0m"
+    echo -e "\n\e[45m\n$1\n\e[0m\n"
     }
 
 #### script functions ####
@@ -154,7 +154,7 @@ SQL_VERSION_MINIMUN=5.6
 
 ######## AGGREGATED FUNCTIONS ########
 function check_prerequisites() {
-  magenta_messages "\n\ncheck_prerequisites"
+  magenta_messages "check_prerequisites"
   java_prestatus
   sql_prestatus
 }
