@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #################################
 #                               #
 # Dockerized Colab start script # 
