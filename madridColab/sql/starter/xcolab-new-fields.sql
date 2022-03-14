@@ -1,22 +1,22 @@
 USE xcolab;
 
-CREATE TABLE user__sector(
+CREATE TABLE IF NOT EXISTS user__sector(
 	id bigint(20) PRIMARY KEY,
     	sector VARCHAR(200));
 
-CREATE TABLE user__sector_company(
+CREATE TABLE IF NOT EXISTS user__sector_company(
 	id bigint(20) PRIMARY KEY,
     	sector_company VARCHAR(200));
 
-CREATE TABLE user__community(
+CREATE TABLE IF NOT EXISTS user__community(
 	id bigint(20) PRIMARY KEY,
     	community VARCHAR(200));
 
-CREATE TABLE user__ods(
+CREATE TABLE IF NOT EXISTS user__ods(
 	id bigint(20) PRIMARY KEY,
     	ods VARCHAR(200));
 
-CREATE TABLE user__community_registry(
+CREATE TABLE IF NOT EXISTS user__community_registry(
 	id_user bigint(20),
     	id_community bigint(20),
 	PRIMARY KEY (id_user, id_community),
@@ -25,7 +25,7 @@ CREATE TABLE user__community_registry(
 	FOREIGN KEY (id_community)
         REFERENCES user__community (id));
 
-CREATE TABLE user__ods_registry(
+CREATE TABLE IF NOT EXISTS user__ods_registry(
 	id_user bigint(20),
     	id_ods bigint(20),
 	PRIMARY KEY (id_user, id_ods),
@@ -34,7 +34,7 @@ CREATE TABLE user__ods_registry(
 	FOREIGN KEY (id_ods)
         REFERENCES user__ods (id));
     
-CREATE TABLE user__data_people(
+CREATE TABLE IF NOT EXISTS user__data_people(
 	id_user bigint(20),
 	twitter varchar(40),
 	linkedin varchar(40),
@@ -49,7 +49,7 @@ CREATE TABLE user__data_people(
         REFERENCES user__sector (id)
 );
 
-CREATE TABLE user__data_company(
+CREATE TABLE IF NOT EXISTS user__data_company(
 	id_user bigint(20),
 	twitter varchar(40),
 	web varchar(40),
@@ -64,7 +64,7 @@ CREATE TABLE user__data_company(
         REFERENCES user__sector_company (id)
 );
 
-CREATE TABLE user__data_city(
+CREATE TABLE IF NOT EXISTS user__data_city(
 	id_user bigint(20),
 	twitter varchar(40),
 	web varchar(100),
@@ -75,7 +75,7 @@ CREATE TABLE user__data_city(
         REFERENCES user__user (id)
 );
 
-INSERT INTO user__sector VALUES(0,	"Académico"),
+REPLACE INTO user__sector VALUES(0,	"Académico"),
 (1,	"Administración pública"),
 (2,	"Autónomo"),
 (3,	"Empresa"),
@@ -84,7 +84,7 @@ INSERT INTO user__sector VALUES(0,	"Académico"),
 (6,	"Otro"),
 (7,	"Desconocido");
 
-INSERT INTO user__sector_company VALUES(0,	"Actividades profesionales"),
+REPLACE INTO user__sector_company VALUES(0,	"Actividades profesionales"),
 (1,	"Actividades administrativas y servicios auxiliares"),
 (2,	"Agricultura y pesca"),
 (3,	"Comercio"),
@@ -103,12 +103,12 @@ INSERT INTO user__sector_company VALUES(0,	"Actividades profesionales"),
 (16,	"Turismo"),
 (17,	"Otro");
 
-INSERT INTO user__community VALUES(0,	"Transformación de ciudades"),
+REPLACE INTO user__community VALUES(0,	"Transformación de ciudades"),
 (1,	"Desigualdad y nuevo modelo económico"),
 (2,	"Gobernanza global y cooperacion"),
 (3,	"Medio ambiente y salud");
 
-INSERT INTO user__ods VALUES(0,	"1. Fin de la pobreza"),
+REPLACE INTO user__ods VALUES(0,	"1. Fin de la pobreza"),
 (1,	"2. Hambre cero"),
 (2,	"3. Salud y bienestar"),
 (3,	"4. Educación de calidad"),
@@ -126,7 +126,7 @@ INSERT INTO user__ods VALUES(0,	"1. Fin de la pobreza"),
 (15,	"16. Paz, justicia e instituciones sólidas"),
 (16,	"17. Alianzas para lograr los objetivos");
 
-CREATE TABLE contest__contest_fusion (
+CREATE TABLE IF NOT EXISTS contest__contest_fusion (
 	id_fusion bigint(20) PRIMARY KEY,
     contest_id_1 bigint(20),
     contest_id_2 bigint(20),
@@ -139,7 +139,7 @@ CREATE TABLE contest__contest_fusion (
 	REFERENCES contest__contest (id)
 );
 
-CREATE TABLE contest__proposal_fusion_request(
+CREATE TABLE IF NOT EXISTS contest__proposal_fusion_request(
 	id bigint(20) PRIMARY KEY AUTO_INCREMENT,
 	from_user_id bigint(20),
     to_user_id bigint(20),
@@ -165,5 +165,3 @@ CREATE TABLE contest__proposal_fusion_request(
 	REFERENCES contest__proposal (id),
     FOREIGN KEY (contest_id)
 	REFERENCES contest__contest (id));
-
-ALTER TABLE contest__contest MODIFY contest_url_name 200;
