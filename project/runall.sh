@@ -7,7 +7,7 @@
 
 
 ######## GLOBAL PARAMETERS ########
-SQL_VERSION_MINIMUN=5.6
+SQL_VERSION_MINIMUN=8.0
 #### function parameters ####
   function parameters_script_version(){
     SCRIPT_VERSION=0.1
@@ -69,11 +69,11 @@ SQL_VERSION_MINIMUN=5.6
     test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1";
   }
 
-#### database management ####
+#### database ####
   function create_database(){
     blue_messages "create database"
     parameters_pass_db
-    mysql --host "$MYSQL_IP" --port 3306 --user root -p"$P_DB_ROOT_PASS" -e "CREATE DATABASE $MYSQL_DATABASE_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"&>temp_resul
+    mysql --host "$MYSQL_IP" --port "$MYSQL_PORT" --user root -p"$P_DB_ROOT_PASS" -e "CREATE DATABASE $1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"&>temp_resul
     if [[ $? -eq 0 ]];then
       green_messages "succesfully db creation"
     else
@@ -91,7 +91,7 @@ SQL_VERSION_MINIMUN=5.6
   function sql_check_connectivity(){
     blue_messages "sql check connectivity"
     parameters_pass_db
-    nc -z -w1 "$MYSQL_IP" "$MYSQL_PORT"
+    mysqladmin --host "$MYSQL_IP" --port "$MYSQL_PORT" --user root -p"$P_DB_ROOT_PASS" ping
     if [[ $? -eq 0 ]];then
       green_messages "able to connect to mysql"
       return 0
@@ -101,11 +101,12 @@ SQL_VERSION_MINIMUN=5.6
     fi
 
   }
+
   function sql_prestatus() {
     blue_messages "checho if sql accomplish the requirements"
     sql_check_connectivity
     if [[ $? -eq 0 ]];then
-      SQL_VERSION=$(mysql --host "$MYSQL_IP" --port 3306 --user root -p"$P_DB_ROOT_PASS" -e 'STATUS;'|awk -F '\t' '$1 == "Server version:" { print $3 }'|cut -f 1 -d ' ')
+      SQL_VERSION=$(mysql --host "$MYSQL_IP" --port "$MYSQL_PORT" --user root -p"$P_DB_ROOT_PASS" -e 'STATUS;'|awk -F '\t' '$1 == "Server version:" { print $3 }'|cut -f 1 -d ' ')
       if [[ $? -eq 0 ]];then 
         echo "sql version is $SQL_VERSION"
         version_ge $SQL_VERSION $SQL_VERSION_MINIMUN
@@ -123,6 +124,18 @@ SQL_VERSION_MINIMUN=5.6
       exit 1
     fi
   }
+
+  function sql_exec_script(){
+    blue_messages "executing $1"
+    cat "$1" | mysql --host "$MYSQL_IP" --port "$MYSQL_PORT" --user root -p"$P_DB_ROOT_PASS" "$MYSQL_DATABASE_NAME"
+    if [[ $? -eq 0 ]];then
+      green_messages "script executed correctly"
+    else
+      red_messages "problem ocurred during script execution"
+      exit 1
+    fi
+  }
+
 #### java ####
   function java_prestatus(){
     # Check Java Version and check if Java is in Path
@@ -150,18 +163,79 @@ SQL_VERSION_MINIMUN=5.6
     fi
   } 
 
+#### script ####
+    function convert_endline(){
+      blue_messages "convert files to linux endline format"
+      find "$COLAB_PROYECT_MOUNTPOINT" \( -name "*.sh" -o -name "*.properties" \) -exec dos2unix {} \;
+    }
+
+    function give_permissions(){
+      blue_messages "give permissions to all files needed"
+      chown -R root:root "$COLAB_PROYECT_MOUNTPOINT"
+      if [[ $? -eq 0 ]]; then
+        green_messages "user and group reasigned to all files"
+      else
+        red_messages "user and group reasigned failed"
+      fi
+      echo "Now execution permissions to .sh files"
+      find "$COLAB_PROYECT_MOUNTPOINT" -name "*.sh" -exec chmod +x {} \;
+    }
+
+    function create_properties_file(){
+      blue_messages "create properties file"
+      parameters_pass_db
+      cp $COLAB_PROYECT_MOUNTPOINT$COLAB_DEFAULT_CONF_ROUTE tmp_file
+      sed -i "/db.url.base=*/s/.*/db.url.base=jdbc:mysql:\/\/$MYSQL_IP:$MYSQL_PORT/"
+      sed -i "/db.password=*/s/.*/db.password=$P_DB_ROOT_PASS/"
+      cp tmp_file ~/.xcolab.application.properties
+
+    }
+
+    function sql_run_start_scripts(){
+      blue_messages "executing start ${COLAB_PROYECT_MOUNTPOINT}${DB_SCRIPT_START_ROUTE} scripts"
+      for f in $COLAB_PROYECT_MOUNTPOINT$DB_SCRIPT_START_ROUTE* ;do
+          sql_exec_script "$f"
+      done
+    }
+
 
 ######## AGGREGATED FUNCTIONS ########
+function check_scripts_prerequisites(){
+  magenta_messages "check scripts prerequisites"
+  give_permissions
+  convert_endline
+  create_properties_file
+}
+
 function check_prerequisites() {
   magenta_messages "check_prerequisites"
   java_prestatus
   sql_prestatus
 }
 
+function sql_initialization(){
+  magenta_messages "sql sql_initialization"
+  create_database "$MYSQL_DATABASE_NAME"
+}
+
+function colab_first_start(){
+  magenta_messages " colab first start"
+  cd $COLAB_PROYECT_MOUNTPOINT
+  bash mvnw compile
+  sql_run_start_scripts
+  bash RUN.sh
+}
+
 function main(){
-  blue_messages "main"
+  magenta_messages "\n\nStarting main execution\n\n"
+  check_scripts_prerequisites
+  check_prerequisites
+  sql_initialization
+
 
 }
+
+
 
 ######## MAIN ########
 while getopts 'vhp' OPTION; do
