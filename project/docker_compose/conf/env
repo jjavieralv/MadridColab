@@ -2,7 +2,7 @@
 ########## MYSQL ##########
 ##IMAGE
 DB_IMAGE=mysql
-DB_IMAGE_TAG=5.7
+DB_IMAGE_TAG=8.0.28
 
 ##NETWORK
 #better if both ports are the same
@@ -51,3 +51,7 @@ COLAB_DATABASE_NAME=xcolab
 ##CONTAINER
 COLAB_DOCKER_RESTART_POLICY=unless-stopped
 COLAB_DOCKER_NAME=colab
+
+##VOLUMES
+COLAB_PROYECT_LOCAL=../../madridColab
+COLAB_PROYECT_MOUNTPOINT=/home/madridColab

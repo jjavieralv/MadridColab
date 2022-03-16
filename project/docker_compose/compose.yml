@@ -61,7 +61,10 @@ services:
     networks:
             - databasenet
             - frontend
-
+    volumes:
+            - type: bind
+              source: ${COLAB_PROYECT_LOCAL}
+              target: ${COLAB_PROYECT_MOUNTPOINT}
 
 secrets:
         DB_ROOT_PASSWORD:

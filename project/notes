@@ -2,3 +2,10 @@
 
 depends_on:
 	-db
+
+comprobar instalacion docker, docker-compose
+cambiar variables en fichero properties
+cambiar check stayalive por mysqladmin --host ...
+comprobar finales de linea
+permisos chmod +x a scripts/ Y A LOS DE /
+crear checkeo para ver si hay que ejecutar mvnm compile, el run o directamente arrancar
