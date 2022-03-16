@@ -23,10 +23,6 @@ services:
       - type: volume
         source: mysql_db
         target: ${DB_VOLUME_MOUNTPOINT}
-      #Mount folder where are the initial sql
-      - type: bind
-        source: ${DB_SCRIPT_START_ROUTE_LOCAL}
-        target: ${DB_SCRIPT_START_ROUTE}
     healthcheck:
             test: ["CMD-SHELL",'mysqladmin ping -h localhost -P 3306 -u user --password=$$(cat /run/secrets/DB_USER_PASSWORD) || exit 1']
             interval: 2m
