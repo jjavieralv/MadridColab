@@ -167,6 +167,7 @@ SQL_VERSION_MINIMUN=8.0
     function convert_endline(){
       blue_messages "convert files to linux endline format"
       find "$COLAB_PROYECT_MOUNTPOINT" \( -name "*.sh" -o -name "*.properties" \) -exec dos2unix {} \;
+      dos2unix "$COLAB_PROYECT_MOUNTPOINT"/*
     }
 
     function give_permissions(){
@@ -179,21 +180,22 @@ SQL_VERSION_MINIMUN=8.0
       fi
       echo "Now execution permissions to .sh files"
       find "$COLAB_PROYECT_MOUNTPOINT" -name "*.sh" -exec chmod +x {} \;
+      chmod +x "$COLAB_PROYECT_MOUNTPOINT"/{mvnw,RUN.sh}
     }
 
     function create_properties_file(){
       blue_messages "create properties file"
       parameters_pass_db
       cp $COLAB_PROYECT_MOUNTPOINT$COLAB_DEFAULT_CONF_ROUTE tmp_file
-      sed -i "/db.url.base=*/s/.*/db.url.base=jdbc:mysql:\/\/$MYSQL_IP:$MYSQL_PORT/"
-      sed -i "/db.password=*/s/.*/db.password=$P_DB_ROOT_PASS/"
+      sed -i "/db.url.base=*/s/.*/db.url.base=jdbc:mysql:\/\/$MYSQL_IP:$MYSQL_PORT/" tmp_file
+      sed -i "/db.password=*/s/.*/db.password=$P_DB_ROOT_PASS/" tmp_file
       cp tmp_file ~/.xcolab.application.properties
 
     }
 
     function sql_run_start_scripts(){
-      blue_messages "executing start ${COLAB_PROYECT_MOUNTPOINT}${DB_SCRIPT_START_ROUTE} scripts"
-      for f in $COLAB_PROYECT_MOUNTPOINT$DB_SCRIPT_START_ROUTE* ;do
+      blue_messages "executing start $COLAB_PROYECT_MOUNTPOINT$DB_SCRIPT_START_ROUTE scripts"
+      for f in $COLAB_PROYECT_MOUNTPOINT$DB_SCRIPT_START_ROUTE/* ;do
           sql_exec_script "$f"
       done
     }
