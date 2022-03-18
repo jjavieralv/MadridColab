@@ -43,7 +43,7 @@ SQL_VERSION_MINIMUN=8.0
   function magenta_messages(){
     #what part which is executting
     echo -e "\n\e[45m\n$1\n\e[0m\n"
-    }
+  }
 
 #### script functions ####
   function show_version(){
@@ -158,7 +158,7 @@ SQL_VERSION_MINIMUN=8.0
             green_messages "Java version is sufficient (>=1.8)"
         else         
             red_messages "Java version is below 1.8. Please make sure Java 1.8 is installed and set up in PATH."
-      exit 1
+            exit 1
         fi
     fi
   } 
@@ -177,6 +177,7 @@ SQL_VERSION_MINIMUN=8.0
         green_messages "user and group reasigned to all files"
       else
         red_messages "user and group reasigned failed"
+        exit 1
       fi
       echo "Now execution permissions to .sh files"
       find "$COLAB_PROYECT_MOUNTPOINT" -name "*.sh" -exec chmod +x {} \;
@@ -233,7 +234,7 @@ function main(){
   check_scripts_prerequisites
   check_prerequisites
   sql_initialization
-
+  colab_first_start
 
 }
 
