@@ -86,8 +86,8 @@ SQL_VERSION_MINIMUN=8.0
         exit 1
       fi
     fi
-
   }
+  
   function sql_check_connectivity(){
     blue_messages "sql check connectivity"
     parameters_pass_db
