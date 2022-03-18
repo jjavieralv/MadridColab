@@ -87,7 +87,7 @@ SQL_VERSION_MINIMUN=8.0
       fi
     fi
   }
-  
+
   function sql_check_connectivity(){
     blue_messages "sql check connectivity"
     parameters_pass_db
@@ -132,7 +132,6 @@ SQL_VERSION_MINIMUN=8.0
       green_messages "script executed correctly"
     else
       red_messages "problem ocurred during script execution"
-      exit 1
     fi
   }
 
